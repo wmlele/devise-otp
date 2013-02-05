@@ -1,0 +1,42 @@
+## RubyMine
+.idea
+
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+
+*.gem
+*.rbc
+.bundle
+.config
+.yardoc
+
+## PROJECT::GENERAL
+_yardoc
+doc/
+coverage
+rdoc
+pkg
+spec/reports
+lib/bundler/man
+
+## PROJECT::SPECIFIC
+test/dummy/log/**
+test/dummy/tmp/**
+test/dummy/db/*.sqlite3
+
+Gemfile.lock
+
+# Generated test files
+tmp/*

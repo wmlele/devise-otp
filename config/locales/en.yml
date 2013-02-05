@@ -1,0 +1,54 @@
+en:
+  devise:
+
+    otp:
+      submit_token:
+        title: 'Check Token'
+        explain: "You're getting this because you enabled two-factors authentication on your account"
+        prompt: 'Please enter Your two-factors authentication token:'
+        submit: 'Submit Token'
+
+      credentials:
+        token_invalid: 'The token you provided was invalid.'
+        need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
+        valid_refresh: 'Thank you, your credentials were accepted.'
+        invalid_refresh: 'Sorry, you provided the wrong credentials.'
+
+      credentials_refresh:
+        title: 'Please enter your password again.'
+        explain: 'In order to ensure this is  safe, please enter your password again.'
+        go_on: 'Continue...'
+        identity: 'Identity:'
+        token: 'Your two-factors authentication token'
+
+      token_secret:
+        title: 'Your token secret'
+        explain: 'Take a photo of this QR code with your mobile'
+        reset_otp: 'Reset your Two Factors Authentication status'
+        reset_explain: 'This will reset your credentials, and disable two-factors authentication.'
+        reset_explain_warn: 'You will need to enroll your mobile device again.'
+
+      tokens:
+        title: 'Two-factors Authentication:'
+        explain: 'Two factors does this and that and that also'
+        enable_request: 'Would you like to enable Two Factors Authenticator?'
+
+        status: 'Enable Two-Factors Authentication.'
+        submit: 'Continue...'
+
+        successfully_updated: 'Your two-factors authentication settings have been updated.'
+        successfully_reset_creds: 'Your two-factors credentials has been reset.'
+        successfully_set_persistence: 'Your device is now trusted.'
+        successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
+        successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
+
+        need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
+
+      trusted_devices:
+        title: 'Trusted Devices'
+        explain: 'Trusted Device are ....'
+        device_trusted: 'Your device is trusted.'
+        device_not_trusted: 'Your device is not trusted.'
+        trust_remove: 'Remove this device from the list of trusted devices'
+        trust_add: 'Trust this device'
+        trust_clear: 'Clear the list of trusted devices'

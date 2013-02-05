@@ -1,0 +1,29 @@
+<h2><%= I18n.t('title', {:scope => 'devise.otp.tokens'}) %></h2>
+<p><%= I18n.t('explain', {:scope => 'devise.otp.tokens'}) %></p>
+
+<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put }) do |f| %>
+
+	<%= devise_error_messages! %>
+
+	<h3><%= I18n.t('enable_request', {:scope => 'devise.otp.tokens'}) %></h3>
+
+	<p><%= f.label :otp_enabled, I18n.t('status', {:scope => 'devise.otp.tokens'}) %><br />
+	<%= f.check_box :otp_enabled %></p>
+
+	<p><%= f.submit I18n.t('submit', {:scope => 'devise.otp.tokens'}) %></p>
+<% end %>
+
+<%- if resource.otp_enabled? %>
+  <%= render :partial => 'token_secret' if resource.otp_enabled? %>
+
+  <h3><%= I18n.t('title', {:scope => 'devise.otp.trusted_devices'}) %></h3>
+  <p><%= I18n.t('explain', {:scope => 'devise.otp.trusted_devices'}) %></p>
+  <%- if is_otp_trusted_device_for? resource  %>
+    <p><em><%= I18n.t('device_trusted', {:scope => 'devise.otp.trusted_devices'}) %></em></p>
+    <p><%= link_to I18n.t('trust_remove', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name), :method => :post %></p>
+  <% else %>
+    <p><%= I18n.t('device_not_trusted', {:scope => 'devise.otp.trusted_devices'}) %></p>
+    <p><%= link_to I18n.t('trust_add', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name) %></p>
+  <% end %>
+  <p><%= link_to I18n.t('trust_clear', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name), :method => :delete %></p>
+<% end %>
