@@ -12,6 +12,8 @@ require 'capybara/rails'
 
 #ActiveSupport::Deprecation.silenced = true
 
+#Capybara.default_driver = :selenium
+
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
 end

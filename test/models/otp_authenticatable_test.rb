@@ -18,7 +18,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
   test 'users should have an instance of TOTP/ROTP objects' do
     u = User.first
     assert u.time_based_otp.is_a? ROTP::TOTP
-    assert u.sequence_based_otp.is_a? ROTP::HOTP
+    assert u.recovery_otp.is_a? ROTP::HOTP
   end
 
   test 'users should have their otp_auth_secret/persistence_seed set on creation' do

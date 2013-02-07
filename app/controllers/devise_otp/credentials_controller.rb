@@ -9,25 +9,42 @@ class DeviseOtp::CredentialsController < DeviseController
   #
   def show
     @challenge = params[:challenge]
+    @recovery =  (params[:recovery] == 'true') && recovery_enabled?
 
     if @challenge.nil?
       redirect_to :root
+
+    elsif @recovery
+      self.resource = resource_class.find_valid_otp_challenge(params[:challenge])
+      if resource.nil?
+        redirect_to :root
+      else
+        @recovery_count = resource.otp_recovery_counter
+        render :show
+      end
     else
       render :show
     end
   end
 
   #
-  # signs the resource in, if the OTP token is valid and the user has a valid challege
+  # signs the resource in, if the OTP token is valid and the user has a valid challenge
   #
   def update
-    resource = resource_class.find_valid_otp_challenge(params[resource_name][:challenge])
 
-    if resource.nil?
-      set_flash_message(:alert, :otp_session_invalid)
+    resource = resource_class.find_valid_otp_challenge(params[resource_name][:challenge])
+    recovery = (params[resource_name][:recovery] == 'true') && recovery_enabled?
+    token = params[resource_name][:token]
+
+    if token.blank?
+      otp_set_flash_message(:alert, :token_blank)
+      redirect_to otp_credential_path_for(resource_name, :challenge => params[resource_name][:challenge],
+                                                         :recovery => recovery)
+    elsif resource.nil?
+      otp_set_flash_message(:alert, :otp_session_invalid)
       redirect_to new_session_path(resource_name)
     else
-      if resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token].to_i)
+      if resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], recovery)
         set_flash_message(:success, :signed_in) if is_navigational_format?
         sign_in(resource_name, resource)
 
@@ -86,8 +103,4 @@ class DeviseOtp::CredentialsController < DeviseController
     render :refresh
   end
 
-  def authenticate_scope!
-    send(:"authenticate_#{resource_name}!", :force => true)
-    self.resource = send("current_#{resource_name}")
-  end
 end

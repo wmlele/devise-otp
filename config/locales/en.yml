@@ -5,11 +5,14 @@ en:
       submit_token:
         title: 'Check Token'
         explain: "You're getting this because you enabled two-factors authentication on your account"
-        prompt: 'Please enter Your two-factors authentication token:'
+        prompt: 'Please enter your two-factors authentication token:'
+        recovery_prompt: 'Please enter your recovery code:'
         submit: 'Submit Token'
+        recovery_link: "I don't have my device, I want to use a recovery code"
 
       credentials:
         token_invalid: 'The token you provided was invalid.'
+        token_blank: 'You need to type in the token you generated with your device.'
         need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
         valid_refresh: 'Thank you, your credentials were accepted.'
         invalid_refresh: 'Sorry, you provided the wrong credentials.'
@@ -24,6 +27,7 @@ en:
       token_secret:
         title: 'Your token secret'
         explain: 'Take a photo of this QR code with your mobile'
+        manual_provisioning: 'Manual provisioning code'
         reset_otp: 'Reset your Two Factors Authentication status'
         reset_explain: 'This will reset your credentials, and disable two-factors authentication.'
         reset_explain_warn: 'You will need to enroll your mobile device again.'
@@ -43,6 +47,14 @@ en:
         successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
 
         need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
+
+        recovery:
+          title: 'Your Emergency Recovery Codes'
+          explain: 'Take note or print these recovery codes. The will allow you to log back in in case your token device is lost, stolen, or unavailable.'
+          sequence: 'Sequence'
+          code: 'Recovery Code'
+          codes_list: 'Here is the list of your recovery codes'
+
 
       trusted_devices:
         title: 'Trusted Devices'

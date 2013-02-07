@@ -12,17 +12,24 @@ require 'devise'
 
 module Devise
 
+
   #
   #
   #
   mattr_accessor :otp_mandatory
- 	@@otp_mandatory = false
+  @@otp_mandatory = false
 
   #
   #
   #
   mattr_accessor :otp_authentication_timeout
- 	@@otp_authentication_timeout = 3.minutes
+  @@otp_authentication_timeout = 3.minutes
+
+  #
+  #
+  #
+  mattr_accessor :recovery_tokens
+  @@recovery_tokens = 5  ## false to disable
 
   #
   #
@@ -36,7 +43,7 @@ module Devise
   # time the user has provided valid credentials
   #
   mattr_accessor :otp_credentials_refresh
-  @@otp_credentials_refresh = 1.minute  # or like 15.minutes, false to disable
+  @@otp_credentials_refresh = 15.minutes  # or like 15.minutes, false to disable
 
   #
   # the user identifier for the token is <email>/Application_name

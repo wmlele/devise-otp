@@ -13,6 +13,8 @@ module ActionDispatch::Routing
           get  :persistence, :action => 'get_persistence'
           post :persistence, :action => 'clear_persistence'
           delete :persistence, :action => 'delete_persistence'
+
+          get  :recovery
         end
 
         resource :credential, :only => [:show, :update],

@@ -1,16 +1,16 @@
 class DeviseOtp::TokensController < DeviseController
   include Devise::Controllers::Helpers
 
+  prepend_before_filter :ensure_credentials_refresh
   prepend_before_filter :authenticate_scope!
-  before_filter :ensure_credentials_refresh
 
+  #protect_from_forgery :except => [:clear_persistence, :delete_persistence]
 
   #
   # Displays the status of OTP authentication
   #
   def show
    if resource.nil?
-      sign_in scope, resource, :bypass => true
       redirect_to stored_location_for(scope) || :root
     else
       render :show
@@ -21,10 +21,8 @@ class DeviseOtp::TokensController < DeviseController
   # Updates the status of OTP authentication
   #
   def update
-
     if resource.update_without_password(params[resource_name], :as => :otp_privileged)
       otp_set_flash_message :success, :successfully_updated
-      sign_in scope, resource, :bypass => true
       render :show
     else
       render :show
@@ -38,7 +36,6 @@ class DeviseOtp::TokensController < DeviseController
 
     if resource.reset_otp_credentials!
       otp_set_flash_message :success, :successfully_reset_creds
-      sign_in scope, resource, :bypass => true
     end
     render :show
   end
@@ -48,11 +45,11 @@ class DeviseOtp::TokensController < DeviseController
   # makes the current browser persistent
   #
   def get_persistence
+
+
     if otp_set_trusted_device_for(resource)
       otp_set_flash_message :success, :successfully_set_persistence
     end
-
-    sign_in scope, resource, :bypass => true
     redirect_to :action => :show
   end
 
@@ -65,7 +62,6 @@ class DeviseOtp::TokensController < DeviseController
       otp_set_flash_message :success, :successfully_cleared_persistence
     end
 
-    sign_in scope, resource, :bypass => true
     redirect_to :action => :show
   end
 
@@ -78,14 +74,20 @@ class DeviseOtp::TokensController < DeviseController
       otp_set_flash_message :notice, :successfully_reset_persistence
     end
 
-    sign_in scope, resource, :bypass => true
     redirect_to :action => :show
   end
 
+  #
+  #
+  #
+  def recovery
+    render :recovery
+  end
 
   private
 
   def ensure_credentials_refresh
+
     ensure_resource!
     if needs_credentials_refresh?(resource)
       otp_set_flash_message :notice, :need_to_refresh_credentials
@@ -97,8 +99,5 @@ class DeviseOtp::TokensController < DeviseController
     resource_name.to_sym
   end
 
-  def authenticate_scope!
-    send(:"authenticate_#{resource_name}!", :force => true)
-    self.resource = send("current_#{resource_name}")
-  end
+
 end

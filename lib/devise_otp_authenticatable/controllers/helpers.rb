@@ -3,6 +3,12 @@ module DeviseOtpAuthenticatable
   module Controllers
     module Helpers
 
+
+      def authenticate_scope!
+        send(:"authenticate_#{resource_name}!", :force => true)
+        self.resource = send("current_#{resource_name}")
+      end
+
       #
       # similar to DeviseController#set_flash_message, but sets the scope inside
       # the otp controller
@@ -18,6 +24,11 @@ module DeviseOtpAuthenticatable
 
       def otp_t()
 
+      end
+
+
+      def recovery_enabled?
+        resource_class.recovery_tokens && (resource_class.recovery_tokens > 0)
       end
 
       #
@@ -38,9 +49,9 @@ module DeviseOtpAuthenticatable
       #
       def needs_credentials_refresh?(resource)
         return false unless resource.class.otp_credentials_refresh
-        return true unless session[:otp_refresh_after].present?
 
-        (session[:otp_refresh_after] < DateTime.now).tap { |need| otp_set_refresh_return_url if need }
+        (!session[otp_scoped_refresh_property].present? ||
+            (session[otp_scoped_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
       end
 
       #
@@ -48,7 +59,7 @@ module DeviseOtpAuthenticatable
       #
       def otp_refresh_credentials_for(resource)
         return false unless resource.class.otp_credentials_refresh
-        session[:otp_refresh_after] = (Time.now + resource.class.otp_credentials_refresh)
+        session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
       end
 
 
@@ -58,7 +69,8 @@ module DeviseOtpAuthenticatable
       def is_otp_trusted_device_for?(resource)
         if cookies[otp_scoped_persistence_cookie].present?
           cookies.signed[otp_scoped_persistence_cookie] ==
-              [resource.class.serialize_into_cookie(resource), resource.otp_persistence_seed]
+              [resource.class.serialize_into_cookie(resource), resource.otp_persistence_seed].tap do
+          end
         else
           false
         end
@@ -81,12 +93,12 @@ module DeviseOtpAuthenticatable
 
       def otp_fetch_refresh_return_url
         session.delete(otp_scoped_refresh_return_url_property) { :root }
+
       end
 
       def otp_scoped_refresh_return_url_property
         "otp_#{resource_name}refresh_return_url".to_sym
       end
-
 
       def otp_scoped_refresh_property
         "otp_#{resource_name}refresh_after".to_sym
@@ -100,7 +112,7 @@ module DeviseOtpAuthenticatable
       # make the current browser NOT trusted
       #
       def otp_clear_trusted_device_for(resource)
-        cookies.delete("otp_device_trusted")
+        cookies.delete(otp_scoped_persistence_cookie)
       end
 
 

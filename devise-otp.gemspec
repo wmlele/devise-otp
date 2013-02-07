@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'rails',  '>= 3.2.0'
   gem.add_runtime_dependency 'devise', '>= 2.1.0'
-  gem.add_runtime_dependency 'rotp',   '~> 1.4.0'
+  gem.add_runtime_dependency 'rotp',   '>= 1.4.0'
 
   gem.add_development_dependency "sqlite3"
 end
