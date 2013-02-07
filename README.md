@@ -1,5 +1,5 @@
 # Devise::Otp
-[<img src="https://travis-ci.org/wmlele/devise_otp.png"/>](http://travis-ci.org/wmlele/devise_otp)
+[![Build Status](https://travis-ci.org/wmlele/devise-otp.png?branch=master)](https://travis-ci.org/wmlele/devise-otp)
 
 Devise OTP implements two-factors authentication for Devise, using an rfc6238 compatible Time-Based One-Time Password Algorithm.
 It uses the [rotp library](https://github.com/mdp/rotp) for generation and verification of codes.
