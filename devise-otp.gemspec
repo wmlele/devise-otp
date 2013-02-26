@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["lele@windmill.it"]
   gem.description   = %q{Time Based OTP/rfc6238 compatible authentication for Devise}
   gem.summary       = %q{Time Based OTP/rfc6238 compatible authentication for Devise}
-  gem.homepage      = "git.windmill.it/wm/devise-otp"
+  gem.homepage      = "http://git.windmill.it/wm/devise-otp"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
