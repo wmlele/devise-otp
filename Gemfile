@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in devise-otp.gemspec
 gemspec
 
+gem "rdoc"
+
 group :test do
   platforms :jruby do
     gem 'activerecord-jdbcsqlite3-adapter'
