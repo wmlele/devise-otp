@@ -12,9 +12,12 @@ group :test do
     gem "sqlite3"
   end
 
+  gem "rails", "~> 4.0.0"
+
   gem "capybara"
   gem 'shoulda'
   gem 'selenium-webdriver'
+
   #gem 'factory_girl_rails', '~> 1.2'
   #gem 'rspec-rails', '~> 2.6.0'
 end

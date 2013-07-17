@@ -4,6 +4,7 @@ module ActionDispatch::Routing
 
     protected
     #########
+
     def devise_otp(mapping, controllers)
 
       namespace :otp, :module => :devise_otp do

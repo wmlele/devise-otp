@@ -7,7 +7,7 @@ module Devise::Models
     included do
       before_validation :generate_otp_auth_secret, :on => :create
       before_validation :generate_otp_persistence_seed, :on => :create
-      scope :with_valid_otp_challenge, lambda { |time| { :conditions => ["otp_challenge_expires > ?", time] } }
+      scope :with_valid_otp_challenge, lambda { |time| where('otp_challenge_expires > ?', time) }
     end
 
     module ClassMethods
@@ -41,9 +41,9 @@ module Devise::Models
       @recovery_otp = nil
       generate_otp_auth_secret
       reset_otp_persistence
-      update_attributes({:otp_enabled => false, :otp_time_drift => 0,
-                         :otp_session_challenge => nil, :otp_challenge_expires => nil,
-                         :otp_recovery_counter => 0 }, :without_protection => true)
+      update_columns(:otp_enabled => false, :otp_time_drift => 0,
+                        :otp_session_challenge => nil, :otp_challenge_expires => nil,
+                        :otp_recovery_counter => 0)
     end
 
     def reset_otp_credentials!
@@ -62,9 +62,8 @@ module Devise::Models
     end
 
     def generate_otp_challenge!(expires = nil)
-      update_attributes({:otp_session_challenge => SecureRandom.hex,
-                         :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout)},
-                        :without_protection => true )
+      update_columns(:otp_session_challenge => SecureRandom.hex,
+                     :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
       otp_session_challenge
     end
 
@@ -84,7 +83,7 @@ module Devise::Models
 
     def validate_otp_time_token(token)
       if drift = validate_otp_token_with_drift(token)
-        update_attribute(:otp_time_drift, drift)
+        update_column(:otp_time_drift, drift)
         true
       else
         false
