@@ -18,7 +18,7 @@ class DeviseOtp::CredentialsController < DeviseController
       self.resource = resource_class.find_valid_otp_challenge(@challenge)
       if resource.nil?
         redirect_to :root
-      elsif @recover
+      elsif @recovery
         @recovery_count = resource.otp_recovery_counter
         render :show
       else
