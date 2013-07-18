@@ -19,7 +19,7 @@ class SignInTest < ActionDispatch::IntegrationTest
   end
 
   test 'a new user, just signed in, should be able to sign in and enable their OTP authentication' do
-    sign_user_in
+    user = sign_user_in
 
     visit user_otp_token_path
     assert !page.has_content?('Your token secret')
@@ -30,6 +30,8 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal user_otp_token_path, current_path
 
     assert page.has_content?('Your token secret')
+    assert !user.otp_auth_secret.nil?
+    assert !user.otp_persistence_seed.nil?
   end
 
   test 'a new user should be able to sign in enable OTP and be prompted for their token' do

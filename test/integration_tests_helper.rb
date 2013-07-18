@@ -43,5 +43,6 @@ class ActionDispatch::IntegrationTest
     fill_in "#{resource_name}_email", :with => user.email
     fill_in "#{resource_name}_password", :with => user.password
     click_button 'Sign in'
+    user
   end
 end
