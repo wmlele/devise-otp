@@ -99,7 +99,6 @@ module Devise::Models
     end
 
     def validate_otp_recovery_token(token)
-      token = token.to_i unless token.is_a?(Fixnum)
       recovery_otp.verify(token, otp_recovery_counter).tap do
         self.otp_recovery_counter += 1
         save!
@@ -118,7 +117,6 @@ module Devise::Models
     #
     def validate_otp_token_with_drift(token)
       # valid_vals << ROTP::TOTP.new(otp_auth_secret).at(Time.now)
-      token = token.to_i unless token.is_a?(Fixnum)
 
       # should be centered around saved drift
       (-self.class.otp_drift_window..self.class.otp_drift_window).each do |drift|

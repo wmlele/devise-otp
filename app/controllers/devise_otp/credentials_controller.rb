@@ -75,7 +75,7 @@ class DeviseOtp::CredentialsController < DeviseController
     # I am sure there's a much better way
     if resource.valid_password?(params[resource_name][:refresh_password])
       if resource.otp_enabled?
-        if resource.validate_otp_token(params[resource_name][:token].to_i)
+        if resource.validate_otp_token(params[resource_name][:token])
           done_valid_refresh
         else
           failed_refresh
