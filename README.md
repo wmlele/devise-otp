@@ -7,13 +7,13 @@ It uses the [rotp library](https://github.com/mdp/rotp) for generation and verif
 It currently has the following features:
 
 * Url based provisioning of token devices, compatible with **Google Authenticator**.
-* Two factors authentication can be **optional** at user discretion, **recommended** (it nags the user on every sign-in) or **mandatory** (users must enroll OTP after signing-in next time, before they can navigate the site). The settings is global, or per-user.
+* Two factors authentication can be **optional** at user discretion, **recommended** (it nags the user on every sign-in) or **mandatory** (users must enroll OTP after signing-in next time, before they can navigate the site). The settings is global, or per-user. ( **incomplete**, see below)
 * Optionally, users can obtain a list of HOTP recovery tokens to be used for emergency log-in in case the token device is lost or unavailable.
 
 Compatible token devices are:
 
 * [Google Authenticator](https://code.google.com/p/google-authenticator/)
-* ...
+* [FreeOTP](https://fedorahosted.org/freeotp/)
 
 ## Quick overview of Two Factors Authentication, using OTPs.
 
@@ -105,6 +105,12 @@ The install generator adds some options to the end of your Devise config file (c
 * config.otp_credentials_refresh - Users that have logged in longer than this time ago, or haven't refreshed, are boing to be asked their password (and an OTP token, if enabled) before they can see or change their otp informations. (defaults to 15.minutes)
 * config.recovery_tokens - Whether the users are given a list of one-time recovery tokens, for emergency access (default: true)
 * config.otp_uri_application - The name of this application, to be added to the provisioning url as '<user_email>/application_name' (defaults to the Rails application class)
+
+## Todo
+
+* 2D barcodes for provisioning are currently produced with the google charts api. You can, of course, use your own source in the template, but I am looking for a solution with no external dependencies (feedback welcome).
+* **recommended** mode (nag the user each time) is not fully implemented. Right now you can make 2FA mandatory, or leave it to the user.
+* Make the whole 'trusted device' option configurable.
 
 ## Contributing
 
