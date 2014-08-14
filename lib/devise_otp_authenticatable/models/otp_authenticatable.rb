@@ -123,7 +123,6 @@ module Devise::Models
     # refactor me, I suck
     #
     def validate_otp_token_with_drift(token)
-      # valid_vals << ROTP::TOTP.new(otp_auth_secret).at(Time.now)
 
       # should be centered around saved drift
       (-self.class.otp_drift_window..self.class.otp_drift_window).each do |drift|

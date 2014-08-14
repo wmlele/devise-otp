@@ -36,13 +36,26 @@ class ActionDispatch::IntegrationTest
     user
   end
 
+  def disable_otp
+    visit user_otp_token_path
+    uncheck 'user_otp_enabled'
+    click_button 'Continue...'
+  end
+
+  def sign_out
+    Capybara.reset_sessions!
+  end
+
   def sign_user_in(user = nil)
     user ||= create_full_user
     resource_name = user.class.name.underscore
     visit send("new_#{resource_name}_session_path")
     fill_in "#{resource_name}_email", :with => user.email
     fill_in "#{resource_name}_password", :with => user.password
+
     page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
     user
   end
+
+
 end
