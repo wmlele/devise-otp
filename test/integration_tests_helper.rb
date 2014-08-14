@@ -42,7 +42,7 @@ class ActionDispatch::IntegrationTest
     visit send("new_#{resource_name}_session_path")
     fill_in "#{resource_name}_email", :with => user.email
     fill_in "#{resource_name}_password", :with => user.password
-    click_button 'Sign in'
+    page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
     user
   end
 end

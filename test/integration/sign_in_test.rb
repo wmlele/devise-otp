@@ -13,7 +13,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     visit new_user_session_path
     fill_in 'user_email', :with => 'user@email.invalid'
     fill_in 'user_password', :with => '12345678'
-    click_button 'Sign in'
+    page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
 
     assert_equal root_path, current_path
   end
