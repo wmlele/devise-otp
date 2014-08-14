@@ -1,4 +1,5 @@
 class ActionDispatch::IntegrationTest
+  include Warden::Test::Helpers
 
   def warden
     request.env['warden']
@@ -36,6 +37,11 @@ class ActionDispatch::IntegrationTest
     user
   end
 
+  def otp_challenge_for(user)
+    fill_in 'user_token', :with => ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    click_button 'Submit Token'
+  end
+
   def disable_otp
     visit user_otp_token_path
     uncheck 'user_otp_enabled'
@@ -43,7 +49,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def sign_out
-    Capybara.reset_sessions!
+    logout :user
   end
 
   def sign_user_in(user = nil)
@@ -56,6 +62,5 @@ class ActionDispatch::IntegrationTest
     page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
     user
   end
-
 
 end
