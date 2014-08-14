@@ -28,14 +28,21 @@ module Devise
   #
   #
   #
-  mattr_accessor :recovery_tokens
-  @@recovery_tokens = 5  ## false to disable
+  mattr_accessor :otp_recovery_tokens
+  @@otp_recovery_tokens = 10  ## false to disable
+
+  #
+  # If the user is given the chance to set his browser as trusted, how long will it stay trusted.
+  # set to nil/false to disable the ability to set a device as trusted
+  #
+  mattr_accessor :otp_trust_persistence
+  @@otp_trust_persistence = 30.days
 
   #
   #
   #
  	mattr_accessor :otp_drift_window
- 	@@otp_drift_window = 3 # in seconds
+ 	@@otp_drift_window = 3 # in minutes
 
   #
   # if the user wants to change Otp settings,

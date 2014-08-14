@@ -4,9 +4,12 @@
 Devise OTP implements two-factors authentication for Devise, using an rfc6238 compatible Time-Based One-Time Password Algorithm.
 It uses the [rotp library](https://github.com/mdp/rotp) for generation and verification of codes.
 
+**If you are upgrading from version 0.1.x, you will need to regenerate your views.**
+
 It currently has the following features:
 
 * Url based provisioning of token devices, compatible with **Google Authenticator**.
+* Browsers can be set as 'trusted' for a limited time. During that time no OTP challenge is asked again when logging from that browser (but normal login will).
 * Two factors authentication can be **optional** at user discretion, **recommended** (it nags the user on every sign-in) or **mandatory** (users must enroll OTP after signing-in next time, before they can navigate the site). The settings is global, or per-user. ( **incomplete**, see below)
 * Optionally, users can obtain a list of HOTP recovery tokens to be used for emergency log-in in case the token device is lost or unavailable.
 
@@ -99,18 +102,19 @@ With this extension enabled, the following is expected behaviour:
 
 The install generator adds some options to the end of your Devise config file (config/initializers/devise.rb)
 
-* config.otp_mandatory - OTP is mandatory, users are going to be asked to enroll the next time they sign in, before they can successfully complete the session establishment.
-* config.otp_authentication_timeout - how long the user has to authenticate with their token. (defaults to 3.minutes)
-* config.otp_drift_window - a window which provides allowance for drift between a user's token device clock (and therefore their OTP tokens) and the authentication server's clock. (default: 3)
-* config.otp_credentials_refresh - Users that have logged in longer than this time ago, are going to be asked their password (and an OTP challenge, if enabled) before they can see or change their otp informations. (defaults to 15.minutes)
-* config.recovery_tokens - Whether the users are given a list of one-time recovery tokens, for emergency access (default: true)
-* config.otp_uri_application - The name of this application, to be added to the provisioning url as '<user_email>/application_name' (defaults to the Rails application class)
+* `config.otp_mandatory` - OTP is mandatory, users are going to be asked to enroll the next time they sign in, before they can successfully complete the session establishment.
+* `config.otp_authentication_timeout` - how long the user has to authenticate with their token. (defaults to `3.minutes`)
+* `config.otp_drift_window` - a window which provides allowance for drift between a user's token device clock (and therefore their OTP tokens) and the authentication server's clock. Expressed in minutes centered at the current time. (default: `3`)
+* `config.otp_credentials_refresh` - Users that have logged in longer than this time ago, are going to be asked their password (and an OTP challenge, if enabled) before they can see or change their otp informations. (defaults to `15.minutes`)
+* `config.otp_recovery_tokens` - Whether the users are given a list of one-time recovery tokens, for emergency access (default: `10`, set to `false` to disable)
+* `config.otp_trust_persistence` - The user is allowed to set his browser as "trusted", no more OTP challenges will be asked for that browser, for a limited time. (default: `1.month`, set to false to disable setting the browser as trusted)
+* `config.otp_uri_application` - The name of this application, to be added to the provisioning url as '<user_email>/application_name' (defaults to the Rails application class)
 
 ## Todo
 
 * 2D barcodes for provisioning are currently produced with the google charts api. You can, of course, use your own source in the template, but I am looking for a solution with no external dependencies (feedback welcome).
 * **recommended** mode (nag the user each time) is not fully implemented. Right now you can make 2FA mandatory, or leave it to the user.
-* Make the whole 'trusted device' option configurable.
+
 
 ## Contributing
 

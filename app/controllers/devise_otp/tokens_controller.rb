@@ -4,7 +4,7 @@ class DeviseOtp::TokensController < DeviseController
   prepend_before_filter :ensure_credentials_refresh
   prepend_before_filter :authenticate_scope!
 
-  #protect_from_forgery :except => [:clear_persistence, :delete_persistence]
+  protect_from_forgery :except => [:clear_persistence, :delete_persistence]
 
   #
   # Displays the status of OTP authentication
@@ -26,10 +26,8 @@ class DeviseOtp::TokensController < DeviseController
     if (enabled ? resource.enable_otp! : resource.disable_otp!)
 
       otp_set_flash_message :success, :successfully_updated
-      render :show
-    else
-      render :show
     end
+    render :show
   end
 
   #
@@ -86,6 +84,7 @@ class DeviseOtp::TokensController < DeviseController
   def recovery
     render :recovery
   end
+
 
   private
 

@@ -1,0 +1,10 @@
+<h3><%= I18n.t('title', {:scope => 'devise.otp.trusted_devices'}) %></h3>
+<p><%= I18n.t('explain', {:scope => 'devise.otp.trusted_devices'}) %></p>
+<%- if is_otp_trusted_device_for? resource %>
+  <p><em><%= I18n.t('device_trusted', {:scope => 'devise.otp.trusted_devices'}) %></em></p>
+  <p><%= link_to I18n.t('trust_remove', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name), :method => :post %></p>
+<% else %>
+  <p><%= I18n.t('device_not_trusted', {:scope => 'devise.otp.trusted_devices'}) %></p>
+  <p><%= link_to I18n.t('trust_add', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name) %></p>
+<% end %>
+<p><%= link_to I18n.t('trust_clear', {:scope => 'devise.otp.trusted_devices'}), persistence_otp_token_path_for(resource_name), :method => :delete %></p>

@@ -11,8 +11,8 @@ module Devise::Models
     end
 
     module ClassMethods
-      ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window,
-                                    :otp_mandatory, :otp_credentials_refresh, :otp_uri_application, :recovery_tokens)
+      ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
+                                    :otp_mandatory, :otp_credentials_refresh, :otp_uri_application, :otp_recovery_tokens)
 
       def find_valid_otp_challenge(challenge)
         with_valid_otp_challenge(Time.now).where(:otp_session_challenge => challenge).first
@@ -98,7 +98,7 @@ module Devise::Models
     end
     alias_method :valid_otp_time_token?, :validate_otp_time_token
 
-    def next_otp_recovery_tokens(number = 5)
+    def next_otp_recovery_tokens(number = self.class.otp_recovery_tokens)
       (otp_recovery_counter..otp_recovery_counter + number).inject({}) do |h, index|
         h[index] = recovery_otp.at(index)
         h
@@ -112,8 +112,6 @@ module Devise::Models
       end
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
-
-
 
 
 
