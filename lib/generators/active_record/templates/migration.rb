@@ -6,7 +6,6 @@ class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration
       t.boolean   :otp_enabled,          :default => false, :null => false
       t.boolean   :otp_mandatory,        :default => false, :null => false
       t.datetime  :otp_enabled_on
-      t.integer   :otp_time_drift,       :default => 0, :null => false
       t.integer   :otp_failed_attempts,  :default => 0, :null => false
       t.integer   :otp_recovery_counter, :default => 0, :null => false
       t.string    :otp_persistence_seed
