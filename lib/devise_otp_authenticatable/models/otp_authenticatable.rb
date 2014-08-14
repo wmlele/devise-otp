@@ -41,16 +41,15 @@ module Devise::Models
       @recovery_otp = nil
       generate_otp_auth_secret
       reset_otp_persistence
-      update_columns(:otp_enabled => false, :otp_time_drift => 0,
-                        :otp_session_challenge => nil, :otp_challenge_expires => nil,
-                        :otp_recovery_counter => 0)
+      update(:otp_enabled => false, :otp_time_drift => 0,
+             :otp_session_challenge => nil, :otp_challenge_expires => nil,
+             :otp_recovery_counter => 0)
     end
 
     def reset_otp_credentials!
       reset_otp_credentials
       save!
     end
-
 
     def reset_otp_persistence
       generate_otp_persistence_seed
@@ -61,9 +60,17 @@ module Devise::Models
       save!
     end
 
+    def enable_otp!
+      update!(:otp_enabled => true, :otp_enabled_on => Time.now)
+    end
+
+    def disable_otp!
+      update!(:otp_enabled => true, :otp_enabled_on => nil, :otp_time_drift => 0)
+    end
+
     def generate_otp_challenge!(expires = nil)
-      update_columns(:otp_session_challenge => SecureRandom.hex,
-                     :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
+      update!(:otp_session_challenge => SecureRandom.hex,
+             :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
       otp_session_challenge
     end
 

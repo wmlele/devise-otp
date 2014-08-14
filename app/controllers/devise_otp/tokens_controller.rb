@@ -21,7 +21,9 @@ class DeviseOtp::TokensController < DeviseController
   # Updates the status of OTP authentication
   #
   def update
-    if resource.update_attribute(:otp_enabled, params[resource_name][:otp_enabled])
+
+    enabled =  params[resource_name][:otp_enabled]
+    if (enabled ? resource.enable_otp! : resource.disable.otp!)
 
       otp_set_flash_message :success, :successfully_updated
       render :show
