@@ -65,7 +65,7 @@ module Devise::Models
     end
 
     def disable_otp!
-      update!(:otp_enabled => true, :otp_enabled_on => nil, :otp_time_drift => 0)
+      update!(:otp_enabled => false, :otp_enabled_on => nil, :otp_time_drift => 0)
     end
 
     def generate_otp_challenge!(expires = nil)
