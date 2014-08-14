@@ -34,7 +34,7 @@ en:
 
       tokens:
         title: 'Two-factors Authentication:'
-        explain: 'Two factors does this and that and that also'
+        explain: 'Two factors authentication adds adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         enable_request: 'Would you like to enable Two Factors Authenticator?'
 
         status: 'Enable Two-Factors Authentication.'
@@ -57,10 +57,10 @@ en:
 
 
       trusted_devices:
-        title: 'Trusted Devices'
-        explain: 'Trusted Device are ....'
-        device_trusted: 'Your device is trusted.'
-        device_not_trusted: 'Your device is not trusted.'
-        trust_remove: 'Remove this device from the list of trusted devices'
-        trust_add: 'Trust this device'
-        trust_clear: 'Clear the list of trusted devices'
+        title: 'Trusted Browsers'
+        explain: 'If you set your browser as trusted, you will not be asked to perform a 2-factors authentication when logging in from that browser, for a time of one month.'
+        device_trusted: 'Your browser is trusted.'
+        device_not_trusted: 'Your browser is not trusted.'
+        trust_remove: 'Remove this device from the list of trusted browsers'
+        trust_add: 'Trust this browser'
+        trust_clear: 'Clear the list of trusted browser'

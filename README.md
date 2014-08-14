@@ -100,9 +100,9 @@ With this extension enabled, the following is expected behaviour:
 The install generator adds some options to the end of your Devise config file (config/initializers/devise.rb)
 
 * config.otp_mandatory - OTP is mandatory, users are going to be asked to enroll the next time they sign in, before they can successfully complete the session establishment.
-* config.otp_authentication_timeout - how long the user has to authenticate with their token. (defaults to 3.minutes)s
+* config.otp_authentication_timeout - how long the user has to authenticate with their token. (defaults to 3.minutes)
 * config.otp_drift_window - a window which provides allowance for drift between a user's token device clock (and therefore their OTP tokens) and the authentication server's clock. (default: 3)
-* config.otp_credentials_refresh - Users that have logged in longer than this time ago, or haven't refreshed, are boing to be asked their password (and an OTP token, if enabled) before they can see or change their otp informations. (defaults to 15.minutes)
+* config.otp_credentials_refresh - Users that have logged in longer than this time ago, are going to be asked their password (and an OTP challenge, if enabled) before they can see or change their otp informations. (defaults to 15.minutes)
 * config.recovery_tokens - Whether the users are given a list of one-time recovery tokens, for emergency access (default: true)
 * config.otp_uri_application - The name of this application, to be added to the provisioning url as '<user_email>/application_name' (defaults to the Rails application class)
 
