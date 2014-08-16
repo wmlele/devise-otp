@@ -41,8 +41,8 @@ module Devise
   #
   #
   #
- 	mattr_accessor :otp_drift_window
- 	@@otp_drift_window = 3 # in minutes
+  mattr_accessor :otp_drift_window
+  @@otp_drift_window = 3 # in minutes
 
   #
   # if the user wants to change Otp settings,
