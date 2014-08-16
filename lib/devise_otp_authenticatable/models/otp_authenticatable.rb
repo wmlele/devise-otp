@@ -61,15 +61,15 @@ module Devise::Models
     end
 
     def enable_otp!
-      update!(:otp_enabled => true, :otp_enabled_on => Time.now)
+      update_attributes!(:otp_enabled => true, :otp_enabled_on => Time.now)
     end
 
     def disable_otp!
-      update!(:otp_enabled => false, :otp_enabled_on => nil, :otp_time_drift => 0)
+      update_attributes!(:otp_enabled => false, :otp_enabled_on => nil, :otp_time_drift => 0)
     end
 
     def generate_otp_challenge!(expires = nil)
-      update!(:otp_session_challenge => SecureRandom.hex,
+      update_update_attributes!(:otp_session_challenge => SecureRandom.hex,
              :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
       otp_session_challenge
     end
@@ -89,8 +89,8 @@ module Devise::Models
     alias_method :valid_otp_token?, :validate_otp_token
 
     def validate_otp_time_token(token)
-      if drift = validate_otp_token_with_drift(token)
-        update_column(:otp_time_drift, drift)
+      if token and drift = validate_otp_token_with_drift(token)
+        update_attribute(:otp_time_drift, drift)
         true
       else
         false
