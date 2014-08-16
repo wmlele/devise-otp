@@ -89,7 +89,7 @@ module Devise::Models
     alias_method :valid_otp_token?, :validate_otp_token
 
     def validate_otp_time_token(token)
-      if drift = validate_otp_token_with_drift(token)
+      if token and drift = validate_otp_token_with_drift(token)
         update_column(:otp_time_drift, drift)
         true
       else
