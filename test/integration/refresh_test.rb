@@ -89,4 +89,18 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     assert_equal user_otp_token_path, current_path
   end
+
+  test 'and rejected when the token is blank or null' do
+    user = enable_otp_and_sign_in_with_otp
+
+    sleep(2)
+    visit user_otp_token_path
+    assert_equal refresh_user_otp_credential_path, current_path
+
+    fill_in 'user_refresh_password', :with => '12345678'
+    fill_in 'user_token', :with => ''
+    click_button 'Continue...'
+
+    assert_equal refresh_user_otp_credential_path, current_path
+  end
 end
