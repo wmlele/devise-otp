@@ -41,7 +41,7 @@ module Devise::Models
       @recovery_otp = nil
       generate_otp_auth_secret
       reset_otp_persistence
-      update(:otp_enabled => false, :otp_time_drift => 0,
+      update_attributes!(:otp_enabled => false, :otp_time_drift => 0,
              :otp_session_challenge => nil, :otp_challenge_expires => nil,
              :otp_recovery_counter => 0)
     end
@@ -61,15 +61,15 @@ module Devise::Models
     end
 
     def enable_otp!
-      update!(:otp_enabled => true, :otp_enabled_on => Time.now)
+      update_attributes!(:otp_enabled => true, :otp_enabled_on => Time.now)
     end
 
     def disable_otp!
-      update!(:otp_enabled => false, :otp_enabled_on => nil, :otp_time_drift => 0)
+      update_attributes!(:otp_enabled => false, :otp_enabled_on => nil, :otp_time_drift => 0)
     end
 
     def generate_otp_challenge!(expires = nil)
-      update!(:otp_session_challenge => SecureRandom.hex,
+      update_attributes!(:otp_session_challenge => SecureRandom.hex,
              :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
       otp_session_challenge
     end
