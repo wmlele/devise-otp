@@ -80,6 +80,12 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_equal false, u.otp_challenge_valid?
   end
 
+  test 'null otp challenge' do
+    u = User.first
+    u.update_attribute(:otp_enabled, true)
+    assert_equal false, u.validate_otp_token('')
+    assert_equal false, u.validate_otp_token(nil)
+  end
 
   test 'generated otp token should be valid for the user' do
     u = User.first

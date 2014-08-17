@@ -50,6 +50,16 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal new_user_session_path, current_path
   end
 
+  test 'fail blank token authentication' do
+    enable_otp_and_sign_in
+    assert_equal user_otp_credential_path, current_path
+
+    fill_in 'user_token', :with => ''
+    click_button 'Submit Token'
+
+    assert_equal user_otp_credential_path, current_path
+  end
+
   test 'successful token authentication' do
     user = enable_otp_and_sign_in
 
