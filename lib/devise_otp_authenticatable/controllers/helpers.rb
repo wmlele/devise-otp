@@ -74,7 +74,7 @@ module DeviseOtpAuthenticatable
         return false unless resource.class.otp_trust_persistence
         if cookies[otp_scoped_persistence_cookie].present?
           cookies.signed[otp_scoped_persistence_cookie] ==
-              [resource.class.serialize_into_cookie(resource), resource.otp_persistence_seed]
+              [resource.to_key, resource.authenticatable_salt, resource.otp_persistence_seed]
         else
           false
         end
@@ -88,7 +88,7 @@ module DeviseOtpAuthenticatable
         cookies.signed[otp_scoped_persistence_cookie] = {
             :httponly => true,
             :expires => Time.now + resource.class.otp_trust_persistence,
-            :value => [resource.class.serialize_into_cookie(resource), resource.otp_persistence_seed]
+            :value => [resource.to_key, resource.authenticatable_salt, resource.otp_persistence_seed]
         }
       end
 

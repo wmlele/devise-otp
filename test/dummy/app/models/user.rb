@@ -12,7 +12,7 @@ class User < PARENT_MODEL_CLASS
   end
 
   devise :otp_authenticatable, :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :otp_enabled, :otp_mandatory, :as => :otp_privileged

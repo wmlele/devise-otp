@@ -56,9 +56,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     assert_text 'Your browser is trusted.'
     sign_out
 
-    puts "---" + User.otp_trust_persistence.to_i.to_s
     sleep User.otp_trust_persistence.to_i + 1
-
     sign_user_in
 
     assert_equal user_otp_credential_path, current_path
