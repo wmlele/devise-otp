@@ -29,7 +29,7 @@ content = <<-CONTENT
 
   # Users are given a list of one-time recovery tokens, for emergency access
   # set to false to disable giving recovery tokens.
-  #config.recovery_tokens = 10
+  #config.otp_recovery_tokens = 10
 
   # The user is allowed to set his browser as "trusted", no more OTP challenges will be
   # asked for that browser, for a limited time.
