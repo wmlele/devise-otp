@@ -4,6 +4,7 @@ module DeviseOtpAuthenticatable
     module Helpers
 
 
+
       def authenticate_scope!
         send(:"authenticate_#{resource_name}!", :force => true)
         self.resource = send("current_#{resource_name}")
@@ -141,7 +142,7 @@ module DeviseOtpAuthenticatable
       def otp_authenticator_token_image_google(otp_url)
         otp_url = Rack::Utils.escape(otp_url)
 
-        qrcode_b64 = RQRCode::QRCode.new(otp_url).to_img.resize(200, 200).to_data_url
+        qrcode_b64 = RQRCode::QRCode.new(otp_url, :size=>10, :level=>:m).to_img.resize(200, 200).to_data_url
         image_tag(qrcode_b64, :alt => 'OTP Url QRCode')
       end
 

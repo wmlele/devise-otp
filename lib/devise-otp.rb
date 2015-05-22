@@ -9,6 +9,7 @@ require 'active_support/concern'
 
 require 'devise'
 
+require 'rqrcode_png'
 
 module Devise
 
