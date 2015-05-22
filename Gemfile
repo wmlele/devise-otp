@@ -5,6 +5,8 @@ gemspec
 
 gem "rdoc"
 
+gem "rqrcode_png"
+
 group :test do
   platforms :jruby do
     gem 'activerecord-jdbcsqlite3-adapter'
