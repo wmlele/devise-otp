@@ -61,6 +61,10 @@ module Devise::Models
     end
 
     def enable_otp!
+      if otp_persistence_seed.nil?
+        reset_otp_credentials!
+      end
+
       update_attributes!(:otp_enabled => true, :otp_enabled_on => Time.now)
     end
 
