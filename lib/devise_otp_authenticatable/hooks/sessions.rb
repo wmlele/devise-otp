@@ -43,7 +43,7 @@ module DeviseOtpAuthenticatable::Hooks
     #
     def otp_challenge_required_on?(resource)
       return false unless resource.respond_to?(:otp_enabled) && resource.respond_to?(:otp_auth_secret)
-      resource.otp_enabled && !is_otp_trusted_device_for?(resource)
+      resource.otp_enabled && !is_otp_trusted_browser_for?(resource)
     end
 
     #

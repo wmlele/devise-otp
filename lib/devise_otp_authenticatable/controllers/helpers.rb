@@ -70,7 +70,7 @@ module DeviseOtpAuthenticatable
       #
       # is the current browser trusted?
       #
-      def is_otp_trusted_device_for?(resource)
+      def is_otp_trusted_browser_for?(resource)
         return false unless resource.class.otp_trust_persistence
         if cookies[otp_scoped_persistence_cookie].present?
           cookies.signed[otp_scoped_persistence_cookie] ==
