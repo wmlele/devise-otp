@@ -82,7 +82,13 @@ class DeviseOtp::TokensController < DeviseController
   #
   #
   def recovery
-    render :recovery
+    respond_to do |format|
+      format.html
+      format.js
+      format.text do
+        send_data render_to_string(template: "devise_otp/tokens/recovery_codes.text.erb"), filename: "recovery-codes.txt"
+      end
+    end
   end
 
 
