@@ -78,6 +78,12 @@ Don't forget to migrate:
 
     rake db:migrate
 
+Add the gem's javascript to you application.js
+
+    //= require devise-otp
+
+
+
 ### Custom Views
 
 If you want to customise your views (which you likely will want to), you can use the generator:
