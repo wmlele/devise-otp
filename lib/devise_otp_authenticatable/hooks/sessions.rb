@@ -14,13 +14,15 @@ module DeviseOtpAuthenticatable::Hooks
 
       resource = warden.authenticate!(auth_options)
 
+      devise_stored_location = stored_location_for(resource) # Grab the current stored location before it gets lost by warden.logout
+
       otp_refresh_credentials_for(resource)
 
       if otp_challenge_required_on?(resource)
         challenge = resource.generate_otp_challenge!
         warden.logout
+        store_location_for(resource, devise_stored_location) # restore the stored location
         respond_with resource, :location => otp_credential_path_for(resource, {:challenge => challenge})
-
       elsif otp_mandatory_on?(resource) # if mandatory, log in user but send him to the must activate otp
         set_flash_message(:notice, :signed_in_but_otp) if is_navigational_format?
         sign_in(resource_name, resource)
