@@ -54,7 +54,7 @@ en:
           sequence: 'Sequence'
           code: 'Recovery Code'
           codes_list: 'Here is the list of your recovery codes'
-
+          download_codes: 'Download recovery codes'
 
       trusted_devices:
         title: 'Trusted Browsers'
