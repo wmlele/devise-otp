@@ -53,10 +53,10 @@ module Devise
   @@otp_credentials_refresh = 15.minutes  # or like 15.minutes, false to disable
 
   #
-  # the user identifier for the token is <email>/Application_name
+  # the name of the token issuer
   #
-  mattr_accessor :otp_uri_application
-  @@otp_uri_application = Rails.application.class.parent_name
+  mattr_accessor :otp_issuer
+  @@otp_issuer = Rails.application.class.parent_name
 
   module Otp
 
