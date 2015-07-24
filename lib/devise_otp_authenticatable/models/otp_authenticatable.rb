@@ -12,7 +12,7 @@ module Devise::Models
 
     module ClassMethods
       ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
-                                    :otp_mandatory, :otp_credentials_refresh, :otp_uri_application, :otp_recovery_tokens)
+                                    :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_tokens)
 
       def find_valid_otp_challenge(challenge)
         with_valid_otp_challenge(Time.now).where(:otp_session_challenge => challenge).first
@@ -20,7 +20,7 @@ module Devise::Models
     end
 
     def time_based_otp
-      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret)
+      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret, issuer: "#{self.class.otp_issuer || Rails.application.class.parent_name}")
     end
 
     def recovery_otp
@@ -32,7 +32,7 @@ module Devise::Models
     end
 
     def otp_provisioning_identifier
-      "#{email}/#{self.class.otp_uri_application || Rails.application.class.parent_name}"
+      email
     end
 
 
