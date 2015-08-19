@@ -152,7 +152,7 @@ module DeviseOtpAuthenticatable
               colorLight : "#ffffff",
               correctLevel : QRCode.CorrectLevel.H
             });
-          ])
+          ]) + tag("/div")
         end
       end
 
