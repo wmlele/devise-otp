@@ -28,7 +28,7 @@ module DeviseOtpAuthenticatable
 
 
       def trusted_devices_enabled?
-        resource.class.otp_trust_persistence && (resource.class.otp_trust_persistence > 0)
+        resource_class.otp_trust_persistence && (resource_class.otp_trust_persistence > 0)
       end
 
       def recovery_enabled?

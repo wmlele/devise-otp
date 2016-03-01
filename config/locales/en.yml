@@ -9,6 +9,7 @@ en:
         recovery_prompt: 'Please enter your recovery code:'
         submit: 'Submit Token'
         recovery_link: "I don't have my device, I want to use a recovery code"
+        trust_device: "Trust this device"
 
       credentials:
         token_invalid: 'The token you provided was invalid.'
