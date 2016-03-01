@@ -49,6 +49,7 @@ class DeviseOtp::CredentialsController < DeviseController
         sign_in(resource_name, resource)
 
         otp_refresh_credentials_for(resource)
+        otp_set_trusted_device_for(resource) if trusted_devices_enabled? && params[resource_name][:trust_device] == "1"
         respond_with resource, :location => after_sign_in_path_for(resource)
       else
         otp_set_flash_message :alert, :token_invalid
