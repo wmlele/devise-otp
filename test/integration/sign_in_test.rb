@@ -10,12 +10,12 @@ class SignInTest < ActionDispatch::IntegrationTest
   test 'a new user should be able to sign in without using their token' do
     create_full_user
 
-    visit new_user_session_path
+    visit posts_path
     fill_in 'user_email', :with => 'user@email.invalid'
     fill_in 'user_password', :with => '12345678'
     page.has_content?('Log in') ? click_button('Log in') : click_button('Sign in')
 
-    assert_equal root_path, current_path
+    assert_equal posts_path, current_path
   end
 
   test 'a new user, just signed in, should be able to sign in and enable their OTP authentication' do
