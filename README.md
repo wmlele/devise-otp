@@ -58,9 +58,9 @@ Setup the User or Admin model
 
     rails g devise MODEL
 
-Configure your app for authorisation, edit your Controller and add this before_filter:
+Configure your app for authorisation, edit your Controller and add this before_action:
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
 Make sure your "root" route is configured in config/routes.rb
 
