@@ -1,4 +1,4 @@
-class DeviseOtpAddToUsers < ActiveRecord::Migration
+class DeviseOtpAddToUsers < ActiveRecord::Migration[5.0]
   def self.up
     change_table :users do |t|
       t.string    :otp_auth_secret
@@ -18,7 +18,7 @@ class DeviseOtpAddToUsers < ActiveRecord::Migration
     add_index :users, :otp_session_challenge,  :unique => true
     add_index :users, :otp_challenge_expires
   end
-  
+
   def self.down
     change_table :users do |t|
       t.remove :otp_auth_secret, :otp_recovery_secret, :otp_enabled, :otp_mandatory, :otp_enabled_on, :otp_session_challenge,
