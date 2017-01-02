@@ -40,3 +40,4 @@ Gemfile.lock
 
 # Generated test files
 tmp/*
+test/tmp/*
