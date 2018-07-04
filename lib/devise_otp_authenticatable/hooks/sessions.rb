@@ -4,14 +4,15 @@ module DeviseOtpAuthenticatable::Hooks
     include DeviseOtpAuthenticatable::Controllers::UrlHelpers
 
     included do
-      alias_method_chain :create, :otp
+
     end
+
 
     #
     # replaces Devise::SessionsController#create
     #
-    def create_with_otp
 
+    def create
       resource = warden.authenticate!(auth_options)
 
       devise_stored_location = stored_location_for(resource) # Grab the current stored location before it gets lost by warden.logout
@@ -35,12 +36,8 @@ module DeviseOtpAuthenticatable::Hooks
       end
     end
 
-
     private
 
-    #
-    # resource should be challenged for otp
-    #
     def otp_challenge_required_on?(resource)
       return false unless resource.respond_to?(:otp_enabled) && resource.respond_to?(:otp_auth_secret)
       resource.otp_enabled && !is_otp_trusted_device_for?(resource)
@@ -50,10 +47,18 @@ module DeviseOtpAuthenticatable::Hooks
     # the resource -should- have otp turned on, but it isn't
     #
     def otp_mandatory_on?(resource)
+
       return true if resource.class.otp_mandatory
       return false unless resource.respond_to?(:otp_mandatory)
 
       resource.otp_mandatory && !resource.otp_enabled
     end
+
+
+
+
+
+
   end
 end
+

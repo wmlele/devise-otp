@@ -5,7 +5,7 @@ module DeviseOtpAuthenticatable
 
     class << self
       def apply
-        Devise::SessionsController.send(:include, Hooks::Sessions)
+        Devise::SessionsController.send(:prepend, Hooks::Sessions)
       end
     end
 
