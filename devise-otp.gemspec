@@ -17,9 +17,9 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency 'rails',  '5.2'
-  gem.add_runtime_dependency 'devise'
-  gem.add_runtime_dependency 'rotp'
+  gem.add_runtime_dependency 'rails',  '>= 3.2.6'
+  gem.add_runtime_dependency 'devise', '>= 3.1.0'
+  gem.add_runtime_dependency 'rotp',   '>= 2.0.0'
 
   gem.add_development_dependency "sqlite3"
 end
