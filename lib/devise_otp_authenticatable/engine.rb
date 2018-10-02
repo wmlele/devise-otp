@@ -17,7 +17,7 @@ module DeviseOtpAuthenticatable
 
     # extend mapping with after_initialize because is not reloaded
     config.after_initialize do
-      Devise::Mapping.send :include, DeviseOtpAuthenticatable::Mapping
+      Devise::Mapping.send :prepend, DeviseOtpAuthenticatable::Mapping
     end
   end
 end
