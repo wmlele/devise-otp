@@ -60,7 +60,7 @@ Setup the User or Admin model
 
 Configure your app for authorisation, edit your Controller and add this before_filter:
 
-    before_filter :authenticate_user!
+    before_action :authenticate_user!
 
 Make sure your "root" route is configured in config/routes.rb
 
