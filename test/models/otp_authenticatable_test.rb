@@ -114,8 +114,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u.update_attribute(:otp_enabled, true)
     recovery = u.next_otp_recovery_tokens
 
-    assert u.valid_otp_recovery_token? recovery.fetch(0)
-    assert_equal false, u.valid_otp_recovery_token?(recovery.fetch(0))
+    assert_equal 0, u.valid_otp_recovery_token?(recovery.fetch(0))
+    assert_nil u.valid_otp_recovery_token?(recovery.fetch(0))
     assert u.valid_otp_recovery_token? recovery.fetch(2)
   end
 
