@@ -17,6 +17,7 @@ group :test do
   gem "rails", "~> 5.0"
 
   gem "capybara"
+  gem 'byebug'
   gem 'shoulda'
   gem 'selenium-webdriver'
   gem 'minitest-reporters'
