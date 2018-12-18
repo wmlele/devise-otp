@@ -3,14 +3,10 @@ module DeviseOtpAuthenticatable::Hooks
     extend ActiveSupport::Concern
     include DeviseOtpAuthenticatable::Controllers::UrlHelpers
 
-    included do
-      alias_method_chain :create, :otp
-    end
-
     #
     # replaces Devise::SessionsController#create
     #
-    def create_with_otp
+    def create
 
       resource = warden.authenticate!(auth_options)
 
@@ -57,3 +53,5 @@ module DeviseOtpAuthenticatable::Hooks
     end
   end
 end
+
+Devise::SessionsController.prepend(DeviseOtpAuthenticatable::Hooks::Sessions)

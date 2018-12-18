@@ -1,8 +1,8 @@
-class DeviseOtp::TokensController < DeviseController
-  include Devise::Controllers::Helpers
+class Devise::Otp::TokensController < DeviseController
+  include ::Devise::Controllers::Helpers
 
-  prepend_before_filter :ensure_credentials_refresh
-  prepend_before_filter :authenticate_scope!
+  prepend_before_action :ensure_credentials_refresh
+  prepend_before_action :authenticate_scope!
 
   protect_from_forgery :except => [:clear_persistence, :delete_persistence]
 
@@ -10,7 +10,7 @@ class DeviseOtp::TokensController < DeviseController
   # Displays the status of OTP authentication
   #
   def show
-   if resource.nil?
+    if resource.nil?
       redirect_to stored_location_for(scope) || :root
     else
       render :show
@@ -86,7 +86,7 @@ class DeviseOtp::TokensController < DeviseController
       format.html
       format.js
       format.text do
-        send_data render_to_string(template: "devise_otp/tokens/recovery_codes.text.erb"), filename: "recovery-codes.txt"
+        send_data render_to_string(template: "devise/otp/tokens/recovery_codes.text.erb"), filename: "recovery-codes.txt"
       end
     end
   end

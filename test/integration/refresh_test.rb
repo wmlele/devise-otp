@@ -91,7 +91,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
   end
 
   test 'and rejected when the token is blank or null' do
-    user = enable_otp_and_sign_in_with_otp
+    enable_otp_and_sign_in_with_otp
 
     sleep(2)
     visit user_otp_token_path

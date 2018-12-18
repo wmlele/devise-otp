@@ -21,6 +21,7 @@ tmtags
 .bundle
 .config
 .yardoc
+.ruby-version
 
 ## PROJECT::GENERAL
 _yardoc
@@ -35,6 +36,7 @@ lib/bundler/man
 test/dummy/log/**
 test/dummy/tmp/**
 test/dummy/db/*.sqlite3
+test/dummy/db/*.sqlite3-journal
 
 Gemfile.lock
 

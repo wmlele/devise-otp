@@ -1,4 +1,4 @@
-require "devise-otp/version"
+require "devise/otp/version"
 
 # cherry pick active-support extensions
 #require 'active_record/connection_adapters/abstract/schema_definitions'
@@ -41,8 +41,8 @@ module Devise
   #
   #
   #
- 	mattr_accessor :otp_drift_window
- 	@@otp_drift_window = 3 # in minutes
+  mattr_accessor :otp_drift_window
+  @@otp_drift_window = 3 # in minutes
 
   #
   # if the user wants to change Otp settings,
@@ -59,7 +59,6 @@ module Devise
   @@otp_issuer = Rails.application.class.parent_name
 
   module Otp
-
   end
 end
 

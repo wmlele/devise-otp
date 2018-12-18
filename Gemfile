@@ -14,12 +14,11 @@ group :test do
     gem "sqlite3"
   end
 
-  gem "rails", "~> 4.0.0"
+  gem "rails", "~> 5.0"
 
   gem "capybara"
+  gem 'byebug'
   gem 'shoulda'
   gem 'selenium-webdriver'
-
-  gem 'minitest-reporters', '>= 0.5.0'
-
+  gem 'minitest-reporters'
 end

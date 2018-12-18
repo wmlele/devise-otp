@@ -1,14 +1,15 @@
-module DeviseOtp
-  module Generators # :nodoc:
-    # Install Generator
-    class InstallGenerator < Rails::Generators::Base
-      source_root File.expand_path("../../templates", __FILE__)
+module Devise
+  module Otp
+    module Generators # :nodoc:
+      # Install Generator
+      class InstallGenerator < Rails::Generators::Base
+        source_root File.expand_path("../../templates", __FILE__)
 
-      desc "Install the devise OTP authentication extension"
+        desc "Install the devise OTP authentication extension"
 
-      def add_configs
+        def add_configs
 
-content = <<-CONTENT
+          content = <<-CONTENT
 
   # ==> Devise OTP Extension
   # Configure OTP extension for devise
@@ -40,13 +41,14 @@ content = <<-CONTENT
   # url. Display will vary based on token application. (defaults to the Rails application class)
   #config.otp_issuer = 'my_application'
 
-CONTENT
+          CONTENT
 
-        inject_into_file "config/initializers/devise.rb", content, :before => /end[ |\n|]+\Z/
-      end
+          inject_into_file "config/initializers/devise.rb", content, :before => /end[ |\n|]+\Z/
+        end
 
-      def copy_locale
-        copy_file "../../../config/locales/en.yml", "config/locales/devise.otp.en.yml"
+        def copy_locale
+          copy_file "../../../config/locales/en.yml", "config/locales/devise.otp.en.yml"
+        end
       end
     end
   end

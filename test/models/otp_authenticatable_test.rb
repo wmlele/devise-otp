@@ -3,17 +3,17 @@ require 'model_tests_helper'
 
 class OtpAuthenticatableTest < ActiveSupport::TestCase
 
-	def setup
-		new_user
+  def setup
+    new_user
   end
 
   test 'new users have a non-nil secret set' do
- 		assert_not_nil User.first.otp_auth_secret
- 	end
+    assert_not_nil User.first.otp_auth_secret
+  end
 
   test 'new users have OTP disabled by default' do
- 		assert !User.first.otp_enabled
- 	end
+    assert !User.first.otp_enabled
+  end
 
   test 'users should have an instance of TOTP/ROTP objects' do
     u = User.first
@@ -75,7 +75,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
   test 'expired challenges should not be valid' do
     u = User.first
     u.update_attribute(:otp_enabled, true)
-    challenge = u.generate_otp_challenge!(1.second)
+    u.generate_otp_challenge!(1.second)
     sleep(2)
     assert_equal false, u.otp_challenge_valid?
   end
@@ -114,8 +114,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u.update_attribute(:otp_enabled, true)
     recovery = u.next_otp_recovery_tokens
 
-    assert u.valid_otp_recovery_token? recovery.fetch(0)
-    assert_equal false, u.valid_otp_recovery_token?(recovery.fetch(0))
+    assert_equal 0, u.valid_otp_recovery_token?(recovery.fetch(0))
+    assert_nil u.valid_otp_recovery_token?(recovery.fetch(0))
     assert u.valid_otp_recovery_token? recovery.fetch(2)
   end
 

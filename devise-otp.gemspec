@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'devise-otp/version'
+require 'devise/otp/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "devise-otp"
@@ -17,9 +17,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency 'rails',  '>= 3.2.6', '< 5'
-  gem.add_runtime_dependency 'devise', '>= 3.1.0', '< 4.0.0'
-  gem.add_runtime_dependency 'rotp',   '>= 2.0.0', '< 4.0.0'
-
-  gem.add_development_dependency "sqlite3"
+  gem.add_runtime_dependency 'rails',  '>= 3.2.6', '< 6'
+  gem.add_runtime_dependency 'devise', '>= 3.1.0', '< 5'
+  gem.add_runtime_dependency 'rotp',   '>= 2.0.0', '< 5'
 end
