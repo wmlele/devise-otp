@@ -9,7 +9,6 @@ require 'active_support/concern'
 
 require 'devise'
 
-
 module Devise
 
 
@@ -56,7 +55,7 @@ module Devise
   # the name of the token issuer
   #
   mattr_accessor :otp_issuer
-  @@otp_issuer = Rails.application.class.parent_name
+  @@otp_issuer = Rails.application.class.module_parent_name
 
   module Otp
   end

@@ -20,7 +20,7 @@ module Devise::Models
     end
 
     def time_based_otp
-      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret, issuer: "#{self.class.otp_issuer || Rails.application.class.parent_name}")
+      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret, issuer: "#{self.class.otp_issuer || Rails.application.class.module_parent_name}")
     end
 
     def recovery_otp
@@ -41,7 +41,7 @@ module Devise::Models
       @recovery_otp = nil
       generate_otp_auth_secret
       reset_otp_persistence
-      update_attributes!(:otp_enabled => false,
+      update!(:otp_enabled => false,
              :otp_session_challenge => nil, :otp_challenge_expires => nil,
              :otp_recovery_counter => 0) if save
     end
@@ -65,15 +65,15 @@ module Devise::Models
         reset_otp_credentials!
       end
 
-      update_attributes!(:otp_enabled => true, :otp_enabled_on => Time.now)
+      update!(:otp_enabled => true, :otp_enabled_on => Time.now)
     end
 
     def disable_otp!
-      update_attributes!(:otp_enabled => false, :otp_enabled_on => nil)
+      update!(:otp_enabled => false, :otp_enabled_on => nil)
     end
 
     def generate_otp_challenge!(expires = nil)
-      update_attributes!(:otp_session_challenge => SecureRandom.hex,
+      update!(:otp_session_challenge => SecureRandom.hex,
              :otp_challenge_expires => DateTime.now + (expires || self.class.otp_authentication_timeout))
       otp_session_challenge
     end

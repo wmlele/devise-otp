@@ -14,7 +14,8 @@ group :test do
     gem "sqlite3"
   end
 
-  gem "rails", "~> 5.0"
+  gem "rails", ">= 5.0", "< 7.0"
+  gem "sprockets"
 
   gem "capybara"
   gem 'byebug'
