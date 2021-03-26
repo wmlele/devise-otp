@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in devise-otp.gemspec
 gemspec
 
-gem "rdoc"
+gem 'rdoc'
 
 group :test do
   platforms :jruby do
@@ -11,13 +11,20 @@ group :test do
   end
 
   platforms :ruby do
-    gem "sqlite3"
+    gem 'sqlite3'
   end
 
-  gem "rails", ">= 5.0", "< 7.0"
-  gem "sprockets"
+  gem 'activesupport'
+  gem 'actionpack'
+  gem 'actionview'
+  gem 'activemodel'
+  gem 'activerecord'
+  gem 'actionmailer'
+  gem 'railties'
+  gem 'sprockets-rails'
+  gem 'sprockets'
 
-  gem "capybara"
+  gem 'capybara'
   gem 'byebug'
   gem 'shoulda'
   gem 'selenium-webdriver'
