@@ -20,7 +20,7 @@ module Devise::Models
     end
 
     def time_based_otp
-      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret, issuer: "#{self.class.otp_issuer || Rails.application.class.parent_name}")
+      @time_based_otp ||= ROTP::TOTP.new(otp_auth_secret, issuer: "#{self.class.otp_issuer || Rails.application.class.module_parent_name}")
     end
 
     def recovery_otp
