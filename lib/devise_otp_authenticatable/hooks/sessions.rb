@@ -4,7 +4,7 @@ module DeviseOtpAuthenticatable::Hooks
     include DeviseOtpAuthenticatable::Controllers::UrlHelpers
 
     included do
-      alias_method_chain :create, :otp
+      alias_method  :create, :create_with_otp
     end
 
     #

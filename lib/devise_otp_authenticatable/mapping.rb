@@ -3,7 +3,8 @@ module DeviseOtpAuthenticatable
   module Mapping
 
     def self.included(base)
-      base.alias_method_chain :default_controllers, :otp
+      base.alias_method :default_controllers_without_otp, :default_controllers
+      base.alias_method :default_controller, :default_controllers_with_otp
     end
 
     private
