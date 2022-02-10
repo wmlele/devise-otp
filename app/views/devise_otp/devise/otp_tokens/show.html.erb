@@ -3,7 +3,7 @@
 
 <%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
-	<%= devise_error_messages! %>
+	<%= render "devise/shared/error_messages", resource: resource %>
 
 	<h3><%= I18n.t('enable_request', :scope => 'devise.otp.tokens') %></h3>
 

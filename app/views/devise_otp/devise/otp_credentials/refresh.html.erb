@@ -3,7 +3,7 @@
 
 <%= form_for(resource, :as => resource_name, :url => [:refresh, resource_name, :otp_credential], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
-  <%= devise_error_messages! %>
+  <%= render "devise/shared/error_messages", resource: resource %>
 
     <div><%= f.label :email %><br />
     <%= f.text_field :email, :disabled => :true%></div>
