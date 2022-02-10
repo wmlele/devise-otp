@@ -1,7 +1,7 @@
 <h2><%= I18n.t('title', :scope => 'devise.otp.tokens') %></h2>
 <p><%= I18n.t('explain', :scope => 'devise.otp.tokens') %></p>
 
-<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
 	<%= devise_error_messages! %>
 
