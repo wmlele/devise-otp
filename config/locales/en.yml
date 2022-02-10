@@ -34,7 +34,7 @@ en:
 
       tokens:
         title: 'Two-factors Authentication:'
-        explain: 'Two factors authentication adds adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
+        explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         enable_request: 'Would you like to enable Two Factors Authenticator?'
 
         status: 'Enable Two-Factors Authentication.'
