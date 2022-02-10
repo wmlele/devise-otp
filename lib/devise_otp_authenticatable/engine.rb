@@ -19,5 +19,7 @@ module DeviseOtpAuthenticatable
     config.after_initialize do
       Devise::Mapping.send :include, DeviseOtpAuthenticatable::Mapping
     end
+
+    config.assets.precompile += %w(devise-otp.js)
   end
 end
