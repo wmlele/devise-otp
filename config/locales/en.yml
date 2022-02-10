@@ -56,11 +56,11 @@ en:
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
 
-      trusted_devices:
+      trusted_browsers:
         title: 'Trusted Browsers'
-        explain: 'If you set your browser as trusted, you will not be asked to perform a 2-factors authentication when logging in from that browser, for a time of one month.'
-        device_trusted: 'Your browser is trusted.'
-        device_not_trusted: 'Your browser is not trusted.'
-        trust_remove: 'Remove this device from the list of trusted browsers'
+        explain: 'If you set your browser as trusted, you will not be asked to provide a Two-factor authentication token when logging in from that browser.'
+        browser_trusted: 'Your browser is trusted.'
+        browser_not_trusted: 'Your browser is not trusted.'
+        trust_remove: 'Remove this browser from the list of trusted browsers'
         trust_add: 'Trust this browser'
-        trust_clear: 'Clear the list of trusted browser'
+        trust_clear: 'Clear the list of trusted browsers'
