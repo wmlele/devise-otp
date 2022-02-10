@@ -121,7 +121,7 @@ module Devise::Models
 
       # should be centered around saved drift
       (-self.class.otp_drift_window..self.class.otp_drift_window).any? {|drift|
-        (time_based_otp.verify(token, Time.now.ago(30 * drift))) }
+        (time_based_otp.verify(token, at: Time.now.ago(30 * drift))) }
     end
 
     def generate_otp_persistence_seed
