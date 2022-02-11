@@ -11,8 +11,7 @@ module DeviseOtp
       include ::Devise::Generators::ViewPathTemplates
       source_root File.expand_path("../../../../app/views/devise_otp", __FILE__)
       def copy_views
-        view_directory :credentials, 'app/views/devise_otp/credentials'
-        view_directory :tokens, 'app/views/devise_otp/tokens'
+        view_directory :devise, 'app/views/devise_otp/devise'
       end
     end
   end
