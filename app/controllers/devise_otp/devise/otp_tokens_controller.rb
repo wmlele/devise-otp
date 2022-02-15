@@ -40,7 +40,7 @@ module DeviseOtp
         if resource.reset_otp_credentials!
           otp_set_flash_message :success, :successfully_reset_creds
         end
-        render :show
+        redirect_to :action => :show
       end
 
 

@@ -9,5 +9,5 @@
   <p><%= link_to I18n.t('trust_add', :scope => 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name) %></p>
 <% end %>
 
-<p><%= link_to I18n.t('trust_clear', :scope => 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name), :method => :delete, :data => { "turbo-method": "DELETE" } %></p>
+<p><%= button_to I18n.t('trust_clear', :scope => 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name), :method => :delete, :data => { "turbo-method": "DELETE" } %></p>
 
