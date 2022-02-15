@@ -66,7 +66,6 @@ end
 module DeviseOtpAuthenticatable
 
   autoload :Hooks,   'devise_otp_authenticatable/hooks'
-  autoload :Mapping, 'devise_otp_authenticatable/mapping'
 
   module Controllers
     autoload :Helpers,    'devise_otp_authenticatable/controllers/helpers'
@@ -79,5 +78,5 @@ require 'devise_otp_authenticatable/routes'
 require 'devise_otp_authenticatable/engine'
 
 Devise.add_module :otp_authenticatable,
-                  :controller => :otp_tokens,
+                  :controller => :tokens,
                   :model => 'devise_otp_authenticatable/models/otp_authenticatable', :route => :otp

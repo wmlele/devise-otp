@@ -15,11 +15,6 @@ module DeviseOtpAuthenticatable
       DeviseOtpAuthenticatable::Hooks.apply
     end
 
-    # extend mapping with after_initialize because is not reloaded
-    config.after_initialize do
-      Devise::Mapping.send :include, DeviseOtpAuthenticatable::Mapping
-    end
-
     config.assets.precompile += %w(devise-otp.js)
   end
 end
