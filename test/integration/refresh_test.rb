@@ -63,20 +63,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     assert_equal refresh_user_otp_credential_path, current_path
   end
 
-  test 'user should be asked their OTP challenge in order to refresh, if they have OTP' do
-    enable_otp_and_sign_in_with_otp
-
-    sleep(2)
-    visit user_otp_token_path
-    assert_equal refresh_user_otp_credential_path, current_path
-
-    fill_in 'user_refresh_password', :with => '12345678'
-    click_button 'Continue...'
-
-    assert_equal refresh_user_otp_credential_path, current_path
-  end
-
-  test 'user should be finally be able to access their settings, if they provide both a password and a valid OTP token' do
+  test 'user should be finally be able to access their settings, and just password is enough' do
     user = enable_otp_and_sign_in_with_otp
 
     sleep(2)
@@ -84,23 +71,8 @@ class RefreshTest < ActionDispatch::IntegrationTest
     assert_equal refresh_user_otp_credential_path, current_path
 
     fill_in 'user_refresh_password', :with => '12345678'
-    fill_in 'user_token', :with => ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button 'Continue...'
 
     assert_equal user_otp_token_path, current_path
-  end
-
-  test 'and rejected when the token is blank or null' do
-    user = enable_otp_and_sign_in_with_otp
-
-    sleep(2)
-    visit user_otp_token_path
-    assert_equal refresh_user_otp_credential_path, current_path
-
-    fill_in 'user_refresh_password', :with => '12345678'
-    fill_in 'user_token', :with => ''
-    click_button 'Continue...'
-
-    assert_equal refresh_user_otp_credential_path, current_path
   end
 end
