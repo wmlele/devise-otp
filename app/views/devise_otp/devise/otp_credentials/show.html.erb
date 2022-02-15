@@ -13,7 +13,7 @@
             <p><%= f.label :token, I18n.t('prompt', :scope => 'devise.otp.submit_token') %><br />
         <% end %>
 
-  <%= f.text_field :token, :autocomplete => :off, :autofocus => true, :size => 6, :value => '', :placeholder => I18n.t('placeholder', :scope => 'devise.otp.submit_token') %><br>
+  <%= f.text_field :token, :autocomplete => :off, :autofocus => true, :size => 6, :value => '' %><br>
   <%= label_tag :enable_persistence do %>
     <%= check_box_tag :enable_persistence, true, false %> Remember this browser
   <% end %>
