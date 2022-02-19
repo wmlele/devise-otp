@@ -23,7 +23,6 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-
   def enable_otp_and_sign_in
     user = create_full_user
     sign_user_in(user)

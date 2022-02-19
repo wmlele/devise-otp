@@ -3,17 +3,17 @@ require 'model_tests_helper'
 
 class OtpAuthenticatableTest < ActiveSupport::TestCase
 
-	def setup
-		new_user
+  def setup
+    new_user
   end
 
   test 'new users have a non-nil secret set' do
- 		assert_not_nil User.first.otp_auth_secret
- 	end
+    assert_not_nil User.first.otp_auth_secret
+  end
 
   test 'new users have OTP disabled by default' do
- 		assert !User.first.otp_enabled
- 	end
+    assert !User.first.otp_enabled
+  end
 
   test 'users should have an instance of TOTP/ROTP objects' do
     u = User.first
@@ -118,5 +118,4 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_nil u.valid_otp_recovery_token?(recovery.fetch(0))
     assert u.valid_otp_recovery_token? recovery.fetch(2)
   end
-
 end

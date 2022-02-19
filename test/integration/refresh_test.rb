@@ -21,7 +21,6 @@ class RefreshTest < ActionDispatch::IntegrationTest
   end
 
   test 'a user should be prompted for credentials when the credentials_refresh time is expired' do
-
     sign_user_in
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
@@ -45,7 +44,6 @@ class RefreshTest < ActionDispatch::IntegrationTest
     fill_in 'user_refresh_password', :with => '12345678'
     click_button 'Continue...'
     assert_equal user_otp_token_path, current_path
-
   end
 
   test 'a user should NOT be able to access their OTP settings unless refreshing' do

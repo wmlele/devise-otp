@@ -3,13 +3,11 @@ require 'integration_tests_helper'
 
 class TokenTest < ActionDispatch::IntegrationTest
 
-
   def teardown
     Capybara.reset_sessions!
   end
 
   test 'disabling OTP after successfully enabling' do
-
     # log in 1fa
     user = enable_otp_and_sign_in
     assert_equal user_otp_credential_path, current_path
@@ -29,6 +27,5 @@ class TokenTest < ActionDispatch::IntegrationTest
     sign_user_in(user)
 
     assert_equal root_path, current_path
-
   end
 end
