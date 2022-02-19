@@ -9,9 +9,7 @@ require 'active_support/concern'
 
 require 'devise'
 
-
 module Devise
-
 
   #
   #
@@ -66,12 +64,10 @@ module Devise
   @@otp_controller_path = "devise"
 
   module Otp
-
   end
 end
 
 module DeviseOtpAuthenticatable
-
   autoload :Hooks,   'devise_otp_authenticatable/hooks'
 
   module Controllers
@@ -79,7 +75,6 @@ module DeviseOtpAuthenticatable
     autoload :UrlHelpers, 'devise_otp_authenticatable/controllers/url_helpers'
   end
 end
-
 
 require 'devise_otp_authenticatable/routes'
 require 'devise_otp_authenticatable/engine'

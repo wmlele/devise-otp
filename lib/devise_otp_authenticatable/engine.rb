@@ -5,6 +5,7 @@ module DeviseOtpAuthenticatable
       include DeviseOtpAuthenticatable::Controllers::UrlHelpers
       include DeviseOtpAuthenticatable::Controllers::Helpers
     end
+
     ActiveSupport.on_load(:action_view) do
       include DeviseOtpAuthenticatable::Controllers::UrlHelpers
       include DeviseOtpAuthenticatable::Controllers::Helpers

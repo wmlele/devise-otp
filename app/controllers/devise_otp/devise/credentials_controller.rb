@@ -15,7 +15,6 @@ module DeviseOtp
 
         if @challenge.nil?
           redirect_to :root
-
         else
           self.resource = resource_class.find_valid_otp_challenge(@challenge)
           if resource.nil?
@@ -33,7 +32,6 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-
         resource = resource_class.find_valid_otp_challenge(params[resource_name][:challenge])
         recovery = (params[resource_name][:recovery] == 'true') && recovery_enabled?
         token = params[resource_name][:token]
@@ -60,7 +58,6 @@ module DeviseOtp
         end
       end
 
-
       #
       # displays the request for a credentials refresh
       #
@@ -81,7 +78,6 @@ module DeviseOtp
           failed_refresh
         end
       end
-
 
       private
 

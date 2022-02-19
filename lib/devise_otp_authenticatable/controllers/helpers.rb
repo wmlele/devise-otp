@@ -1,8 +1,6 @@
 module DeviseOtpAuthenticatable
-
   module Controllers
     module Helpers
-
 
       def authenticate_scope!
         send(:"authenticate_#{resource_name}!", :force => true)
@@ -23,9 +21,7 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_t()
-
       end
-
 
       def trusted_devices_enabled?
         resource.class.otp_trust_persistence && (resource.class.otp_trust_persistence > 0)
@@ -44,9 +40,7 @@ module DeviseOtpAuthenticatable
         end
       end
 
-
       # fixme do cookies and persistence need to be scoped? probably
-
       #
       # check if the resource needs a credentials refresh. IE, they need to be asked a password again to access
       # this resource.
@@ -65,7 +59,6 @@ module DeviseOtpAuthenticatable
         return false unless resource.class.otp_credentials_refresh
         session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
       end
-
 
       #
       # is the current browser trusted?
@@ -120,7 +113,6 @@ module DeviseOtpAuthenticatable
         cookies.delete(otp_scoped_persistence_cookie)
       end
 
-
       #
       # clears the persistence list for this kind of resource
       #
@@ -139,11 +131,9 @@ module DeviseOtpAuthenticatable
       private
 
       def otp_authenticator_token_image_js(otp_url)
-
         content_tag(:div, :class => 'qrcode-container') do
           tag(:div, :id => 'qrcode', :class => 'qrcode') +
           javascript_tag(%Q[
-
             new QRCode("qrcode", {
               text: "#{otp_url}",
               width: 256,
@@ -155,7 +145,6 @@ module DeviseOtpAuthenticatable
           ]) + tag("/div")
         end
       end
-
 
       def otp_authenticator_token_image_google(otp_url)
         otp_url = Rack::Utils.escape(otp_url)

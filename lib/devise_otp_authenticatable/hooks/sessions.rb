@@ -11,7 +11,6 @@ module DeviseOtpAuthenticatable::Hooks
     # replaces Devise::SessionsController#create
     #
     def create_with_otp
-
       resource = warden.authenticate!(auth_options)
 
       devise_stored_location = stored_location_for(resource) # Grab the current stored location before it gets lost by warden.logout
@@ -28,13 +27,11 @@ module DeviseOtpAuthenticatable::Hooks
         sign_in(resource_name, resource)
         respond_with resource, :location => otp_token_path_for(resource)
       else
-
         set_flash_message(:notice, :signed_in) if is_navigational_format?
         sign_in(resource_name, resource)
         respond_with resource, :location => after_sign_in_path_for(resource)
       end
     end
-
 
     private
 
@@ -43,6 +40,7 @@ module DeviseOtpAuthenticatable::Hooks
     #
     def otp_challenge_required_on?(resource)
       return false unless resource.respond_to?(:otp_enabled) && resource.respond_to?(:otp_auth_secret)
+
       resource.otp_enabled && !is_otp_trusted_browser_for?(resource)
     end
 
