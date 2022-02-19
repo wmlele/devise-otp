@@ -7,7 +7,7 @@ module DeviseOtpAuthenticatable
     end
 
     initializer "devise-otp", group: :all do |app|
-      ActiveSupport.on_load(:action_controller) do
+      ActiveSupport.on_load(:devise_controller) do
         include DeviseOtpAuthenticatable::Controllers::UrlHelpers
         include DeviseOtpAuthenticatable::Controllers::Helpers
       end
