@@ -16,6 +16,16 @@ module DeviseOtpAuthenticatable
       DeviseOtpAuthenticatable::Hooks.apply
     end
 
-    config.assets.precompile += %w(devise-otp.js)
+    initializer "devise-otp", group: :all do |app|
+      # check if Rails api mode
+      if app.config.respond_to?(:assets)
+        if defined?(Sprockets) && Sprockets::VERSION >= "4"
+          app.config.assets.precompile << "devise-otp.js"
+        else
+          # use a proc instead of a string
+          app.config.assets.precompile << proc { |path| path == "devise-otp.js" }
+        end
+      end
+    end
   end
 end
