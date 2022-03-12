@@ -40,6 +40,9 @@ content = <<-CONTENT
   # url. Display will vary based on token application. (defaults to the Rails application class)
   #config.otp_issuer = 'my_application'
 
+  # Custom view path for Devise OTP controllers
+  #config.otp_controller_path = 'devise'
+
 CONTENT
 
         inject_into_file "config/initializers/devise.rb", content, :before => /end[ |\n|]+\Z/

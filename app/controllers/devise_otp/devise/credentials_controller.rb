@@ -97,6 +97,10 @@ module DeviseOtp
         render :refresh
       end
 
+      def self.controller_path
+        "#{::Devise.otp_controller_path}/credentials"
+      end
+
     end
   end
 end
