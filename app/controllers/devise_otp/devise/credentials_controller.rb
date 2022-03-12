@@ -15,7 +15,6 @@ module DeviseOtp
 
         if @challenge.nil?
           redirect_to :root
-
         else
           self.resource = resource_class.find_valid_otp_challenge(@challenge)
           if resource.nil?
@@ -33,7 +32,6 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-
         resource = resource_class.find_valid_otp_challenge(params[resource_name][:challenge])
         recovery = (params[resource_name][:recovery] == 'true') && recovery_enabled?
         token = params[resource_name][:token]
@@ -50,7 +48,7 @@ module DeviseOtp
             set_flash_message(:success, :signed_in) if is_navigational_format?
             sign_in(resource_name, resource)
 
-            is_otp_trusted_browser_for(resource) if params[:enable_persistence] == "true"
+            otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
             otp_refresh_credentials_for(resource)
             respond_with resource, :location => after_sign_in_path_for(resource)
           else
@@ -59,7 +57,6 @@ module DeviseOtp
           end
         end
       end
-
 
       #
       # displays the request for a credentials refresh
@@ -81,7 +78,6 @@ module DeviseOtp
           failed_refresh
         end
       end
-
 
       private
 

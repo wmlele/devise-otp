@@ -3,14 +3,16 @@
 
 <%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
-	<%= render "devise/shared/error_messages", resource: resource %>
+  <%= render "devise/shared/error_messages", resource: resource %>
 
-	<h3><%= I18n.t('enable_request', :scope => 'devise.otp.tokens') %></h3>
+  <h3><%= I18n.t('enable_request', :scope => 'devise.otp.tokens') %></h3>
 
-	<p><%= f.label :otp_enabled, I18n.t('status', :scope => 'devise.otp.tokens') %><br />
-	<%= f.check_box :otp_enabled %></p>
+  <p>
+    <%= f.label :otp_enabled, I18n.t('status', :scope => 'devise.otp.tokens') %><br />
+    <%= f.check_box :otp_enabled %>
+  </p>
 
-	<p><%= f.submit I18n.t('submit', :scope => 'devise.otp.tokens') %></p>
+  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.tokens') %></p>
 <% end %>
 
 <%- if resource.otp_enabled? %>

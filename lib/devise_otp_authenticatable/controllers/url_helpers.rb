@@ -1,6 +1,5 @@
 module DeviseOtpAuthenticatable
   module Controllers
-
     module UrlHelpers
 
       def recovery_otp_token_for(resource_or_scope, opts = {})

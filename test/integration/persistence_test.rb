@@ -61,5 +61,4 @@ class PersistenceTest < ActionDispatch::IntegrationTest
 
     assert_equal user_otp_credential_path, current_path
   end
-
 end

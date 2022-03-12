@@ -12,7 +12,7 @@ module DeviseOtp
       # Displays the status of OTP authentication
       #
       def show
-       if resource.nil?
+        if resource.nil?
           redirect_to stored_location_for(scope) || :root
         else
           render :show
@@ -23,12 +23,11 @@ module DeviseOtp
       # Updates the status of OTP authentication
       #
       def update
-
-        enabled =  (params[resource_name][:otp_enabled] == '1')
+        enabled = params[resource_name][:otp_enabled] == '1'
         if (enabled ? resource.enable_otp! : resource.disable_otp!)
-
           otp_set_flash_message :success, :successfully_updated
         end
+
         render :show
       end
 
@@ -36,26 +35,23 @@ module DeviseOtp
       # Resets OTP authentication, generates new credentials, sets it to off
       #
       def destroy
-
         if resource.reset_otp_credentials!
           otp_set_flash_message :success, :successfully_reset_creds
         end
+
         redirect_to :action => :show
       end
-
 
       #
       # makes the current browser persistent
       #
       def get_persistence
-
-
         if otp_set_trusted_device_for(resource)
           otp_set_flash_message :success, :successfully_set_persistence
         end
+
         redirect_to :action => :show
       end
-
 
       #
       # clears persistence for the current browser
@@ -67,7 +63,6 @@ module DeviseOtp
 
         redirect_to :action => :show
       end
-
 
       #
       # rehash the persistence secret, thus, making all the persistence cookies invalid
@@ -93,12 +88,11 @@ module DeviseOtp
         end
       end
 
-
       private
 
       def ensure_credentials_refresh
-
         ensure_resource!
+
         if needs_credentials_refresh?(resource)
           otp_set_flash_message :notice, :need_to_refresh_credentials
           redirect_to refresh_otp_credential_path_for(resource)
