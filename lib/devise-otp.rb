@@ -58,6 +58,13 @@ module Devise
   mattr_accessor :otp_issuer
   @@otp_issuer = Rails.application.class.module_parent_name
 
+
+  #
+  # custom view path
+  #
+  mattr_accessor :otp_controller_path
+  @@otp_controller_path = "devise"
+
   module Otp
 
   end

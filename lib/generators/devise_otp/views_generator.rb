@@ -9,9 +9,9 @@ module DeviseOtp
                        :desc => "The scope to copy views to"
 
       include ::Devise::Generators::ViewPathTemplates
-      source_root File.expand_path("../../../../app/views/devise_otp", __FILE__)
+      source_root File.expand_path("../../../../app/views", __FILE__)
       def copy_views
-        view_directory :devise, 'app/views/devise_otp/devise'
+        view_directory :devise, 'app/views/devise'
       end
     end
   end

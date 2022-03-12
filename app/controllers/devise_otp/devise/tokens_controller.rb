@@ -109,6 +109,9 @@ module DeviseOtp
         resource_name.to_sym
       end
 
+      def self.controller_path
+        "#{::Devise.otp_controller_path}/tokens"
+      end
 
     end
   end
