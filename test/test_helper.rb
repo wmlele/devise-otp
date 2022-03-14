@@ -1,7 +1,6 @@
 ENV["RAILS_ENV"] = "test"
 DEVISE_ORM = (ENV["DEVISE_ORM"] || :active_record).to_sym
 
-$:.unshift File.dirname(__FILE__)
 puts "\n==> Devise.orm = #{DEVISE_ORM.inspect}"
 require "dummy/config/environment"
 require "orm/#{DEVISE_ORM}"
@@ -81,3 +80,5 @@ module DownloadHelper
     FileUtils.rm_f(downloads)
   end
 end
+
+require "devise-otp"
