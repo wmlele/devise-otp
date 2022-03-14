@@ -94,6 +94,56 @@ If you want to customise your views (which you likely will want to), you can use
 
 The install generator also installs an english copy of a Devise OTP i18n file. This can be modified (or used to create other language versions) and is located at: _config/locales/devise.otp.en.yml_
 
+### QRCode rendering
+
+By default `devise-otp` assumes that you use [sprockets](https://github.com/rails/sprockets) to render assets and so will use the QRCode JS library embeded in the gem ([qrcode.js](/app/assets/javascripts/qrcode.js)) to render the QRCode.
+
+This is done by inlining a JS call in the page : https://github.com/wmlele/devise-otp/blob/908c41ef85fef362d3e66a1a4971b5fe1c0e3f82/lib/devise_otp_authenticatable/controllers/helpers.rb#L141
+
+You can change this behavior by overriding `otp_authenticator_token_image` method in your view helper to call `otp_authenticator_token_image_google` :
+
+```ruby
+def otp_authenticator_token_image(resource)
+  otp_authenticator_token_image_google(resource.otp_provisioning_uri)
+end
+```
+
+This will call [Google API](https://github.com/wmlele/devise-otp/blob/908c41ef85fef362d3e66a1a4971b5fe1c0e3f82/lib/devise_otp_authenticatable/controllers/helpers.rb#L160) to render the QRCode.
+
+If your application is configured to use CSP policies you'll need to authorize `chart.googleapis.com`.
+
+Example (with [secure_headers](https://github.com/github/secure_headers)) :
+
+```ruby
+config.csp[:img_src] << 'chart.googleapis.com'
+```
+
+A third option consists in installing [jquery-qrcode]https://github.com/jeromeetienne/jquery-qrcode with Yarn / [shakapacker](https://github.com/shakacode/shakapacker) and overriding `otp_authenticator_token_image` to render some HTML :
+
+```ruby
+def otp_authenticator_token_image(resource)
+  tag(:span, data: { toggle: 'qrcode', otp_url: resource.otp_provisioning_uri, width: 192, height: 192, render: 'canvas' })
+end
+```
+
+The QRCode is rendered by `jquery-qrcode` by setting a JS listener in your `application.js` :
+
+```js
+  $(document).on('turbo:load', function() {
+    return $('[data-toggle=qrcode]').each(function() {
+      var data;
+      data = $(this).data();
+      return $(this).qrcode({
+        text: data['otpUrl'],
+        width: data['width'],
+        height: data['height'],
+        render: data['render']
+      });
+    });
+  });
+```
+
+This way you don't rely on external services to render QRCodes.
 
 ## Usage
 
