@@ -19,7 +19,12 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'devise', '>= 4.8.0', '< 4.9.0'
   gem.add_runtime_dependency 'rotp',   '>= 2.0.0'
 
+  gem.add_development_dependency "capybara"
   gem.add_development_dependency "cuprite"
+  gem.add_development_dependency "minitest-reporters", ">= 0.5.0"
   gem.add_development_dependency "puma"
+  gem.add_development_dependency "rdoc"
+  gem.add_development_dependency "shoulda"
+  gem.add_development_dependency "sprockets-rails"
   gem.add_development_dependency "sqlite3"
 end
