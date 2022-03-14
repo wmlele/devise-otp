@@ -21,5 +21,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'devise', '>= 4.8.0', '< 4.9.0'
   gem.add_runtime_dependency 'rotp',   '>= 2.0.0'
 
+  gem.add_development_dependency "cuprite"
+  gem.add_development_dependency "puma"
   gem.add_development_dependency "sqlite3"
 end
