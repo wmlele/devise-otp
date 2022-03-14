@@ -11,3 +11,4 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require_tree .
+//= require devise-otp
