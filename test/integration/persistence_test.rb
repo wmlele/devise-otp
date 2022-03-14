@@ -44,6 +44,23 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     assert_equal root_path, current_path
   end
 
+  test 'a user should be able to download its recovery codes' do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    enable_chrome_headless_downloads(page.driver, "/tmp/devise-otp")
+
+    DownloadHelper.wait_for_download(count: 1) do
+      click_link('Download recovery codes')
+    end
+
+    assert_equal 1, DownloadHelper.downloads.size
+  end
+
   test 'trusted status should expire' do
     # log in 1fa
     user = enable_otp_and_sign_in

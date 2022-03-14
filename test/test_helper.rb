@@ -43,4 +43,41 @@ Capybara.server     = :puma, { Silent: true }
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
+
+  def enable_chrome_headless_downloads(driver, directory)
+    browser = driver.browser
+    page = browser.send(:page)
+    page.command('Page.setDownloadBehavior', behavior: 'allow', downloadPath: directory)
+  end
+end
+
+# From https://collectiveidea.com/blog/archives/2012/01/27/testing-file-downloads-with-capybara-and-chromedriver
+module DownloadHelper
+  extend self
+
+  TIMEOUT = 10
+
+  def downloads
+    Dir["/tmp/devise-otp/*"]
+  end
+
+  def wait_for_download(count: 1)
+    yield if block_given?
+
+    Timeout.timeout(TIMEOUT) do
+      sleep 0.2 until downloaded?(count)
+    end
+  end
+
+  def downloaded?(count)
+    !downloading? && downloads.size == count
+  end
+
+  def downloading?
+    downloads.grep(/\.crdownload$/).any?
+  end
+
+  def clear_downloads
+    FileUtils.rm_f(downloads)
+  end
 end
