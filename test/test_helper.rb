@@ -43,9 +43,16 @@ Capybara.server     = :puma, { Silent: true }
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
 
-  def enable_chrome_headless_downloads(driver, directory)
-    browser = driver.browser
-    page = browser.send(:page)
+  # What capybara calls a "page" in its DSL is actually a Capybara::Session
+  # and doesn't know about the *command* method that allows us to play with
+  # the Chrome API.
+  # See: https://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session
+  #
+  # To enable downloads we need to do it on the browser's page object, so fetch it
+  # from this long method chain.
+  # See: https://github.com/rubycdp/ferrum/blob/master/lib/ferrum/page.rb
+  def enable_chrome_headless_downloads(session, directory)
+    page = session.driver.browser.page
     page.command('Page.setDownloadBehavior', behavior: 'allow', downloadPath: directory)
   end
 end

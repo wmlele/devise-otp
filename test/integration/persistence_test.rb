@@ -52,7 +52,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    enable_chrome_headless_downloads(page.driver, "/tmp/devise-otp")
+    enable_chrome_headless_downloads(page, "/tmp/devise-otp")
 
     DownloadHelper.wait_for_download(count: 1) do
       click_link('Download recovery codes')
