@@ -1,7 +1,6 @@
-# -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'devise-otp/version'
+# frozen_string_literal: true
+
+require_relative 'lib/devise-otp/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "devise-otp"
@@ -13,7 +12,6 @@ Gem::Specification.new do |gem|
   gem.homepage      = "http://git.windmill.it/wm/devise-otp"
 
   gem.files         = `git ls-files`.split($/)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
@@ -21,5 +19,12 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'devise', '>= 4.8.0', '< 4.9.0'
   gem.add_runtime_dependency 'rotp',   '>= 2.0.0'
 
+  gem.add_development_dependency "capybara"
+  gem.add_development_dependency "cuprite"
+  gem.add_development_dependency "minitest-reporters", ">= 0.5.0"
+  gem.add_development_dependency "puma"
+  gem.add_development_dependency "rdoc"
+  gem.add_development_dependency "shoulda"
+  gem.add_development_dependency "sprockets-rails"
   gem.add_development_dependency "sqlite3"
 end
