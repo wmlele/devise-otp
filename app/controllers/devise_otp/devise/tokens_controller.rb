@@ -83,7 +83,7 @@ module DeviseOtp
           format.html
           format.js
           format.text do
-            send_data render_to_string(template: "devise_otp/devise/tokens/recovery_codes"), filename: "otp-recovery-codes.txt", format: "text"
+            send_data render_to_string(template: "#{controller_path}/recovery_codes"), filename: "otp-recovery-codes.txt", format: "text"
           end
         end
       end
