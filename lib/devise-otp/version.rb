@@ -1,5 +1,5 @@
 module Devise
-  module Otp
+  module OTP
     VERSION = "0.3.0"
   end
 end

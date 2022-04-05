@@ -1,6 +1,6 @@
 module DeviseOtp
   module Devise
-    class CredentialsController < DeviseController
+    class OtpCredentialsController < DeviseController
       helper_method :new_session_path
 
       prepend_before_action :authenticate_scope!, :only => [:get_refresh, :set_refresh]
@@ -94,7 +94,7 @@ module DeviseOtp
       end
 
       def self.controller_path
-        "#{::Devise.otp_controller_path}/credentials"
+        "#{::Devise.otp_controller_path}/otp_credentials"
       end
 
     end
