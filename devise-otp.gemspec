@@ -4,7 +4,7 @@ require_relative 'lib/devise-otp/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "devise-otp"
-  gem.version       = Devise::Otp::VERSION
+  gem.version       = Devise::OTP::VERSION
   gem.authors       = ["Lele Forzani", "Josef Strzibny"]
   gem.email         = ["lele@windmill.it", "strzibny@strzibny.name"]
   gem.description   = %q{Time Based OTP/rfc6238 compatible authentication for Devise}

@@ -1,6 +1,6 @@
 module DeviseOtp
   module Devise
-    class TokensController < DeviseController
+    class OtpTokensController < DeviseController
       include ::Devise::Controllers::Helpers
 
       prepend_before_action :ensure_credentials_refresh
@@ -104,7 +104,7 @@ module DeviseOtp
       end
 
       def self.controller_path
-        "#{::Devise.otp_controller_path}/tokens"
+        "#{::Devise.otp_controller_path}/otp_tokens"
       end
 
     end
