@@ -10,7 +10,7 @@ en:
         submit: 'Submit Token'
         recovery_link: "I don't have my device, I want to use a recovery code"
 
-      credentials:
+      otp_credentials:
         token_invalid: 'The token you provided was invalid.'
         token_blank: 'You need to type in the token you generated with your device.'
         need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
@@ -32,7 +32,7 @@ en:
         reset_explain: 'This will reset your credentials, and disable two-factors authentication.'
         reset_explain_warn: 'You will need to enroll your mobile device again.'
 
-      tokens:
+      otp_tokens:
         title: 'Two-factors Authentication:'
         explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         enable_request: 'Would you like to enable Two Factors Authenticator?'
