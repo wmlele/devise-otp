@@ -132,17 +132,18 @@ module DeviseOtpAuthenticatable
 
       def otp_authenticator_token_image_js(otp_url)
         content_tag(:div, :class => 'qrcode-container') do
-          tag(:div, :id => 'qrcode', :class => 'qrcode') +
-          javascript_tag(%Q[
-            new QRCode("qrcode", {
-              text: "#{otp_url}",
-              width: 256,
-              height: 256,
-              colorDark : "#000000",
-              colorLight : "#ffffff",
-              correctLevel : QRCode.CorrectLevel.H
-            });
-          ]) + tag("/div")
+          content_tag(:div, :id => 'qrcode', :class => 'qrcode') do
+            javascript_tag(%Q[
+              new QRCode("qrcode", {
+                text: "#{otp_url}",
+                width: 256,
+                height: 256,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+              });
+            ])
+          end
         end
       end
 
