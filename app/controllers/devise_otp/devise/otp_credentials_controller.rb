@@ -48,7 +48,7 @@ module DeviseOtp
             set_flash_message(:success, :signed_in) if is_navigational_format?
             sign_in(resource_name, resource)
 
-            otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
+            otp_set_trusted_device_for(resource) if (params[:enable_persistence] == 'true') || (params[:enable_persistence] == 'on') || (params[:enable_persistence] == 'checked')
             otp_refresh_credentials_for(resource)
             respond_with resource, :location => after_sign_in_path_for(resource)
           else
