@@ -23,7 +23,12 @@ module DeviseOtp
       # Updates the status of OTP authentication
       #
       def update
-        enabled = (params[resource_name][:otp_enabled] == '1') || (params[resource_name][:otp_enabled] == 'on') || (params[resource_name][:otp_enabled] == 'checked')
+        if params[resource_name].nil?
+          enabled = false
+        else
+          enabled = (params[resource_name][:otp_enabled] == '1') || (params[resource_name][:otp_enabled] == 'on') || (params[resource_name][:otp_enabled] == 'checked')
+        end
+        
         if (enabled ? resource.enable_otp! : resource.disable_otp!)
           otp_set_flash_message :success, :successfully_updated
         end
