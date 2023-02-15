@@ -22,11 +22,11 @@ module DeviseOtpAuthenticatable
       # See: https://guides.rubyonrails.org/engines.html#separate-assets-and-precompiling
       # check if Rails api mode
       if app.config.respond_to?(:assets) && app.config.devise_otp.precompile_assets
-        if defined?(Sprockets) && Sprockets::VERSION >= "4"
-          app.config.assets.precompile << "devise-otp.js"
+        app.config.assets.precompile << if defined?(Sprockets) && Sprockets::VERSION >= "4"
+          "devise-otp.js"
         else
           # use a proc instead of a string
-          app.config.assets.precompile << proc { |path| path == "devise-otp.js" }
+          proc { |path| path == "devise-otp.js" }
         end
       end
     end
