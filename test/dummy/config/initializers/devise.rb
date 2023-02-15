@@ -1,8 +1,7 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
-
-  config.secret_key = '638da6a325f1de9038321504c4a06ef7f4f7f835331a63ba41b93732b3830d032b6a10b38afa67427e050b19f9717b1e7a45f650ac5631c53cc9dd85264fdfb0'
+  config.secret_key = "638da6a325f1de9038321504c4a06ef7f4f7f835331a63ba41b93732b3830d032b6a10b38afa67427e050b19f9717b1e7a45f650ac5631c53cc9dd85264fdfb0"
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -16,7 +15,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -38,12 +37,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [:email]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [:email]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -245,9 +244,8 @@ Devise.setup do |config|
   # Configure extension for devise
 
   # How long should the user have to enter their token. To change the default, uncomment and change the below:
-  #config.otp_authentication_timeout = 3.minutes
+  # config.otp_authentication_timeout = 3.minutes
 
   # Change time drift settings for valid token values. To change the default, uncomment and change the below:
-  #config.otp_authentication_time_drift = 3
-
+  # config.otp_authentication_time_drift = 3
 end
