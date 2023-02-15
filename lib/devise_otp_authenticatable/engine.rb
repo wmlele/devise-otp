@@ -1,5 +1,7 @@
 module DeviseOtpAuthenticatable
   class Engine < ::Rails::Engine
+    config.devise_otp = ActiveSupport::OrderedOptions.new
+    config.devise_otp.precompile_assets = true
 
     # We use to_prepare instead of after_initialize here because Devise is a Rails engine;
     config.to_prepare do
@@ -19,7 +21,7 @@ module DeviseOtpAuthenticatable
 
       # See: https://guides.rubyonrails.org/engines.html#separate-assets-and-precompiling
       # check if Rails api mode
-      if app.config.respond_to?(:assets)
+      if app.config.respond_to?(:assets) && app.config.devise_otp.precompile_assets
         if defined?(Sprockets) && Sprockets::VERSION >= "4"
           app.config.assets.precompile << "devise-otp.js"
         else
