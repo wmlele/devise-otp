@@ -44,7 +44,6 @@ module DeviseOtp
           otp_set_flash_message(:alert, :otp_session_invalid)
           redirect_to new_session_path(resource_name)
         elsif resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], recovery)
-          set_flash_message(:success, :signed_in) if is_navigational_format?
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
