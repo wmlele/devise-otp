@@ -7,8 +7,7 @@ module DeviseOtp
       desc "Install the devise OTP authentication extension"
 
       def add_configs
-
-content = <<-CONTENT
+        content = <<-CONTENT
 
   # ==> Devise OTP Extension
   # Configure OTP extension for devise
@@ -43,9 +42,9 @@ content = <<-CONTENT
   # Custom view path for Devise OTP controllers
   #config.otp_controller_path = 'devise'
 
-CONTENT
+        CONTENT
 
-        inject_into_file "config/initializers/devise.rb", content, :before => /end[ |\n|]+\Z/
+        inject_into_file "config/initializers/devise.rb", content, before: /end[ |\n]+\Z/
       end
 
       def copy_locale

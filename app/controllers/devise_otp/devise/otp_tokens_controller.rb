@@ -6,7 +6,7 @@ module DeviseOtp
       prepend_before_action :ensure_credentials_refresh
       prepend_before_action :authenticate_scope!
 
-      protect_from_forgery :except => [:clear_persistence, :delete_persistence]
+      protect_from_forgery except: [:clear_persistence, :delete_persistence]
 
       #
       # Displays the status of OTP authentication
@@ -44,7 +44,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_reset_creds
         end
 
-        redirect_to :action => :show
+        redirect_to action: :show
       end
 
       #
@@ -55,7 +55,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_set_persistence
         end
 
-        redirect_to :action => :show
+        redirect_to action: :show
       end
 
       #
@@ -66,7 +66,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_cleared_persistence
         end
 
-        redirect_to :action => :show
+        redirect_to action: :show
       end
 
       #
@@ -77,12 +77,9 @@ module DeviseOtp
           otp_set_flash_message :notice, :successfully_reset_persistence
         end
 
-        redirect_to :action => :show
+        redirect_to action: :show
       end
 
-      #
-      #
-      #
       def recovery
         respond_to do |format|
           format.html
@@ -111,7 +108,6 @@ module DeviseOtp
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_tokens"
       end
-
     end
   end
 end

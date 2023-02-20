@@ -3,15 +3,15 @@ module DeviseOtp
     class OtpCredentialsController < DeviseController
       helper_method :new_session_path
 
-      prepend_before_action :authenticate_scope!, :only => [:get_refresh, :set_refresh]
-      prepend_before_action :require_no_authentication, :only => [ :show, :update ]
+      prepend_before_action :authenticate_scope!, only: [:get_refresh, :set_refresh]
+      prepend_before_action :require_no_authentication, only: [:show, :update]
 
       #
       # show a request for the OTP token
       #
       def show
         @challenge = params[:challenge]
-        @recovery =  (params[:recovery] == 'true') && recovery_enabled?
+        @recovery = (params[:recovery] == "true") && recovery_enabled?
 
         if @challenge.nil?
           redirect_to :root
@@ -33,20 +33,18 @@ module DeviseOtp
       #
       def update
         resource = resource_class.find_valid_otp_challenge(params[resource_name][:challenge])
-        recovery = (params[resource_name][:recovery] == 'true') && recovery_enabled?
+        recovery = (params[resource_name][:recovery] == "true") && recovery_enabled?
         token = params[resource_name][:token]
 
         if token.blank?
           otp_set_flash_message(:alert, :token_blank)
-          redirect_to otp_credential_path_for(resource_name, :challenge => params[resource_name][:challenge],
-                                                             :recovery => recovery)
+          redirect_to otp_credential_path_for(resource_name, challenge: params[resource_name][:challenge],
+            recovery: recovery)
         elsif resource.nil?
           otp_set_flash_message(:alert, :otp_session_invalid)
           redirect_to new_session_path(resource_name)
-        else
-          if resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], recovery)
-            set_flash_message(:success, :signed_in) if is_navigational_format?
-            sign_in(resource_name, resource)
+        elsif resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], recovery)
+          sign_in(resource_name, resource)
 
             otp_set_trusted_device_for(resource) if (params[:enable_persistence] == 'true') || (params[:enable_persistence] == 'on') || (params[:enable_persistence] == 'checked')
             otp_refresh_credentials_for(resource)
@@ -85,7 +83,7 @@ module DeviseOtp
         otp_refresh_credentials_for(resource)
         otp_set_flash_message :success, :valid_refresh if is_navigational_format?
 
-        respond_with resource, :location => otp_fetch_refresh_return_url
+        respond_with resource, location: otp_fetch_refresh_return_url
       end
 
       def failed_refresh
@@ -96,7 +94,6 @@ module DeviseOtp
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_credentials"
       end
-
     end
   end
 end

@@ -1,10 +1,10 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 
 # Pick the frameworks you want:
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-#require "active_resource/railtie"
+# require "active_resource/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -15,7 +15,7 @@ begin
   require "#{DEVISE_ORM}/railtie"
 rescue LoadError
 end
-PARENT_MODEL_CLASS = DEVISE_ORM == :active_record ? ActiveRecord::Base : Object
+PARENT_MODEL_CLASS = (DEVISE_ORM == :active_record) ? ActiveRecord::Base : Object
 
 require "devise"
 require "devise-otp"
@@ -64,6 +64,6 @@ module Dummy
     config.assets.enabled = true
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.assets.version = "1.0"
   end
 end

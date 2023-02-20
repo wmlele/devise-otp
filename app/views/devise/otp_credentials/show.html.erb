@@ -20,7 +20,7 @@
   <%= f.text_field :token, :autocomplete => :off, :autofocus => true, :size => 6, :value => '' %><br>
 
   <%= label_tag :enable_persistence do %>
-    <%= check_box_tag :enable_persistence, true, false %> Remember this browser
+    <%= check_box_tag :enable_persistence, true, false %> <%= I18n.t('remember', :scope => 'devise.otp.general') %>
   <% end %>
 
   <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.submit_token') %></p>
