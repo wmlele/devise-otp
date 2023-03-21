@@ -54,45 +54,45 @@ module DeviseOtp
           redirect_to new_session_path(resource_name)
         end
       end
-    end
 
-    #
-    # displays the request for a credentials refresh
-    #
-    def get_refresh
-      ensure_resource!
-      render :refresh
-    end
-
-    #
-    # lets the user through is the refresh is valid
-    #
-    def set_refresh
-      ensure_resource!
-
-      if resource.valid_password?(params[resource_name][:refresh_password])
-        done_valid_refresh
-      else
-        failed_refresh
+      #
+      # displays the request for a credentials refresh
+      #
+      def get_refresh
+        ensure_resource!
+        render :refresh
       end
-    end
 
-    private
+      #
+      # lets the user through is the refresh is valid
+      #
+      def set_refresh
+        ensure_resource!
 
-    def done_valid_refresh
-      otp_refresh_credentials_for(resource)
-      otp_set_flash_message :success, :valid_refresh if is_navigational_format?
+        if resource.valid_password?(params[resource_name][:refresh_password])
+          done_valid_refresh
+        else
+          failed_refresh
+        end
+      end
 
-      respond_with resource, location: otp_fetch_refresh_return_url
-    end
+      private
 
-    def failed_refresh
-      otp_set_flash_message :alert, :invalid_refresh
-      render :refresh
-    end
+      def done_valid_refresh
+        otp_refresh_credentials_for(resource)
+        otp_set_flash_message :success, :valid_refresh if is_navigational_format?
 
-    def self.controller_path
-      "#{::Devise.otp_controller_path}/otp_credentials"
+        respond_with resource, location: otp_fetch_refresh_return_url
+      end
+
+      def failed_refresh
+        otp_set_flash_message :alert, :invalid_refresh
+        render :refresh
+      end
+
+      def self.controller_path
+        "#{::Devise.otp_controller_path}/otp_credentials"
+      end
     end
   end
 end
