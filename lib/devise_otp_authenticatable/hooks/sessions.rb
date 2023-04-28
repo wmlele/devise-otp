@@ -18,6 +18,7 @@ module DeviseOtpAuthenticatable::Hooks
 
       otp_refresh_credentials_for(resource)
 
+      yield resource if block_given?
       if otp_challenge_required_on?(resource)
         challenge = resource.generate_otp_challenge!
         warden.logout
