@@ -18,6 +18,7 @@ module DeviseOtpAuthenticatable::Hooks
 
       otp_refresh_credentials_for(resource)
 
+      yield resource if block_given?
       if otp_challenge_required_on?(resource)
         challenge = resource.generate_otp_challenge!
         warden.logout
@@ -48,7 +49,7 @@ module DeviseOtpAuthenticatable::Hooks
     # the resource -should- have otp turned on, but it isn't
     #
     def otp_mandatory_on?(resource)
-      return true if resource.class.otp_mandatory
+      return true if resource.class.otp_mandatory && !resource.otp_enabled
       return false unless resource.respond_to?(:otp_mandatory)
 
       resource.otp_mandatory && !resource.otp_enabled

@@ -15,6 +15,10 @@ Some of the compatible token devices are:
 
 Device OTP was recently updated to work with Rails 7 and Turbo.
 
+## Sponsor
+
+Devise::OTP development is sponsored by [Business Class](https://businessclasskit.com/) Rails SaaS starter kit. If you don't want to setup OTP yourself for your new project, consider starting one on Business Class.
+
 ## Two-factors authentication using OTP
 
 * A shared secret is generated on the server, and stored both on the token device (e.g. the phone) and the server itself.
