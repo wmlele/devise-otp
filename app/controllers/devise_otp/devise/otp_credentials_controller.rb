@@ -39,16 +39,16 @@ module DeviseOtp
         if token.blank?
           otp_set_flash_message(:alert, :token_blank)
           redirect_to otp_credential_path_for(resource_name, challenge: params[resource_name][:challenge],
-            recovery: recovery)
+                                              recovery: recovery)
         elsif resource.nil?
           otp_set_flash_message(:alert, :otp_session_invalid)
           redirect_to new_session_path(resource_name)
         elsif resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], recovery)
           sign_in(resource_name, resource)
 
-          otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
+          otp_set_trusted_device_for(resource) if (params[:enable_persistence] == 'true') || (params[:enable_persistence] == 'on') || (params[:enable_persistence] == 'checked')
           otp_refresh_credentials_for(resource)
-          respond_with resource, location: after_sign_in_path_for(resource)
+          respond_with resource, :location => after_sign_in_path_for(resource)
         else
           otp_set_flash_message :alert, :token_invalid
           redirect_to new_session_path(resource_name)
@@ -94,3 +94,4 @@ module DeviseOtp
     end
   end
 end
+
