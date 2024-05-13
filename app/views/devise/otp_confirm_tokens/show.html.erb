@@ -1,4 +1,6 @@
-Confirm the OTP Token shown below:
+<h1><%= I18n.t('title', :scope => 'devise.otp.confirm_otp_tokens') %></h1>
+
+<h2><%= I18n.t('step_1', :scope => 'devise.otp.confirm_otp_tokens') %></h2>
 
 <%= otp_authenticator_token_image(resource) %>
 
@@ -6,6 +8,8 @@ Confirm the OTP Token shown below:
   <strong><%= I18n.t('manual_provisioning', :scope => 'devise.otp.token_secret') %>:</strong>
   <code><%= resource.otp_auth_secret %></code>
 </p>
+
+<h2><%= I18n.t('step_2', :scope => 'devise.otp.confirm_otp_tokens') %></h2>
 
 <%= form_with(:url => [resource_name, :otp_confirm_token], :method => :put) do |f| %>
 
