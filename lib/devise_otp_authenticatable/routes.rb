@@ -4,7 +4,7 @@ module ActionDispatch::Routing
 
     def devise_otp(mapping, controllers)
       namespace :otp, module: :devise_otp do
-        resource :token, only: [:show, :update, :destroy],
+        resource :token, only: [:show, :edit, :update, :destroy],
           path: mapping.path_names[:token], controller: controllers[:otp_tokens] do
           if Devise.otp_trust_persistence
             get :persistence, action: "get_persistence"

@@ -1,21 +1,10 @@
-<h2><%= I18n.t('title', :scope => 'devise.otp.otp_tokens') %></h2>
-<p><%= I18n.t('explain', :scope => 'devise.otp.otp_tokens') %></p>
+<h2>Two-Factor-Authentication</h2>
 
-<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put, "data-turbo" => false }) do |f| %>
-
-  <%= render "devise/shared/error_messages", resource: resource %>
-
-  <h3><%= I18n.t('enable_request', :scope => 'devise.otp.otp_tokens') %></h3>
-
-  <p>
-    <%= f.label :otp_enabled, I18n.t('status', :scope => 'devise.otp.otp_tokens') %><br />
-    <%= f.check_box :otp_enabled %>
-  </p>
-
-  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.otp_tokens') %></p>
-<% end %>
+<p><strong>Status:</strong> <%= resource.otp_enabled? ? "Enabled" : "Disabled" %></p>
 
 <%- if resource.otp_enabled? %>
   <%= render :partial => 'token_secret' if resource.otp_enabled? %>
   <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
+<% else %>
+  <%= link_to "Enable Two-Factor-Authentication", edit_otp_token_path_for(resource) %>
 <% end %>
