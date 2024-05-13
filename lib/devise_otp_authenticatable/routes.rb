@@ -15,8 +15,6 @@ module ActionDispatch::Routing
           get :recovery
         end
 
-        resource :confirm_token, only: [:show, :update], path: mapping.path_names[:confirm_token], controller: controllers[:otp_confirm_tokens]
-
         resource :credential, only: [:show, :update],
           path: mapping.path_names[:credentials], controller: controllers[:otp_credentials] do
           get :refresh, action: "get_refresh"

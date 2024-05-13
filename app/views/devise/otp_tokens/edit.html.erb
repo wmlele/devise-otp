@@ -1,21 +1,24 @@
 <h2><%= I18n.t('title', :scope => 'devise.otp.otp_tokens') %></h2>
 <p><%= I18n.t('explain', :scope => 'devise.otp.otp_tokens') %></p>
 
-<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_token], :html => { :method => :put, "data-turbo" => false }) do |f| %>
+<h2><%= I18n.t('title', :scope => 'devise.otp.confirm_otp_tokens') %></h2>
 
-  <%= render "devise/shared/error_messages", resource: resource %>
+<p><%= I18n.t('step_1', :scope => 'devise.otp.confirm_otp_tokens') %></p>
 
-  <h3><%= I18n.t('enable_request', :scope => 'devise.otp.otp_tokens') %></h3>
+<%= otp_authenticator_token_image(resource) %>
 
-  <p>
-    <%= f.label :otp_enabled, I18n.t('status', :scope => 'devise.otp.otp_tokens') %><br />
-    <%= f.check_box :otp_enabled %>
-  </p>
+<p>
+  <strong><%= I18n.t('manual_provisioning', :scope => 'devise.otp.token_secret') %>:</strong>
+  <code><%= resource.otp_auth_secret %></code>
+</p>
 
-  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.otp_tokens') %></p>
-<% end %>
+<p><%= I18n.t('step_2', :scope => 'devise.otp.confirm_otp_tokens') %></p>
 
-<%- if resource.otp_enabled? %>
-  <%= render :partial => 'token_secret' if resource.otp_enabled? %>
-  <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
+<%= form_with(:url => [resource_name, :otp_token], :method => :put) do |f| %>
+
+  <%= f.label :otp_token %>
+  <%= f.text_field :otp_token %>
+
+  <%= f.submit :enable %>
+
 <% end %>
