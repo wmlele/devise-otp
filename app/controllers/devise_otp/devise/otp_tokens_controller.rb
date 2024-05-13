@@ -24,11 +24,14 @@ module DeviseOtp
       #
       def update
         enabled = params[resource_name][:otp_enabled] == "1"
-        if enabled ? resource.enable_otp! : resource.disable_otp!
+        if params[resource_name][:otp_enabled] == "1"
+          resource.reset_otp_credentials!
+          redirect_to confirm_otp_token_path_for(resource)
+        else
+          resource.disable_otp!
           otp_set_flash_message :success, :successfully_updated
+          redirect_to action: :show
         end
-
-        render :show
       end
 
       #

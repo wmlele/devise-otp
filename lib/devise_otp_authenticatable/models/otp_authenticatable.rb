@@ -60,11 +60,13 @@ module Devise::Models
       save!
     end
 
-    def enable_otp!
+    def populate_otp!
       if otp_persistence_seed.nil?
         reset_otp_credentials!
       end
+    end
 
+    def confirm_otp!
       update!(otp_enabled: true, otp_enabled_on: Time.now)
     end
 

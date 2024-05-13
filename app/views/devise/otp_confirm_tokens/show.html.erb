@@ -1,0 +1,17 @@
+Confirm the OTP Token shown below:
+
+<%= otp_authenticator_token_image(resource) %>
+
+<p>
+  <strong><%= I18n.t('manual_provisioning', :scope => 'devise.otp.token_secret') %>:</strong>
+  <code><%= resource.otp_auth_secret %></code>
+</p>
+
+<%= form_with(:url => [resource_name, :otp_confirm_token], :method => :put) do |f| %>
+
+  <%= f.label :otp_token %>
+  <%= f.text_field :otp_token %>
+
+  <%= f.submit :enable %>
+
+<% end %>
