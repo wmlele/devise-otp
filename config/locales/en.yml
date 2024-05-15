@@ -36,6 +36,7 @@ en:
         status: 'Enable Two-Factors Authentication.'
         submit: 'Continue...'
         successfully_updated: 'Your two-factors authentication settings have been updated.'
+        could_not_confirm: 'The Validation Code you entered did not match the QR code shown below.'
         successfully_reset_creds: 'Your two-factors credentials has been reset.'
         successfully_set_persistence: 'Your device is now trusted.'
         successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
