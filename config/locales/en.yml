@@ -50,7 +50,8 @@ en:
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
       edit_otp_tokens:
-        title: 'To Enable Two-Factor Authentication:'
+        title: 'Enable Two-factors Authentication'
+        lead_in: 'To Enable Two-Factor Authentication:'
         step_1: '1. Take a photo of this QR code with your mobile:'
         step_2: '2. Enter the Validation Code shown on your mobile in the form below:'
         status: 'Enable Two-Factors Authentication.'
