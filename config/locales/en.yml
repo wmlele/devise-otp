@@ -49,25 +49,12 @@ en:
           code: 'Recovery Code'
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
-      confirm_otp_tokens:
+      edit_otp_tokens:
         title: 'To Enable Two-Factor Authentication:'
         step_1: '1. Take a photo of this QR code with your mobile:'
         step_2: '2. Enter the Validation Code shown on your mobile in the form below:'
         status: 'Enable Two-Factors Authentication.'
         submit: 'Continue...'
-        successfully_updated: 'Your two-factors authentication settings have been updated.'
-        successfully_reset_creds: 'Your two-factors credentials has been reset.'
-        successfully_set_persistence: 'Your device is now trusted.'
-        successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
-        successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
-        need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
-        recovery:
-          title: 'Your Emergency Recovery Codes'
-          explain: 'Take note or print these recovery codes. The will allow you to log back in in case your token device is lost, stolen, or unavailable.'
-          sequence: 'Sequence'
-          code: 'Recovery Code'
-          codes_list: 'Here is the list of your recovery codes'
-          download_codes: 'Download recovery codes'
       trusted_browsers:
         title: 'Trusted Browsers'
         explain: 'If you set your browser as trusted, you will not be asked to provide a Two-factor authentication token when logging in from that browser.'
