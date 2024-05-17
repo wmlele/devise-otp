@@ -31,10 +31,9 @@ en:
         reset_explain_warn: 'You will need to enroll your mobile device again.'
       otp_tokens:
         title: 'Two-factors Authentication:'
-        explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         enable_link: 'Enable Two-Factors Authentication'
         successfully_updated: 'Your two-factors authentication settings have been updated.'
-        could_not_confirm: 'The Validation Code you entered did not match the QR code shown below.'
+        could_not_confirm: 'The Verification Code you entered did not match the QR code shown below.'
         successfully_reset_creds: 'Your two-factors credentials has been reset.'
         successfully_set_persistence: 'Your device is now trusted.'
         successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
@@ -49,10 +48,11 @@ en:
           download_codes: 'Download recovery codes'
       edit_otp_tokens:
         title: 'Enable Two-factors Authentication'
+        explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         lead_in: 'To Enable Two-Factor Authentication:'
         step_1: '1. Take a photo of this QR code with your mobile:'
-        step_2: '2. Enter the Validation Code shown on your mobile in the form below:'
-        status: 'Enable Two-Factors Authentication.'
+        step_2: '2. Enter the Verification Code shown on your mobile in the form below:'
+        otp_token: "Verification Code"
         submit: 'Continue...'
       trusted_browsers:
         title: 'Trusted Browsers'

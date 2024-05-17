@@ -1,5 +1,5 @@
 <h2><%= I18n.t('title', :scope => 'devise.otp.edit_otp_tokens') %></h2>
-<p><%= I18n.t('explain', :scope => 'devise.otp.otp_tokens') %></p>
+<p><%= I18n.t('explain', :scope => 'devise.otp.edit_otp_tokens') %></p>
 
 <h2><%= I18n.t('lead_in', :scope => 'devise.otp.edit_otp_tokens') %></h2>
 
@@ -16,9 +16,11 @@
 
 <%= form_with(:url => [resource_name, :otp_token], :method => :put) do |f| %>
 
-  <%= f.label :otp_token %>
-  <%= f.text_field :otp_token %>
+  <p>
+    <%= f.label :otp_token, I18n.t('otp_token', :scope => 'devise.otp.edit_otp_tokens') %>
+    <%= f.text_field :otp_token %>
+  </p>
 
-  <%= f.submit :enable %>
+  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.edit_otp_tokens') %></p>
 
 <% end %>
