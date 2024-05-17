@@ -30,7 +30,7 @@ module DeviseOtp
       #
       def update
         if resource.valid_otp_token?(params[:otp_token])
-          resource.confirm_otp!
+          resource.enable_otp!
           otp_set_flash_message :success, :successfully_updated
           redirect_to otp_credential_path_for(resource)
         else

@@ -66,7 +66,7 @@ module Devise::Models
       end
     end
 
-    def confirm_otp!
+    def enable_otp!
       update!(otp_enabled: true, otp_enabled_on: Time.now)
     end
 
