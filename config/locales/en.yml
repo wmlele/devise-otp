@@ -32,9 +32,7 @@ en:
       otp_tokens:
         title: 'Two-factors Authentication:'
         explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
-        enable_request: 'Would you like to enable Two Factors Authenticator?'
-        status: 'Enable Two-Factors Authentication.'
-        submit: 'Continue...'
+        enable_link: 'Enable Two-Factors Authentication'
         successfully_updated: 'Your two-factors authentication settings have been updated.'
         could_not_confirm: 'The Validation Code you entered did not match the QR code shown below.'
         successfully_reset_creds: 'Your two-factors credentials has been reset.'

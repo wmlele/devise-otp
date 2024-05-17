@@ -6,5 +6,5 @@
   <%= render :partial => 'token_secret' if resource.otp_enabled? %>
   <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
 <% else %>
-  <%= link_to "Enable Two-Factor-Authentication", edit_otp_token_path_for(resource) %>
+  <%= link_to I18n.t('enable_link', :scope => 'devise.otp.otp_tokens'), edit_otp_token_path_for(resource) %>
 <% end %>
