@@ -18,9 +18,8 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
     assert_equal user_otp_token_path, current_path
     assert page.has_content?("Enabled")
 
-    assert user.otp_auth_secret.enabled?
-    assert !user.otp_auth_secret.nil?
-    assert !user.otp_persistence_seed.nil?
+    user.reload
+    assert user.otp_enabled?
   end
 
   test "a user should not be able enable their OTP authentication with an incorrect confirmation code" do
@@ -32,9 +31,10 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     click_button "Continue..."
 
-    assert page.has_content?("did not match")
+    assert page.has_content?("To Enable Two-Factor Authentication")
 
-    assert !user.otp_auth_secret.enabled?
+    user.reload
+    assert_not user.otp_enabled?
   end
 
   test "a user should not be able enable their OTP authentication with a blank confirmation code" do
@@ -46,9 +46,10 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     click_button "Continue..."
 
-    assert page.has_content?("did not match")
+    assert page.has_content?("To Enable Two-Factor Authentication")
 
-    assert !user.otp_auth_secret.enabled?
+    user.reload
+    assert_not user.otp_enabled?
   end
 
 end
