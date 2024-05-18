@@ -26,8 +26,8 @@ class ActionDispatch::IntegrationTest
   def enable_otp_and_sign_in
     user = create_full_user
     sign_user_in(user)
-    visit user_otp_token_path
-    check "user_otp_enabled"
+    visit edit_user_otp_token_path
+    fill_in "otp_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Continue..."
 
     Capybara.reset_sessions!
@@ -43,8 +43,9 @@ class ActionDispatch::IntegrationTest
 
   def disable_otp
     visit user_otp_token_path
-    uncheck "user_otp_enabled"
-    click_button "Continue..."
+    accept_confirm do
+      click_button "Reset your Two Factors Authentication status"
+    end
   end
 
   def sign_out
