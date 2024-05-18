@@ -35,6 +35,8 @@ lib/bundler/man
 test/dummy/log/**
 test/dummy/tmp/**
 test/dummy/db/*.sqlite3
+test/dummy/db/*.sqlite3-shm
+test/dummy/db/*.sqlite3-wal
 
 Gemfile.lock
 
