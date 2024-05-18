@@ -43,9 +43,7 @@ class ActionDispatch::IntegrationTest
 
   def disable_otp
     visit user_otp_token_path
-    accept_confirm do
-      click_button "Reset your Two Factors Authentication status"
-    end
+    click_button "Reset your Two Factors Authentication status"
   end
 
   def sign_out
