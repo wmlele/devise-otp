@@ -9,7 +9,7 @@ require "capybara/rails"
 require "capybara/cuprite"
 require "minitest/reporters"
 
-MiniTest::Reporters.use!
+Minitest::Reporters.use!
 
 # I18n.load_path << File.expand_path("../support/locale/en.yml", __FILE__) if DEVISE_ORM == :mongoid
 
