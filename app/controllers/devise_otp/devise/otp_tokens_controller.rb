@@ -32,7 +32,7 @@ module DeviseOtp
         if resource.valid_otp_token?(params[:otp_token])
           resource.enable_otp!
           otp_set_flash_message :success, :successfully_updated
-          redirect_to otp_credential_path_for(resource)
+          redirect_to action: :show
         else
           otp_set_flash_message :danger, :could_not_confirm
           render :edit
