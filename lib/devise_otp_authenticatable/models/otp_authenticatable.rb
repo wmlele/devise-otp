@@ -5,8 +5,6 @@ module Devise::Models
     extend ActiveSupport::Concern
 
     included do
-      before_validation :generate_otp_auth_secret, on: :create
-      before_validation :generate_otp_persistence_seed, on: :create
       scope :with_valid_otp_challenge, lambda { |time| where("otp_challenge_expires > ?", time) }
     end
 
@@ -36,21 +34,6 @@ module Devise::Models
       email
     end
 
-    def reset_otp_credentials
-      @time_based_otp = nil
-      @recovery_otp = nil
-      generate_otp_auth_secret
-      reset_otp_persistence
-      update!(otp_enabled: false,
-        otp_session_challenge: nil, otp_challenge_expires: nil,
-        otp_recovery_counter: 0)
-    end
-
-    def reset_otp_credentials!
-      reset_otp_credentials
-      save!
-    end
-
     def reset_otp_persistence
       generate_otp_persistence_seed
     end
@@ -60,14 +43,29 @@ module Devise::Models
       save!
     end
 
-    def populate_otp!
+    def populate_otp_secrets!
       if self.otp_auth_secret.blank? or self.otp_recovery_secret.blank?
         generate_otp_auth_secret
+        self.save!
       end
       if self.otp_persistence_seed.blank?
         generate_otp_persistence_seed
+        self.save!
       end
-      save!
+    end
+
+    def destroy_otp_secrets!
+      @time_based_otp = nil
+      @recovery_otp = nil
+
+      self.update!(
+        :otp_auth_secret => nil,
+        :otp_recovery_secret => nil,
+        :otp_persistence_seed => nil,
+        :otp_session_challenge => nil,
+        :otp_challenge_expires => nil,
+        :otp_recovery_counter => 0
+      )
     end
 
     def enable_otp!
