@@ -26,9 +26,9 @@ en:
         title: 'Your token secret'
         explain: 'Take a photo of this QR code with your mobile'
         manual_provisioning: 'Manual provisioning code'
-        reset_otp: 'Reset your Two Factors Authentication status'
-        reset_explain: 'This will reset your credentials, and disable two-factors authentication.'
-        reset_explain_warn: 'You will need to enroll your mobile device again.'
+        disable_otp: 'Disable Two-Factor Authentication'
+        disable_explain: 'This will disable Two-Factor authentication and clear the OTP secret.'
+        disable_explain_warn: 'To re-enable Two-Factor authentication, you will need to enroll your mobile device again.'
       otp_tokens:
         title: 'Two-factors Authentication:'
         enable_link: 'Enable Two-Factors Authentication'

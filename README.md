@@ -58,14 +58,6 @@ Don't forget to migrate:
 
     rake db:migrate
 
-For new users, the OTP secrets required for devise-otp will be generated automatically via callback.
-
-For existing users, you need to populate these secrets manually using the populate_otp! method. For example:
-
-    MODEL.all.each do |user|
-      user.populate_otp!
-    end
-
 Add the gem's JavaScript to you `application.js`:
 
     //= require devise-otp
