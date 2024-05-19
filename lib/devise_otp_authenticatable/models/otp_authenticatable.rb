@@ -61,9 +61,13 @@ module Devise::Models
     end
 
     def populate_otp!
-      if otp_persistence_seed.nil?
-        reset_otp_credentials!
+      if self.otp_auth_secret.blank? or self.otp_recovery_secret.blank?
+        generate_otp_auth_secret
       end
+      if self.otp_persistence_seed.blank?
+        generate_otp_persistence_seed
+      end
+      save!
     end
 
     def enable_otp!
