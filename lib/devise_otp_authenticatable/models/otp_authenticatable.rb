@@ -44,11 +44,8 @@ module Devise::Models
     end
 
     def populate_otp_secrets!
-      if self.otp_auth_secret.blank? or self.otp_recovery_secret.blank?
+      if [otp_auth_secret, otp_recovery_secret, otp_persistence_seed].any? { |a| a.blank? }
         generate_otp_auth_secret
-        self.save!
-      end
-      if self.otp_persistence_seed.blank?
         generate_otp_persistence_seed
         self.save!
       end
