@@ -11,6 +11,8 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     visit edit_user_otp_token_path
 
+    user.reload
+
     fill_in "otp_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
 
     click_button "Continue..."

@@ -25,6 +25,8 @@ class ActionDispatch::IntegrationTest
 
   def enable_otp_and_sign_in
     user = create_full_user
+    user.populate_otp_secrets!
+
     sign_user_in(user)
     visit edit_user_otp_token_path
     fill_in "otp_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
@@ -43,7 +45,7 @@ class ActionDispatch::IntegrationTest
 
   def disable_otp
     visit user_otp_token_path
-    click_button "Reset your Two Factors Authentication status"
+    click_button "Disable Two-Factor Authentication"
   end
 
   def sign_out

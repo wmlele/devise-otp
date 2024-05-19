@@ -64,6 +64,7 @@ module Devise::Models
         :otp_persistence_seed => nil,
         :otp_session_challenge => nil,
         :otp_challenge_expires => nil,
+        :otp_failed_attempts => 0,
         :otp_recovery_counter => 0
       )
     end
