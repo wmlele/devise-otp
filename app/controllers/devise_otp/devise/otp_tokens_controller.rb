@@ -45,8 +45,8 @@ module DeviseOtp
       #
       def destroy
         if resource.disable_otp!
-          resource.destroy_otp_secrets!
-          otp_set_flash_message :success, :successfully_reset_creds
+          resource.clear_otp_fields!
+          otp_set_flash_message :success, :successfully_disabled_otp
         end
 
         redirect_to action: :show

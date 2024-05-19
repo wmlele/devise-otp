@@ -35,7 +35,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert user.recovery_otp.is_a? ROTP::HOTP
   end
 
-  test "destroy_otp_secrets should clear all otp fields" do
+  test "clear_otp_fields should clear all otp fields" do
     user = User.first
     user.populate_otp_secrets!
 
@@ -55,7 +55,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
       assert_not user.send(field) == 0
     end
 
-    user.destroy_otp_secrets!
+    user.clear_otp_fields!
     [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
       assert_nil user.send(field)
     end

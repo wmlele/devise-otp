@@ -54,7 +54,7 @@ module Devise::Models
       end
     end
 
-    def destroy_otp_secrets!
+    def clear_otp_fields!
       @time_based_otp = nil
       @recovery_otp = nil
 
