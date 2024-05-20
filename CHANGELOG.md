@@ -24,7 +24,7 @@ Changes to Locales:
   - otp_tokens.submit
 - Add to otp_tokens scope:
   - enable_link
--  Move/rename devise.otp.token_secret.reset_\* values to devise.otp.otp_tokens.disable_\* (to match new "enable_link")
+- Move/rename devise.otp.token_secret.reset_\* values to devise.otp.otp_tokens.disable_\* (for consistency with "enable_link")
   - disable_link
   - disable_explain
   - disable_explain_warn
