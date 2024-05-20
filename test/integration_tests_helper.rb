@@ -29,7 +29,7 @@ class ActionDispatch::IntegrationTest
 
     sign_user_in(user)
     visit edit_user_otp_token_path
-    fill_in "otp_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    fill_in "confirmation_code", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Continue..."
 
     Capybara.reset_sessions!

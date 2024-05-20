@@ -1,9 +1,9 @@
-<h2><%= I18n.t('title', :scope => 'devise.otp.edit_otp_tokens') %></h2>
-<p><%= I18n.t('explain', :scope => 'devise.otp.edit_otp_tokens') %></p>
+<h2><%= I18n.t('title', :scope => 'devise.otp.edit_otp_token') %></h2>
+<p><%= I18n.t('explain', :scope => 'devise.otp.edit_otp_token') %></p>
 
-<h2><%= I18n.t('lead_in', :scope => 'devise.otp.edit_otp_tokens') %></h2>
+<h2><%= I18n.t('lead_in', :scope => 'devise.otp.edit_otp_token') %></h2>
 
-<p><%= I18n.t('step_1', :scope => 'devise.otp.edit_otp_tokens') %></p>
+<p><%= I18n.t('step_1', :scope => 'devise.otp.edit_otp_token') %></p>
 
 <%= otp_authenticator_token_image(resource) %>
 
@@ -12,15 +12,15 @@
   <code><%= resource.otp_auth_secret %></code>
 </p>
 
-<p><%= I18n.t('step_2', :scope => 'devise.otp.edit_otp_tokens') %></p>
+<p><%= I18n.t('step_2', :scope => 'devise.otp.edit_otp_token') %></p>
 
 <%= form_with(:url => [resource_name, :otp_token], :method => :put) do |f| %>
 
   <p>
-    <%= f.label :otp_token, I18n.t('otp_token', :scope => 'devise.otp.edit_otp_tokens') %>
-    <%= f.text_field :otp_token %>
+    <%= f.label :confirmation_code, I18n.t('confirmation_code', :scope => 'devise.otp.edit_otp_token') %>
+    <%= f.text_field :confirmation_code %>
   </p>
 
-  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.edit_otp_tokens') %></p>
+  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.edit_otp_token') %></p>
 
 <% end %>

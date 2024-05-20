@@ -30,7 +30,7 @@ module DeviseOtp
       # Updates the status of OTP authentication
       #
       def update
-        if resource.valid_otp_token?(params[:otp_token])
+        if resource.valid_otp_token?(params[:confirmation_code])
           resource.enable_otp!
           otp_set_flash_message :success, :successfully_updated
           redirect_to action: :show

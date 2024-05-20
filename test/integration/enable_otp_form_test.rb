@@ -13,7 +13,7 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     user.reload
 
-    fill_in "otp_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    fill_in "confirmation_code", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
 
     click_button "Continue..."
 
@@ -29,7 +29,7 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     visit edit_user_otp_token_path
 
-    fill_in "otp_token", with: "123456"
+    fill_in "confirmation_code", with: "123456"
 
     click_button "Continue..."
 
@@ -44,7 +44,7 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     visit edit_user_otp_token_path
 
-    fill_in "otp_token", with: ""
+    fill_in "confirmation_code", with: ""
 
     click_button "Continue..."
 

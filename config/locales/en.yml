@@ -26,12 +26,12 @@ en:
         title: 'Your token secret'
         explain: 'Take a photo of this QR code with your mobile'
         manual_provisioning: 'Manual provisioning code'
-        disable_otp: 'Disable Two-Factor Authentication'
-        disable_explain: 'This will disable Two-Factor authentication and clear the OTP secret.'
-        disable_explain_warn: 'To re-enable Two-Factor authentication, you will need to enroll your mobile device again.'
       otp_tokens:
         title: 'Two-factors Authentication:'
-        enable_link: 'Enable Two-Factors Authentication'
+        enable_link: 'Enable Two-Factor Authentication'
+        disable_link: 'Disable Two-Factor Authentication'
+        disable_explain: 'This will disable Two-Factor authentication and clear the OTP secret.'
+        disable_explain_warn: 'To re-enable Two-Factor authentication, you will need to enroll your mobile device again.'
         successfully_updated: 'Your two-factors authentication settings have been updated.'
         could_not_confirm: 'The Confirmation Code you entered did not match the QR code shown below.'
         successfully_disabled_otp: 'Two-Factor authentication has been disabled.'
@@ -46,13 +46,13 @@ en:
           code: 'Recovery Code'
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
-      edit_otp_tokens:
+      edit_otp_token:
         title: 'Enable Two-factors Authentication'
         explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         lead_in: 'To Enable Two-Factor Authentication:'
         step_1: '1. Open your authenticator app and scan the QR code shown below:'
         step_2: '2. Enter the 6-digit code shown in your authenticator app below:'
-        otp_token: "Confirmation Code"
+        confirmation_code: "Confirmation Code"
         submit: 'Continue...'
       trusted_browsers:
         title: 'Trusted Browsers'

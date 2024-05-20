@@ -23,7 +23,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert page.has_content?("Disabled")
 
-    click_link "Enable Two-Factors Authentication"
+    click_link "Enable Two-Factor Authentication"
 
     assert page.has_content?("Enable Two-factors Authentication")
     assert_equal edit_user_otp_token_path, current_path
