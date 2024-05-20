@@ -20,23 +20,33 @@ module DeviseOtp
       end
 
       #
+      # Displays the QR Code and Validation Token form for enabling the OTP
+      #
+      def edit
+        resource.populate_otp_secrets!
+      end
+
+      #
       # Updates the status of OTP authentication
       #
       def update
-        enabled = params[resource_name][:otp_enabled] == "1"
-        if enabled ? resource.enable_otp! : resource.disable_otp!
+        if resource.valid_otp_token?(params[:confirmation_code])
+          resource.enable_otp!
           otp_set_flash_message :success, :successfully_updated
+          redirect_to action: :show
+        else
+          otp_set_flash_message :danger, :could_not_confirm
+          render :edit
         end
-
-        render :show
       end
 
       #
       # Resets OTP authentication, generates new credentials, sets it to off
       #
       def destroy
-        if resource.reset_otp_credentials!
-          otp_set_flash_message :success, :successfully_reset_creds
+        if resource.disable_otp!
+          resource.clear_otp_fields!
+          otp_set_flash_message :success, :successfully_disabled_otp
         end
 
         redirect_to action: :show

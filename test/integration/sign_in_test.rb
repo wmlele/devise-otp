@@ -17,20 +17,16 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal posts_path, current_path
   end
 
-  test "a new user, just signed in, should be able to sign in and enable their OTP authentication" do
+  test "a new user, just signed in, should be able to see and click the 'Enable Two Factor Authentication' link" do
     user = sign_user_in
 
     visit user_otp_token_path
-    assert !page.has_content?("Your token secret")
+    assert page.has_content?("Disabled")
 
-    check "user_otp_enabled"
-    click_button "Continue..."
+    click_link "Enable Two-Factor Authentication"
 
-    assert_equal user_otp_token_path, current_path
-
-    assert page.has_content?("Your token secret")
-    assert !user.otp_auth_secret.nil?
-    assert !user.otp_persistence_seed.nil?
+    assert page.has_content?("Enable Two-factors Authentication")
+    assert_equal edit_user_otp_token_path, current_path
   end
 
   test "a new user should be able to sign in enable OTP and be prompted for their token" do

@@ -19,6 +19,8 @@ class TokenTest < ActionDispatch::IntegrationTest
     # disable OTP
     disable_otp
 
+    assert page.has_content? "Disabled"
+
     # logout
     sign_out
 

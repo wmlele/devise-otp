@@ -6,42 +6,70 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     new_user
   end
 
-  test "new users have a non-nil secret set" do
-    assert_not_nil User.first.otp_auth_secret
+  test "new users do not have a secret set" do
+    user = User.first
+
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+      assert_nil user.send(field)
+    end
   end
 
   test "new users have OTP disabled by default" do
     assert !User.first.otp_enabled
   end
 
-  test "users should have an instance of TOTP/ROTP objects" do
-    u = User.first
-    assert u.time_based_otp.is_a? ROTP::TOTP
-    assert u.recovery_otp.is_a? ROTP::HOTP
+  test "populating otp secrets should populate all required fields" do
+    user = User.first
+    user.populate_otp_secrets!
+
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+      assert_not_nil user.send(field)
+    end
   end
 
-  test "users should have their otp_auth_secret/persistence_seed set on creation" do
-    assert User.first.otp_auth_secret
-    assert User.first.otp_persistence_seed
+  test "time_based_otp and recover_otp fields should be an instance of TOTP/ROTP objects" do
+    user = User.first
+    user.populate_otp_secrets!
+
+    assert user.time_based_otp.is_a? ROTP::TOTP
+    assert user.recovery_otp.is_a? ROTP::HOTP
   end
 
-  test "reset_otp_credentials should generate new secrets and disable OTP" do
-    u = User.first
-    u.update_attribute(:otp_enabled, true)
-    assert u.otp_enabled
-    otp_auth_secret = u.otp_auth_secret
-    otp_persistence_seed = u.otp_persistence_seed
+  test "clear_otp_fields should clear all otp fields" do
+    user = User.first
+    user.populate_otp_secrets!
 
-    u.reset_otp_credentials!
-    assert !(otp_auth_secret == u.otp_auth_secret)
-    assert !(otp_persistence_seed == u.otp_persistence_seed)
-    assert !u.otp_enabled
+    user.enable_otp!
+    user.generate_otp_challenge!
+    user.update(
+      :otp_failed_attempts => 1,
+      :otp_recovery_counter => 1
+    )
+
+
+    assert user.otp_enabled
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+      assert_not_nil user.send(field)
+    end
+    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+      assert_not user.send(field) == 0
+    end
+
+    user.clear_otp_fields!
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+      assert_nil user.send(field)
+    end
+    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+      assert user.send(field) == 0
+    end
   end
 
   test "reset_otp_persistence should generate new persistence_seed but NOT change the otp_auth_secret" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     assert u.otp_enabled
+
     otp_auth_secret = u.otp_auth_secret
     otp_persistence_seed = u.otp_persistence_seed
 
@@ -53,7 +81,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "generating a challenge, should retrieve the user later" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     challenge = u.generate_otp_challenge!
 
     w = User.find_valid_otp_challenge(challenge)
@@ -63,7 +92,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "expiring the challenge, should retrieve nothing" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     challenge = u.generate_otp_challenge!(1.second)
     sleep(2)
 
@@ -73,7 +103,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "expired challenges should not be valid" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     challenge = u.generate_otp_challenge!(1.second)
     sleep(2)
     assert_equal false, u.otp_challenge_valid?
@@ -81,14 +112,16 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "null otp challenge" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     assert_equal false, u.validate_otp_token("")
     assert_equal false, u.validate_otp_token(nil)
   end
 
   test "generated otp token should be valid for the user" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
 
     secret = u.otp_auth_secret
     token = ROTP::TOTP.new(secret).now
@@ -98,7 +131,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "generated otp token, out of drift window, should be NOT valid for the user" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
 
     secret = u.otp_auth_secret
 
@@ -110,7 +144,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
   test "recovery secrets should be valid, and valid only once" do
     u = User.first
-    u.update_attribute(:otp_enabled, true)
+    u.populate_otp_secrets!
+    u.enable_otp!
     recovery = u.next_otp_recovery_tokens
 
     assert u.valid_otp_recovery_token? recovery.fetch(0)

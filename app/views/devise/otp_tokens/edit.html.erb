@@ -1,0 +1,26 @@
+<h2><%= I18n.t('title', :scope => 'devise.otp.edit_otp_token') %></h2>
+<p><%= I18n.t('explain', :scope => 'devise.otp.edit_otp_token') %></p>
+
+<h2><%= I18n.t('lead_in', :scope => 'devise.otp.edit_otp_token') %></h2>
+
+<p><%= I18n.t('step_1', :scope => 'devise.otp.edit_otp_token') %></p>
+
+<%= otp_authenticator_token_image(resource) %>
+
+<p>
+  <strong><%= I18n.t('manual_provisioning', :scope => 'devise.otp.token_secret') %>:</strong>
+  <code><%= resource.otp_auth_secret %></code>
+</p>
+
+<p><%= I18n.t('step_2', :scope => 'devise.otp.edit_otp_token') %></p>
+
+<%= form_with(:url => [resource_name, :otp_token], :method => :put) do |f| %>
+
+  <p>
+    <%= f.label :confirmation_code, I18n.t('confirmation_code', :scope => 'devise.otp.edit_otp_token') %>
+    <%= f.text_field :confirmation_code %>
+  </p>
+
+  <p><%= f.submit I18n.t('submit', :scope => 'devise.otp.edit_otp_token') %></p>
+
+<% end %>
