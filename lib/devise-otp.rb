@@ -13,8 +13,6 @@ require "devise"
 # define DeviseOtpAuthenticatable module, and autoload hooks and helpers
 #
 module DeviseOtpAuthenticatable
-  autoload :Hooks, "devise_otp_authenticatable/hooks"
-
   module Controllers
     autoload :Helpers, "devise_otp_authenticatable/controllers/helpers"
     autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"
