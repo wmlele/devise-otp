@@ -54,8 +54,6 @@ module Devise
 end
 
 module DeviseOtpAuthenticatable
-  autoload :Hooks, "devise_otp_authenticatable/hooks"
-
   module Controllers
     autoload :Helpers, "devise_otp_authenticatable/controllers/helpers"
     autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"

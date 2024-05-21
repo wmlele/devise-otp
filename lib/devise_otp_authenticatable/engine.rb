@@ -3,11 +3,6 @@ module DeviseOtpAuthenticatable
     config.devise_otp = ActiveSupport::OrderedOptions.new
     config.devise_otp.precompile_assets = true
 
-    # We use to_prepare instead of after_initialize here because Devise is a Rails engine;
-    config.to_prepare do
-      DeviseOtpAuthenticatable::Hooks.apply
-    end
-
     initializer "devise-otp", group: :all do |app|
       ActiveSupport.on_load(:devise_controller) do
         include DeviseOtpAuthenticatable::Controllers::UrlHelpers
