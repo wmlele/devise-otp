@@ -14,23 +14,7 @@ module Devise
           if otp_challenge_required_on?(resource)
             # Redirect to challenge
             challenge = resource.generate_otp_challenge!
-
-            if Rails.env.development?
-              host = "#{request.host}:#{request.port}"
-            else
-              host = "#{request.host}"
-            end
-
-            path_fragments = ["otp", mapping.path_names[:credentials]]
-            if mapping.fullpath == "/"
-              path = mapping.fullpath + path_fragments.join("/")
-            else
-              path = path_fragments.prepend(mapping.fullpath).join("/")
-            end
-
-            url = request.protocol + host + path
-
-            redirect!(url, {:challenge => challenge})
+            redirect!(otp_challenge_url, {:challenge => challenge})
           else
             # Sign in user as usual
             remember_me(resource)
@@ -54,9 +38,24 @@ module Devise
       # resource should be challenged for otp
       #
       def otp_challenge_required_on?(resource)
-        return false unless resource.respond_to?(:otp_enabled) && resource.respond_to?(:otp_auth_secret)
+        resource.respond_to?(:otp_enabled?) && resource.otp_enabled?
+      end
 
-        resource.otp_enabled && !is_otp_trusted_browser_for?(resource)
+      def otp_challenge_url
+        if Rails.env.development?
+          host = "#{request.host}:#{request.port}"
+        else
+          host = "#{request.host}"
+        end
+
+        path_fragments = ["otp", mapping.path_names[:credentials]]
+        if mapping.fullpath == "/"
+          path = mapping.fullpath + path_fragments.join("/")
+        else
+          path = path_fragments.prepend(mapping.fullpath).join("/")
+        end
+
+        request.protocol + host + path
       end
     end
   end
