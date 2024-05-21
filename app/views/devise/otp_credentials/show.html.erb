@@ -3,8 +3,8 @@
 
 <%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_credential], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
-  <%= f.hidden_field :challenge, {:value => @challenge} %>
-  <%= f.hidden_field :recovery, {:value => @recovery} %>
+  <%= hidden_field_tag :challenge, @challenge %>
+  <%= hidden_field_tag :recovery, @recovery %>
 
   <% if @recovery %>
     <p>
