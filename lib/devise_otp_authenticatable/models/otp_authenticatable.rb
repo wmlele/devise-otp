@@ -1,4 +1,5 @@
 require "rotp"
+require 'devise_otp_authenticatable/hooks/refreshable'
 
 module Devise::Models
   module OtpAuthenticatable
