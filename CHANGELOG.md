@@ -5,12 +5,13 @@
 Use dedicated devise hook for refreshing credentials.
 
 Details:
-- Add credentials_refreshed_at field, and uses this for checking whether credential refresh is needed;
-- Remove "refresh_otp_credentials" method from session hook, and set return location via otp_tokens controller;
-- Simplifly needs_credential_refresh? helper 
+- Add dedicated hook and column for refresh_credential functionality;
+- Move/simplify check/redirection to refresh_credentials! helper method;
+- Remove "refresh_otp_credentials" method from session hook (no longer needed);
+- Remove comments regarding cookie/persistence scope (no longer needed);
 
 Breaking Changes:
-- Requires adding the credentials_refreshed_at field to the database
+- Requires adding the credentials_refreshed_at field to the database;
 
 ## UNRELEASED
 
