@@ -1,6 +1,22 @@
 # Changelog
 
-## UNRELEASED
+## UNRELEASED (native_warden_approach)
+
+Utilize native Warden approach for redirecting to OTP credentials form.
+
+Benefits:
+- Eliminates artifical login in the overwritten "create_session";
+- Eliminates the need for getting/resetting the redirect location;
+- Ensures that trackakable fields are only updated after entering OTP credentials (cf. Issue #71)
+
+Changes:
+- Update DeviseAuthenticatable to redirect user (rather than login user) when OTP is enabled;
+- Move "trusted browser" functionality to otp_tokens controller;
+- Unnest "challenge" and "recovery" fields in OTP credentials form;
+- Cleanup variable setters in otp_credentials controller;
+- Delete custom "sessions" hook (no longer needed);
+
+## UNRELEASED (refresh_credentials!)
 
 Use dedicated devise hook for refreshing credentials.
 
