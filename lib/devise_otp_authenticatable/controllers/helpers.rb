@@ -39,8 +39,19 @@ module DeviseOtpAuthenticatable
         end
       end
 
-      # fixme do cookies and persistence need to be scoped? probably
+      # check if the resource needs a credentials refresh, and redirect if needed
+      # this resource.
       #
+      def refresh_credentials!
+        ensure_resource!
+
+        if needs_credentials_refresh?(resource)
+          otp_set_refresh_return_url
+          otp_set_flash_message :notice, :need_to_refresh_credentials
+          redirect_to refresh_otp_credential_path_for(resource)
+        end
+      end
+
       # check if the resource needs a credentials refresh. IE, they need to be asked a password again to access
       # this resource.
       #
