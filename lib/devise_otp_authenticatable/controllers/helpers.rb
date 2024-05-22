@@ -47,8 +47,19 @@ module DeviseOtpAuthenticatable
       def needs_credentials_refresh?(resource)
         return false unless resource.class.otp_credentials_refresh
 
-        (!session[otp_scoped_refresh_property].present? ||
-            (session[otp_scoped_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
+        current_sign_in_stale? and (refreshed_sign_in_blank? or refreshed_sign_in_stale?)
+      end
+
+      def current_sign_in_stale?
+        resource.current_sign_in_at + resource.class.otp_credentials_refresh < DateTime.now
+      end
+
+      def refreshed_sign_in_blank?
+        session[otp_scoped_refresh_property].blank?
+      end
+
+      def refreshed_sign_in_stale?
+        session[otp_scoped_refresh_property] < DateTime.now
       end
 
       #
