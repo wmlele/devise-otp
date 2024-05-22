@@ -12,6 +12,8 @@ class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration
 
       t.string    :otp_session_challenge
       t.datetime  :otp_challenge_expires
+
+      t.datetime  :credentials_refreshed_at
     end
     add_index :<%= table_name %>, :otp_session_challenge,  :unique => true
     add_index :<%= table_name %>, :otp_challenge_expires

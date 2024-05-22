@@ -2,12 +2,15 @@
 
 ## UNRELEASED
 
-Summary: Update the needs_credentials_refresh? method to take utilize current_sign_in_at when available
+Use dedicated devise hook for refreshing credentials.
 
 Details:
-- Update needs_credentials_refresh? method to reference current_sign_in_at when present;
-- Break apart needs_credential_refresh? method, and set return URL within otp_tokens controller for simplicity;
-- Remove 'refresh_otp_credentials_for(resource)' from create_otp_session method (no longer needed);
+- Add credentials_refreshed_at field, and uses this for checking whether credential refresh is needed;
+- Remove "refresh_otp_credentials" method from session hook, and set return location via otp_tokens controller;
+- Simplifly needs_credential_refresh? helper 
+
+Breaking Changes:
+- Requires adding the credentials_refreshed_at field to the database
 
 ## UNRELEASED
 

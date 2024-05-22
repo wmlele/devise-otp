@@ -45,21 +45,9 @@ module DeviseOtpAuthenticatable
       # this resource.
       #
       def needs_credentials_refresh?(resource)
-        return false unless resource.class.otp_credentials_refresh
+        return false unless resource.class.otp_credentials_refresh and resource.respond_to?(:credentials_refreshed_at)
 
-        current_sign_in_stale? and (refreshed_sign_in_blank? or refreshed_sign_in_stale?)
-      end
-
-      def current_sign_in_stale?
-        resource.current_sign_in_at + resource.class.otp_credentials_refresh < DateTime.now
-      end
-
-      def refreshed_sign_in_blank?
-        session[otp_scoped_refresh_property].blank?
-      end
-
-      def refreshed_sign_in_stale?
-        session[otp_scoped_refresh_property] < DateTime.now
+        resource.credentials_refreshed_at.blank? or resource.credentials_refreshed_at + resource.class.otp_credentials_refresh < DateTime.now
       end
 
       #
@@ -67,7 +55,7 @@ module DeviseOtpAuthenticatable
       #
       def otp_refresh_credentials_for(resource)
         return false unless resource.class.otp_credentials_refresh
-        session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
+        resource.update(:credentials_refreshed_at => DateTime.now)
       end
 
       #
