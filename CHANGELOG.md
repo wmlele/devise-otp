@@ -2,6 +2,15 @@
 
 ## UNRELEASED
 
+Summary: Update the needs_credentials_refresh? method to take utilize current_sign_in_at when available
+
+Details:
+- Update needs_credentials_refresh? method to reference current_sign_in_at when present;
+- Break apart needs_credential_refresh? method, and set return URL within otp_tokens controller for simplicity;
+- Remove 'refresh_otp_credentials_for(resource)' from create_otp_session method (no longer needed);
+
+## UNRELEASED
+
 Summary:
 - Require confirmation token before enabling Two Factor Authentication (2FA) to ensure that user has added OTP token properly to their device
 - Update system to populate OTP secrets as needed
