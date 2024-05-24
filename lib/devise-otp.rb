@@ -59,7 +59,16 @@ module DeviseOtpAuthenticatable
   module Controllers
     autoload :Helpers, "devise_otp_authenticatable/controllers/helpers"
     autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"
+    autoload :PublicHelpers, "devise_otp_authenticatable/controllers/public_helpers"
   end
+end
+
+ActiveSupport.on_load(:action_controller) do
+  Devise.mappings.each do |key, mapping|
+    DeviseOtpAuthenticatable::Controllers::PublicHelpers.define_helpers(mapping)
+  end
+
+  include DeviseOtpAuthenticatable::Controllers::PublicHelpers
 end
 
 require "devise_otp_authenticatable/routes"
