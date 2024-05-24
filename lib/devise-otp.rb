@@ -9,6 +9,9 @@ require "active_support/concern"
 
 require "devise"
 
+#
+# define DeviseOtpAuthenticatable module, and autoload hooks and helpers
+#
 module DeviseOtpAuthenticatable
   autoload :Hooks, "devise_otp_authenticatable/hooks"
 
@@ -22,6 +25,9 @@ end
 require "devise_otp_authenticatable/routes"
 require "devise_otp_authenticatable/engine"
 
+#
+# update Devise module with additions needed for DeviseOtpAuthenticatable
+#
 module Devise
   mattr_accessor :otp_mandatory
   @@otp_mandatory = false
@@ -63,7 +69,8 @@ module Devise
   @@otp_controller_path = "devise"
 
   #
-  # add PublicHelpers to helpers class variable to ensure that "define_helpers" is run when adding mapping in Devise gem (lib/devise.rb#541)
+  # add PublicHelpers to helpers class variable to ensure that per-mapping helpers are present.
+  # this integrates with the "define_helpers," which is run when adding each mapping in the Devise gem (lib/devise.rb#541)
   #
   @@helpers << DeviseOtpAuthenticatable::Controllers::PublicHelpers
 
@@ -75,7 +82,9 @@ end
 Devise.add_module :otp_authenticatable,
   controller: :tokens,
   model: "devise_otp_authenticatable/models/otp_authenticatable", route: :otp
-
+#
+# add PublicHelpers after adding Devise module to ensure that per-mapping routes from above are included
+#
 ActiveSupport.on_load(:action_controller) do
   include DeviseOtpAuthenticatable::Controllers::PublicHelpers
 end
