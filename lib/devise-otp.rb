@@ -9,6 +9,19 @@ require "active_support/concern"
 
 require "devise"
 
+module DeviseOtpAuthenticatable
+  autoload :Hooks, "devise_otp_authenticatable/hooks"
+
+  module Controllers
+    autoload :Helpers, "devise_otp_authenticatable/controllers/helpers"
+    autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"
+    autoload :PublicHelpers, "devise_otp_authenticatable/controllers/public_helpers"
+  end
+end
+
+require "devise_otp_authenticatable/routes"
+require "devise_otp_authenticatable/engine"
+
 module Devise
   mattr_accessor :otp_mandatory
   @@otp_mandatory = false
@@ -49,39 +62,20 @@ module Devise
   mattr_accessor :otp_controller_path
   @@otp_controller_path = "devise"
 
+  #
+  # add PublicHelpers to helpers class variable to ensure that "define_helpers" is run when adding mapping in Devise gem (lib/devise.rb#541)
+  #
+  @@helpers << DeviseOtpAuthenticatable::Controllers::PublicHelpers
+
   module Otp
   end
 
-  #
-  # tapping into regenerate_helpers! method, to ensure that Devise mappings are present when generating public helpers
-  #
-  def self.regenerate_helpers!
-    # Existing (Devise)
-    Devise::Controllers::UrlHelpers.remove_helpers!
-    Devise::Controllers::UrlHelpers.generate_helpers!
-
-    # Additions (Devise OTP)
-    DeviseOtpAuthenticatable::Controllers::PublicHelpers.generate_helpers!
-    ActiveSupport.on_load(:action_controller) do
-      include DeviseOtpAuthenticatable::Controllers::PublicHelpers
-    end
-  end
-
 end
-
-module DeviseOtpAuthenticatable
-  autoload :Hooks, "devise_otp_authenticatable/hooks"
-
-  module Controllers
-    autoload :Helpers, "devise_otp_authenticatable/controllers/helpers"
-    autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"
-    autoload :PublicHelpers, "devise_otp_authenticatable/controllers/public_helpers"
-  end
-end
-
-require "devise_otp_authenticatable/routes"
-require "devise_otp_authenticatable/engine"
 
 Devise.add_module :otp_authenticatable,
   controller: :tokens,
   model: "devise_otp_authenticatable/models/otp_authenticatable", route: :otp
+
+ActiveSupport.on_load(:action_controller) do
+  include DeviseOtpAuthenticatable::Controllers::PublicHelpers
+end
