@@ -3,6 +3,12 @@ module DeviseOtpAuthenticatable
     module PublicHelpers
       extend ActiveSupport::Concern
 
+      def self.generate_helpers!
+        Devise.mappings.each do |key, mapping|
+          self.define_helpers(mapping)
+        end
+      end
+
       def self.define_helpers(mapping) #:nodoc:
         mapping = mapping.name
 
