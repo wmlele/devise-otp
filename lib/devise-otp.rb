@@ -24,6 +24,7 @@ end
 
 require "devise_otp_authenticatable/routes"
 require "devise_otp_authenticatable/engine"
+require "devise_otp_authenticatable/hooks/refreshable"
 
 #
 # update Devise module with additions needed for DeviseOtpAuthenticatable
@@ -82,6 +83,7 @@ end
 Devise.add_module :otp_authenticatable,
   controller: :tokens,
   model: "devise_otp_authenticatable/models/otp_authenticatable", route: :otp
+
 #
 # add PublicHelpers after adding Devise module to ensure that per-mapping routes from above are included
 #

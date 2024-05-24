@@ -47,8 +47,8 @@ module DeviseOtpAuthenticatable
       def needs_credentials_refresh?(resource)
         return false unless resource.class.otp_credentials_refresh
 
-        (!session[otp_scoped_refresh_property].present? ||
-            (session[otp_scoped_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
+        (!warden.session[otp_scoped_refresh_property].present? ||
+           (warden.session[otp_scoped_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
       end
 
       #
@@ -56,7 +56,7 @@ module DeviseOtpAuthenticatable
       #
       def otp_refresh_credentials_for(resource)
         return false unless resource.class.otp_credentials_refresh
-        session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
+        warden.session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
       end
 
       #
@@ -85,11 +85,11 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_set_refresh_return_url
-        session[otp_scoped_refresh_return_url_property] = request.fullpath
+        warden.session[otp_scoped_refresh_return_url_property] = request.fullpath
       end
 
       def otp_fetch_refresh_return_url
-        session.delete(otp_scoped_refresh_return_url_property) { :root }
+        warden.session.delete(otp_scoped_refresh_return_url_property) { :root }
       end
 
       def otp_scoped_refresh_return_url_property
@@ -97,7 +97,7 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_scoped_refresh_property
-        "otp_#{resource_name}refresh_after".to_sym
+        :credentials_refreshed_at
       end
 
       def otp_scoped_persistence_cookie
