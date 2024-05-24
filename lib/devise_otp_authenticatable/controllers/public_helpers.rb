@@ -24,6 +24,10 @@ module DeviseOtpAuthenticatable
         end
       end
 
+      def test_method
+        raise "Test method included successfully."
+      end
+
       def otp_mandatory_on?(resource)
         return true if resource.class.otp_mandatory && !resource.otp_enabled
         return false unless resource.respond_to?(:otp_mandatory)
