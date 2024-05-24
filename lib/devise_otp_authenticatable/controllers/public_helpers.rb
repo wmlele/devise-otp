@@ -6,6 +6,12 @@ module DeviseOtpAuthenticatable
       def self.define_helpers(mapping) #:nodoc:
         mapping = mapping.name
 
+        class_eval <<-TEST_METHOD, __FILE__, __LINE__ + 1
+          def test_#{mapping}_method
+            raise "Test method for #{mapping} included successfully."
+          end
+        TEST_METHOD
+
         class_eval <<-METHODS, __FILE__, __LINE__ + 1
           def ensure_mandatory_#{mapping}_otp!
             resource = current_#{mapping}
