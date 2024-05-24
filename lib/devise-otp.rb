@@ -51,6 +51,22 @@ module Devise
 
   module Otp
   end
+
+  # Regenerates url helpers considering Devise.mapping
+  def self.regenerate_helpers!
+    Devise::Controllers::UrlHelpers.remove_helpers!
+    Devise::Controllers::UrlHelpers.generate_helpers!
+
+    ActiveSupport.on_load(:action_controller) do
+      Devise.mappings.each do |key, mapping|
+        DeviseOtpAuthenticatable::Controllers::PublicHelpers.define_helpers(mapping)
+      end
+
+      include DeviseOtpAuthenticatable::Controllers::PublicHelpers
+    end
+
+  end
+
 end
 
 module DeviseOtpAuthenticatable
@@ -61,14 +77,6 @@ module DeviseOtpAuthenticatable
     autoload :UrlHelpers, "devise_otp_authenticatable/controllers/url_helpers"
     autoload :PublicHelpers, "devise_otp_authenticatable/controllers/public_helpers"
   end
-end
-
-ActiveSupport.on_load(:action_controller) do
-  Devise.mappings.each do |key, mapping|
-    DeviseOtpAuthenticatable::Controllers::PublicHelpers.define_helpers(mapping)
-  end
-
-  include DeviseOtpAuthenticatable::Controllers::PublicHelpers
 end
 
 require "devise_otp_authenticatable/routes"

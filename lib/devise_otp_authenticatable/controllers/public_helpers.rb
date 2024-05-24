@@ -22,12 +22,6 @@ module DeviseOtpAuthenticatable
             end
           end
         METHODS
-
-        ActiveSupport.on_load(:action_controller) do
-          if respond_to?(:helper_method)
-            helper_method "ensure_mandatory_#{mapping}_otp!"
-          end
-        end
       end
 
       def test_method
