@@ -14,11 +14,11 @@ module DeviseOtp
         @recovery = (params[:recovery] == "true") && recovery_enabled?
 
         if @challenge.nil?
-          redirect_to :root
+          redirect_to new_session_path(resource_name)
         else
           self.resource = resource_class.find_valid_otp_challenge(@challenge)
           if resource.nil?
-            redirect_to :root
+            redirect_to new_session_path(resource_name)
           elsif @recovery
             @recovery_count = resource.otp_recovery_counter
             render :show
