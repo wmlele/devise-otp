@@ -97,8 +97,8 @@ The install generator adds some options to the end of your Devise config file (`
 ## Mandatory OTP
 Enforcing mandatory OTP requires adding the ensure\_mandatory\_{scope}\_otp! method to the desired controller(s) to ensure that the user is redirected to the Enable Two-Factor Authentication form before proceeding to other parts of the application. This functions the same way as the authenticate\_{scope}! methods, and can be included inline with them in the controllers, e.g.:
 
-    authenticate_user!
-    ensure_mandatory_user_otp!
+    before_action :authenticate_user!
+    before_action :ensure_mandatory_user_otp!
 
 ## Authors
 
