@@ -2,6 +2,17 @@
 
 ## UNRELEASED
 
+Summary: Move mandatory OTP functionality to the helper layer to ensure that it is enforced throughout application (rather than one time at log in).
+
+Details:
+- Add PublicHelpers class, and add to Devise @@helpers variable to generate per-scope ensure\_mandatory\_{scope}\_otp! methods;
+- Update order of module definitions and "require" statements in devise-otp.rb (required for adding DeviseOtpAuthenticable PublicHelpers to Devise @@helpers variable);
+
+Breaking Changes:
+- Requires adding "ensure\_mandatory\_{scope}\_otp! to controllers;
+
+## UNRELEASED
+
 Summary:
 - Require confirmation token before enabling Two Factor Authentication (2FA) to ensure that user has added OTP token properly to their device
 - Update system to populate OTP secrets as needed

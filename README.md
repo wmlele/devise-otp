@@ -94,6 +94,12 @@ The install generator adds some options to the end of your Devise config file (`
 * `config.otp_issuer`: The name of the token issuer, to be added to the provisioning url. Display will vary based on token application. (defaults to the Rails application class)
 * `config.otp_controller_path`: The view path for Devise OTP controllers. The default being 'devise' to match Devise default installation.
 
+## Mandatory OTP
+Enforcing mandatory OTP requires adding the ensure\_mandatory\_{scope}\_otp! method to the desired controller(s) to ensure that the user is redirected to the Enable Two-Factor Authentication form before proceeding to other parts of the application. This functions the same way as the authenticate\_{scope}! methods, and can be included inline with them in the controllers, e.g.:
+
+    before_action :authenticate_user!
+    before_action :ensure_mandatory_user_otp!
+
 ## Authors
 
 The project was originally started by Lele Forzani by forking [devise_google_authenticator](https://github.com/AsteriskLabs/devise_google_authenticator) and still contains some devise_google_authenticator code. It's now maintained by [Josef Strzibny](https://github.com/strzibny/).
