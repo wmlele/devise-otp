@@ -39,7 +39,6 @@ module DeviseOtpAuthenticatable
         end
       end
 
-      # fixme do cookies and persistence need to be scoped? probably
       #
       # check if the resource needs a credentials refresh. IE, they need to be asked a password again to access
       # this resource.
@@ -47,8 +46,8 @@ module DeviseOtpAuthenticatable
       def needs_credentials_refresh?(resource)
         return false unless resource.class.otp_credentials_refresh
 
-        (!session[otp_scoped_refresh_property].present? ||
-            (session[otp_scoped_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
+        (!warden.session[otp_refresh_property].present? ||
+           (warden.session[otp_refresh_property] < DateTime.now)).tap { |need| otp_set_refresh_return_url if need }
       end
 
       #
@@ -56,7 +55,7 @@ module DeviseOtpAuthenticatable
       #
       def otp_refresh_credentials_for(resource)
         return false unless resource.class.otp_credentials_refresh
-        session[otp_scoped_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
+        warden.session[otp_refresh_property] = (Time.now + resource.class.otp_credentials_refresh)
       end
 
       #
@@ -85,19 +84,19 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_set_refresh_return_url
-        session[otp_scoped_refresh_return_url_property] = request.fullpath
+        warden.session[otp_refresh_return_url_property] = request.fullpath
       end
 
       def otp_fetch_refresh_return_url
-        session.delete(otp_scoped_refresh_return_url_property) { :root }
+        warden.session.delete(otp_refresh_return_url_property) { :root }
       end
 
-      def otp_scoped_refresh_return_url_property
-        "otp_#{resource_name}refresh_return_url".to_sym
+      def otp_refresh_return_url_property
+        :refresh_return_url
       end
 
-      def otp_scoped_refresh_property
-        "otp_#{resource_name}refresh_after".to_sym
+      def otp_refresh_property
+        :credentials_refreshed_at
       end
 
       def otp_scoped_persistence_cookie

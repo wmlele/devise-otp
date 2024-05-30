@@ -2,6 +2,15 @@
 
 ## UNRELEASED
 
+Summary: Move refresh\_credentials functionality to dedicated hook (Refreshable);
+
+Details:
+- Add Refreshable hook, and tie into after\_set\_user calback;
+- Utilize native warden session for scoping of credentials\_refreshed\_at and refresh\_return\_url properties;
+- Remove otp\_refresh\_credentials from sessions hook (no longer needed);
+
+## UNRELEASED
+
 Summary: Move mandatory OTP functionality to the helper layer to ensure that it is enforced throughout application (rather than one time at log in).
 
 Details:

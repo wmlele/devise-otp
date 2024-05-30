@@ -16,8 +16,6 @@ module DeviseOtpAuthenticatable::Hooks
       devise_stored_location = stored_location_for(resource) # Grab the current stored location before it gets lost by warden.logout
       store_location_for(resource, devise_stored_location) # Restore it since #stored_location_for removes it
 
-      otp_refresh_credentials_for(resource)
-
       yield resource if block_given?
       if otp_challenge_required_on?(resource)
         challenge = resource.generate_otp_challenge!
