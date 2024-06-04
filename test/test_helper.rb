@@ -14,14 +14,6 @@ Minitest::Reporters.use!
 
 # ActiveSupport::Deprecation.silenced = true
 
-# Configure Capybara JS driver
-Capybara.current_driver = :rack_test
-Capybara.javascript_driver = :rack_test
-
-# Configure Capybara server
-Capybara.run_server = true
-Capybara.server = :puma, {Silent: true}
-
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
 end
