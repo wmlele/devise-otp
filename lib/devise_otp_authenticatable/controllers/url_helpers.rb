@@ -26,6 +26,11 @@ module DeviseOtpAuthenticatable
         send("edit_#{scope}_otp_token_path", opts)
       end
 
+      def reset_otp_token_path_for(resource_or_scope, opts = {})
+        scope = ::Devise::Mapping.find_scope!(resource_or_scope)
+        send("reset_#{scope}_otp_token_path", opts)
+      end
+
       def otp_credential_path_for(resource_or_scope, opts = {})
         scope = ::Devise::Mapping.find_scope!(resource_or_scope)
         send("#{scope}_otp_credential_path", opts)

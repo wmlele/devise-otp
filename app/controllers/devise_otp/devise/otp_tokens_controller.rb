@@ -95,6 +95,15 @@ module DeviseOtp
         end
       end
 
+      def reset
+        if resource.disable_otp!
+          resource.clear_otp_fields!
+          otp_set_flash_message :success, :successfully_reset_otp
+        end
+
+        redirect_to action: :edit
+      end
+
       private
 
       def ensure_credentials_refresh

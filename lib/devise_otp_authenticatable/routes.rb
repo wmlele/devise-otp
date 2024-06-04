@@ -13,6 +13,7 @@ module ActionDispatch::Routing
           end
 
           get :recovery
+          post :reset
         end
 
         resource :credential, only: [:show, :update],
