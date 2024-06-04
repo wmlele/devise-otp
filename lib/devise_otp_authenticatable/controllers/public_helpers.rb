@@ -16,7 +16,7 @@ module DeviseOtpAuthenticatable
           def ensure_mandatory_#{mapping}_otp!
             resource = current_#{mapping}
             if !devise_controller?
-              if otp_mandatory_on?(resource)
+              if mandatory_otp_missing_on?(resource)
                 redirect_to edit_#{mapping}_otp_token_path
               end
             end
@@ -25,10 +25,13 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_mandatory_on?(resource)
-        return true if resource.class.otp_mandatory && !resource.otp_enabled
         return false unless resource.respond_to?(:otp_mandatory)
 
-        resource.otp_mandatory && !resource.otp_enabled
+        resource.class.otp_mandatory or resource.otp_mandatory
+      end
+
+      def mandatory_otp_missing_on?(resource)
+        otp_mandatory_on?(resource) && !resource.otp_enabled
       end
 
     end
