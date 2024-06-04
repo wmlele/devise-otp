@@ -51,13 +51,10 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    enable_chrome_headless_downloads(page, "/tmp/devise-otp")
+    click_link("Download recovery codes")
 
-    DownloadHelper.wait_for_download(count: 1) do
-      click_link("Download recovery codes")
-    end
-
-    assert_equal 1, DownloadHelper.downloads.size
+    assert current_path.match?(/recovery\.text/)
+    assert page.body.match?(user.next_otp_recovery_tokens.values.join("\n"))
   end
 
   test "trusted status should expire" do
