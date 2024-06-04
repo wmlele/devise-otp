@@ -92,11 +92,11 @@ module DeviseOtpAuthenticatable
       end
 
       def otp_refresh_return_url_property
-        :refresh_return_url
+        "refresh_return_url"
       end
 
       def otp_refresh_property
-        :credentials_refreshed_at
+        "credentials_refreshed_at"
       end
 
       def otp_scoped_persistence_cookie
