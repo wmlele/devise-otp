@@ -59,6 +59,11 @@ class ActionDispatch::IntegrationTest
     click_button "Disable Two-Factor Authentication"
   end
 
+  def reset_otp
+    visit user_otp_token_path
+    click_button "Reset Token Secret"
+  end
+
   def sign_out
     logout :user
   end
