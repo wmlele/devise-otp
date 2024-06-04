@@ -5,8 +5,8 @@ en:
         remember: Remember me
       submit_token:
         title: 'Check Token'
-        explain: "You're getting this because you enabled two-factors authentication on your account"
-        prompt: 'Please enter your two-factors authentication token:'
+        explain: "You're getting this because you enabled Two-Factor Authentication on your account"
+        prompt: 'Please enter your Two-Factor Authentication token:'
         recovery_prompt: 'Please enter your recovery code:'
         submit: 'Submit Token'
         recovery_link: "I don't have my device, I want to use a recovery code"
@@ -21,21 +21,21 @@ en:
         explain: 'In order to ensure this is  safe, please enter your password again.'
         go_on: 'Continue...'
         identity: 'Identity:'
-        token: 'Your two-factors authentication token'
+        token: 'Your Two-Factor Authentication token'
       token_secret:
         title: 'Your token secret'
         explain: 'Take a photo of this QR code with your mobile'
         manual_provisioning: 'Manual provisioning code'
       otp_tokens:
-        title: 'Two-factors Authentication:'
+        title: 'Two-Factor Authentication:'
         enable_link: 'Enable Two-Factor Authentication'
         disable_link: 'Disable Two-Factor Authentication'
         reset_link: 'Reset Token Secret'
-        reset_explain: 'Resetting your token secret will temporarilly disable Two-Factor authentication.'
-        reset_explain_warn: 'To re-enable Two-Factor authentication, you will need to re-enroll your mobile device with the new token secret.'
-        successfully_updated: 'Your two-factors authentication settings have been updated.'
+        reset_explain: 'Resetting your token secret will temporarilly disable Two-Factor Authentication.'
+        reset_explain_warn: 'To re-enable Two-Factor Authentication, you will need to re-enroll your mobile device with the new token secret.'
+        successfully_updated: 'Your Two-Factor Authentication settings have been updated.'
         could_not_confirm: 'The Confirmation Code you entered did not match the QR code shown below.'
-        successfully_disabled_otp: 'Two-Factor authentication has been disabled.'
+        successfully_disabled_otp: 'Two-Factor Authentication has been disabled.'
         successfully_reset_otp: 'Your token secret has been reset. Please confirm your new token secret below.'
         successfully_set_persistence: 'Your device is now trusted.'
         successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
@@ -49,8 +49,8 @@ en:
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
       edit_otp_token:
-        title: 'Enable Two-factors Authentication'
-        explain: 'Two factors authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
+        title: 'Enable Two-factor Authentication'
+        explain: 'Two-Factor Authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'
         lead_in: 'To Enable Two-Factor Authentication:'
         step_1: '1. Open your authenticator app and scan the QR code shown below:'
         step_2: '2. Enter the 6-digit code shown in your authenticator app below:'
@@ -58,7 +58,7 @@ en:
         submit: 'Continue...'
       trusted_browsers:
         title: 'Trusted Browsers'
-        explain: 'If you set your browser as trusted, you will not be asked to provide a Two-factor authentication token when logging in from that browser.'
+        explain: 'If you set your browser as trusted, you will not be asked to provide a Two-Factor Authentication token when logging in from that browser.'
         browser_trusted: 'Your browser is trusted.'
         browser_not_trusted: 'Your browser is not trusted.'
         trust_remove: 'Remove this browser from the list of trusted browsers'
