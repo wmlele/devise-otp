@@ -12,11 +12,13 @@ module DeviseOtpAuthenticatable
       ActiveSupport.on_load(:devise_controller) do
         include DeviseOtpAuthenticatable::Controllers::UrlHelpers
         include DeviseOtpAuthenticatable::Controllers::Helpers
+        include DeviseOtpAuthenticatable::Controllers::PublicHelpers
       end
 
       ActiveSupport.on_load(:action_view) do
         include DeviseOtpAuthenticatable::Controllers::UrlHelpers
         include DeviseOtpAuthenticatable::Controllers::Helpers
+        include DeviseOtpAuthenticatable::Controllers::PublicHelpers
       end
 
       # See: https://guides.rubyonrails.org/engines.html#separate-assets-and-precompiling

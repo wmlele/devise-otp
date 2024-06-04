@@ -30,8 +30,6 @@ en:
         title: 'Two-factors Authentication:'
         enable_link: 'Enable Two-Factor Authentication'
         disable_link: 'Disable Two-Factor Authentication'
-        disable_explain: 'This will disable Two-Factor authentication and clear the OTP secret.'
-        disable_explain_warn: 'To re-enable Two-Factor authentication, you will need to enroll your mobile device again.'
         reset_link: 'Reset Token Secret'
         reset_explain: 'Resetting your token secret will temporarilly disable Two-Factor authentication.'
         reset_explain_warn: 'To re-enable Two-Factor authentication, you will need to re-enroll your mobile device with the new token secret.'
