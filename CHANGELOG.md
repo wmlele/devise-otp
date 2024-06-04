@@ -2,6 +2,24 @@
 
 ## UNRELEASED
 
+Summary: Add reset token action, and hide/repurpose disable token action
+
+Details:
+- Add reset token action to disable OTP, reset token secret, and redirect to otp_tokens#edit to re-enable with new token secret;
+- Update disable action to preserve the existing token secret (since the reset action now accomplishes this functionality);
+- Hide disable button when mandatory OTP;
+- Move disable button to bottom of page;
+
+Breaking Changes (config/locales/en.yml):
+- Add:
+  - reset\_link
+  - successfully\_reset\_otp
+- Move/Update
+  - disable\_explain > reset\_explain
+  - disable\_explain\_warn > reset\_explain\_warn
+
+## UNRELEASED
+
 Fix regression due to warden session scope usage
 
 Details:
