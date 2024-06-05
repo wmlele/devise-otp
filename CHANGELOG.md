@@ -2,6 +2,15 @@
 
 ## UNRELEASED
 
+Fix regression due to warden session scope usage
+
+Details:
+- Correct warden session usage for refresh\_credentials hook and helper methods (requires scope to be specified)
+- Add Admin model and AdminPosts controller to dummy app for testing;
+- Add tests to confirm resolution;
+
+## UNRELEASED
+
 Summary: Move refresh\_credentials functionality to dedicated hook (Refreshable);
 
 Details:
