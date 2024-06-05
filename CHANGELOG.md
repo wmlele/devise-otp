@@ -7,7 +7,7 @@ Utilize native Warden redirect for redirecting to OTP credentials form.
 Changes:
 - Update DeviseAuthenticatable to redirect user (rather than login user) when OTP is enabled;
 - Move "trusted browser" functionality to otp\_tokens controller;
-- Unnest "challenge" and "recovery" fields in OTP credentials form;
+- Unnest "challenge", "recovery", and token fields in OTP credentials form;
 - Cleanup variable setters in otp\_credentials controller;
 - Delete custom "sessions" hook (no longer needed);
 
