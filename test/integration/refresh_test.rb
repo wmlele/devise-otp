@@ -81,7 +81,13 @@ class RefreshTest < ActionDispatch::IntegrationTest
     admin.populate_otp_secrets!
     admin.enable_otp!
 
-    sign_user_in(admin)
+    visit new_admin_session_path
+    fill_in "admin_email", with: admin.email
+    fill_in "admin_password", with: admin.password
+
+    page.has_content?("Log in") ? click_button("Log in") : click_button("Sign in")
+
+    assert_equal admin_otp_credential_path, current_path
 
     fill_in "admin_token", with: ROTP::TOTP.new(admin.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
