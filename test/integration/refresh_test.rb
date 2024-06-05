@@ -89,7 +89,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     assert_equal admin_otp_credential_path, current_path
 
-    fill_in "admin_token", with: ROTP::TOTP.new(admin.otp_auth_secret).at(Time.now)
+    fill_in "token", with: ROTP::TOTP.new(admin.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
     assert_equal "/", current_path
 

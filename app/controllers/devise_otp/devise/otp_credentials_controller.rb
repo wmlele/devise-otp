@@ -8,6 +8,7 @@ module DeviseOtp
       before_action :set_challenge, only: [:show, :update]
       before_action :set_recovery, only: [:show, :update]
       before_action :set_resource, only: [:show, :update]
+      before_action :set_token, only: [:update]
       before_action :skip_challenge_if_trusted_browser, only: [:show, :update]
 
       #
@@ -25,12 +26,10 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        token = params[resource_name][:token]
-
-        if token.blank?
+        if @token.blank?
           otp_set_flash_message(:alert, :token_blank)
           redirect_to otp_credential_path_for(resource_name, challenge: @challenge, recovery: @recovery)
-        elsif resource.otp_challenge_valid? && resource.validate_otp_token(params[resource_name][:token], @recovery)
+        elsif resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
@@ -84,6 +83,10 @@ module DeviseOtp
           otp_set_flash_message(:alert, :otp_session_invalid)
           redirect_to new_session_path(resource_name)
         end
+      end
+
+      def set_token
+        @token = params[:token]
       end
 
       def skip_challenge_if_trusted_browser

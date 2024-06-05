@@ -38,7 +38,7 @@ class TrackableTest < ActionDispatch::IntegrationTest
     assert_equal @sign_in_count, @user.sign_in_count
     assert_equal @current_sign_in_at, @user.current_sign_in_at
 
-    fill_in "user_token", with: ROTP::TOTP.new(@user.otp_auth_secret).at(Time.now)
+    fill_in "token", with: ROTP::TOTP.new(@user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
 
     @user.reload
