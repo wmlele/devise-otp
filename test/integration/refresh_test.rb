@@ -5,10 +5,12 @@ class RefreshTest < ActionDispatch::IntegrationTest
   def setup
     @old_refresh = User.otp_credentials_refresh
     User.otp_credentials_refresh = 1.second
+    Admin.otp_credentials_refresh = 1.second
   end
 
   def teardown
     User.otp_credentials_refresh = @old_refresh
+    Admin.otp_credentials_refresh = @old_refresh
     Capybara.reset_sessions!
   end
 
@@ -72,4 +74,30 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     assert_equal user_otp_token_path, current_path
   end
+
+  test "works for non-default warden scopes" do
+    admin = create_full_admin
+
+    admin.populate_otp_secrets!
+    admin.enable_otp!
+
+    sign_user_in(admin)
+
+    puts page.body
+
+    fill_in "admin_token", with: ROTP::TOTP.new(admin.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
+    assert_equal "/", current_path
+
+    sleep(2)
+
+    visit admin_otp_token_path
+    assert_equal refresh_admin_otp_credential_path, current_path
+
+    fill_in "admin_refresh_password", with: "12345678"
+    click_button "Continue..."
+
+    assert_equal admin_otp_token_path, current_path
+  end
+
 end
