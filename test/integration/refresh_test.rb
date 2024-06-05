@@ -83,8 +83,6 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     sign_user_in(admin)
 
-    puts page.body
-
     fill_in "admin_token", with: ROTP::TOTP.new(admin.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
     assert_equal "/", current_path

@@ -5,5 +5,5 @@ Dummy::Application.routes.draw do
   resources :posts
   resources :admin_posts
 
-  root to: "posts#index"
+  root to: "base#home"
 end
