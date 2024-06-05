@@ -16,6 +16,17 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def create_full_admin
+    @admin ||= begin
+      admin = Admin.create!(
+        email: "admin@email.invalid",
+        password: "12345678",
+        password_confirmation: "12345678"
+      )
+      admin
+    end
+  end
+
   def enable_otp_and_sign_in_with_otp
     enable_otp_and_sign_in.tap do |user|
       fill_in "user_token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
@@ -62,4 +73,5 @@ class ActionDispatch::IntegrationTest
     page.has_content?("Log in") ? click_button("Log in") : click_button("Sign in")
     user
   end
+
 end
