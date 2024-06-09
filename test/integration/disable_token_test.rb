@@ -9,7 +9,7 @@ class DisableTokenTest < ActionDispatch::IntegrationTest
     assert_equal user_otp_credential_path, current_path
 
     # otp 2fa
-    fill_in "user_token", with: ROTP::TOTP.new(@user.otp_auth_secret).at(Time.now)
+    fill_in "token", with: ROTP::TOTP.new(@user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
     assert_equal root_path, current_path
   end

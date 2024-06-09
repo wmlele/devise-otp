@@ -3,21 +3,21 @@
 
 <%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_credential], :html => { :method => :put, "data-turbo" => false }) do |f| %>
 
-  <%= f.hidden_field :challenge, {:value => @challenge} %>
-  <%= f.hidden_field :recovery, {:value => @recovery} %>
+  <%= hidden_field_tag :challenge, @challenge %>
+  <%= hidden_field_tag :recovery, @recovery %>
 
   <% if @recovery %>
     <p>
-      <%= f.label :token, I18n.t('recovery_prompt', :scope => 'devise.otp.submit_token') %><br />
-      <%= f.text_field :otp_recovery_counter, :autocomplete => :off, :disabled => true, :size => 4 %>
+      <%= label_tag :token, I18n.t('recovery_prompt', :scope => 'devise.otp.submit_token') %><br />
+      <%= text_field_tag :otp_recovery_counter, resource.otp_recovery_counter, :autocomplete => :off, :disabled => true, :size => 4 %>
     </p>
   <% else %>
     <p>
-      <%= f.label :token, I18n.t('prompt', :scope => 'devise.otp.submit_token') %><br />
+      <%= label_tag :token, I18n.t('prompt', :scope => 'devise.otp.submit_token') %><br />
     </p>
   <% end %>
 
-  <%= f.text_field :token, :autocomplete => :off, :autofocus => true, :size => 6, :value => '' %><br>
+  <%= text_field_tag :token, nil, :autocomplete => :off, :autofocus => true, :size => 6 %><br>
 
   <%= label_tag :enable_persistence do %>
     <%= check_box_tag :enable_persistence, true, false %> <%= I18n.t('remember', :scope => 'devise.otp.general') %>
