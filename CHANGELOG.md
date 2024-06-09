@@ -2,6 +2,10 @@
 
 ## UNRELEASED
 
+Update spelling and capitalization of Two-Factor Authentication for consistency;
+
+## UNRELEASED
+
 Utilize native Warden redirect for redirecting to OTP credentials form.
 
 Changes:

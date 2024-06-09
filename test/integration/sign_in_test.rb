@@ -17,7 +17,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal posts_path, current_path
   end
 
-  test "a new user, just signed in, should be able to see and click the 'Enable Two Factor Authentication' link" do
+  test "a new user, just signed in, should be able to see and click the 'Enable Two-Factor Authentication' link" do
     user = sign_user_in
 
     visit user_otp_token_path
@@ -25,7 +25,7 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     click_link "Enable Two-Factor Authentication"
 
-    assert page.has_content?("Enable Two-factors Authentication")
+    assert page.has_content?("Enable Two-Factor Authentication")
     assert_equal edit_user_otp_token_path, current_path
   end
 

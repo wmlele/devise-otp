@@ -1,6 +1,6 @@
 # Devise::OTP
 
-Devise OTP is a two-factors authentication extension for Devise. The second factor is done using an [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238) Time-Based One-Time Password (TOTP) implemented by the [rotp library](https://github.com/mdp/rotp).
+Devise OTP is a Two-Factor Authentication extension for Devise. The second factor is done using an [RFC 6238](https://datatracker.ietf.org/doc/html/rfc6238) Time-Based One-Time Password (TOTP) implemented by the [rotp library](https://github.com/mdp/rotp).
 
 It has the following features:
 
@@ -19,7 +19,7 @@ Device OTP was recently updated to work with Rails 7 and Turbo.
 
 Devise::OTP development is sponsored by [Business Class](https://businessclasskit.com/) Rails SaaS starter kit. If you don't want to setup OTP yourself for your new project, consider starting one on Business Class.
 
-## Two-factors authentication using OTP
+## Two-Factor Authentication using OTP
 
 * A shared secret is generated on the server, and stored both on the token device (e.g. the phone) and the server itself.
 * The secret is used to generate short numerical tokens that are either time or sequence based.
