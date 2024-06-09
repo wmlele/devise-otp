@@ -5,6 +5,10 @@
 <%- if resource.otp_enabled? %>
   <%= render :partial => 'token_secret' if resource.otp_enabled? %>
   <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
+
+  <% unless otp_mandatory_on?(resource) %>
+    <%= button_to I18n.t('disable_link', :scope => 'devise.otp.otp_tokens'), @resource, :method => :delete, :data => { "turbo-method": "DELETE" } %>
+  <% end %>
 <% else %>
   <%= link_to I18n.t('enable_link', :scope => 'devise.otp.otp_tokens'), edit_otp_token_path_for(resource) %>
 <% end %>

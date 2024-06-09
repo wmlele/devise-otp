@@ -45,7 +45,6 @@ module DeviseOtp
       #
       def destroy
         if resource.disable_otp!
-          resource.clear_otp_fields!
           otp_set_flash_message :success, :successfully_disabled_otp
         end
 
@@ -93,6 +92,15 @@ module DeviseOtp
             send_data render_to_string(template: "#{controller_path}/recovery_codes"), filename: "otp-recovery-codes.txt", format: "text"
           end
         end
+      end
+
+      def reset
+        if resource.disable_otp!
+          resource.clear_otp_fields!
+          otp_set_flash_message :success, :successfully_reset_otp
+        end
+
+        redirect_to action: :edit
       end
 
       private
