@@ -37,7 +37,7 @@ module DeviseOtp
           respond_with resource, location: after_sign_in_path_for(resource)
         else
           otp_set_flash_message :alert, :token_invalid
-          redirect_to new_session_path(resource_name)
+          render :show
         end
       end
 

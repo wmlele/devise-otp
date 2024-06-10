@@ -42,7 +42,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     fill_in "token", with: "123456"
     click_button "Submit Token"
 
-    assert_equal new_user_session_path, current_path
+    assert_equal user_otp_credential_path, current_path
   end
 
   test "fail blank token authentication" do
