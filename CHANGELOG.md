@@ -1,85 +1,29 @@
 # Changelog
 
-## UNRELEASED
+## 0.7.0
 
-Update spelling and capitalization of Two-Factor Authentication for consistency;
+Breaking changes:
 
-## UNRELEASED
-
-Utilize native Warden redirect for redirecting to OTP credentials form.
-
-Changes:
-- Update DeviseAuthenticatable to redirect user (rather than login user) when OTP is enabled;
-- Move "trusted browser" functionality to otp\_tokens controller;
-- Unnest "challenge", "recovery", and token fields in OTP credentials form;
-- Cleanup variable setters in otp\_credentials controller;
-- Delete custom "sessions" hook (no longer needed);
-
-## UNRELEASED
-
-Summary: Add reset token action, and hide/repurpose disable token action
-
-Details:
-- Add reset token action to disable OTP, reset token secret, and redirect to otp_tokens#edit to re-enable with new token secret;
-- Update disable action to preserve the existing token secret (since the reset action now accomplishes this functionality);
-- Hide disable button when mandatory OTP;
-- Move disable button to bottom of page;
-
-Breaking Changes (config/locales/en.yml):
-- Add:
-  - reset\_link
-  - successfully\_reset\_otp
-- Move/Update
-  - disable\_explain > reset\_explain
-  - disable\_explain\_warn > reset\_explain\_warn
-
-## UNRELEASED
-
-Fix regression due to warden session scope usage
-
-Details:
-- Correct warden session usage for refresh\_credentials hook and helper methods (requires scope to be specified)
-- Add Admin model and AdminPosts controller to dummy app for testing;
-- Add tests to confirm resolution;
-
-## UNRELEASED
-
-Summary: Move refresh\_credentials functionality to dedicated hook (Refreshable);
-
-Details:
-- Add Refreshable hook, and tie into after\_set\_user calback;
-- Utilize native warden session for scoping of credentials\_refreshed\_at and refresh\_return\_url properties;
-- Remove otp\_refresh\_credentials from sessions hook (no longer needed);
-
-## UNRELEASED
-
-Summary: Move mandatory OTP functionality to the helper layer to ensure that it is enforced throughout application (rather than one time at log in).
-
-Details:
-- Add PublicHelpers class, and add to Devise @@helpers variable to generate per-scope ensure\_mandatory\_{scope}\_otp! methods;
-- Update order of module definitions and "require" statements in devise-otp.rb (required for adding DeviseOtpAuthenticable PublicHelpers to Devise @@helpers variable);
-
-Breaking Changes:
-- Requires adding "ensure\_mandatory\_{scope}\_otp! to controllers;
-
-## UNRELEASED
-
-Summary:
 - Require confirmation token before enabling Two Factor Authentication (2FA) to ensure that user has added OTP token properly to their device
-- Update system to populate OTP secrets as needed
-
-Details:
-- Add "edit" action with Confirmation Token for enabling 2FA to otp_tokens controller
-- Make enabling of 2FA in update action conditional on valid Confirmation Token
-- Repurpose "show" view for display of OTP status and info (no form)
-
+- Update DeviseAuthenticatable to redirect user (rather than login user) when OTP is enabled
+- Remove OtpAuthenticatable callbacks for setting OTP credentials on create action (no longer needed)
+- Replace OtpAuthenticatable "reset_otp_credentials" methods with "clear_otp_fields!" method
 - Update otp_tokens#edit to populate OTP secrets (rather than assuming they are populated via callbacks in OTPDeviseAuthenticatable module)
 - Repurpose otp_tokens#destroy to disable 2FA and clear OTP secrets (rather than resetting them)
+- Add reset token action and hide/repurpose disable token action
+- Update disable action to preserve the existing token secret
+- Hide button for mandatory OTP
+- Add Refreshable hook, and tie into after\_set\_user calback
+- Utilize native warden session for scoping of credentials\_refreshed\_at and refresh\_return\_url properties
+- Require adding "ensure\_mandatory\_{scope}\_otp! to controllers for mandatory OTP
+- Update locales to support the new workflow
 
-- Remove OtpAuthenticatable callbacks for setting OTP credentials on create action (no longer needed)
-- Replace OtpAuthenticatable "reset_otp_credentials" methods with "clear_otp_fields!" method;
+### Upgrading
 
-Changes to Locales:
+Regenerate your views with `rails g devise_otp:views` and update locales.
+
+Changes to locales:
+
 - Remove:
   - otp_tokens.enable_request
   - otp_tokens.status
@@ -101,18 +45,16 @@ Changes to Locales:
 - Add devise.otp.otp_tokens.could_not_confirm
 - Rename "successfully_reset_creds" to "successfully_disabled_otp"
 
-## 0.4.0
+You can grab the full locale file [here](https://github.com/wmlele/devise-otp/blob/master/config/locales/en.yml).
 
-Breaking changes:
+## 0.6.0
 
-- rename `Devise::Otp` to `Devise::OTP`
-- change `credentials` directory to `otp_credentials`
-- change `tokens` directory to `otp_tokens`
+Improvements:
 
-Other improvements:
+- support rails 6.1 by @cotcomsol in #67
 
-- Fix file permissions
+Fixes:
 
-## 0.3.0
+- mandatory otp fix by @cotcomsol in #68
+- remove success message by @strzibny in #69
 
-A long awaited update bringing Devise::OTP from the dead!
