@@ -42,7 +42,7 @@ module Devise
       end
 
       def otp_challenge_url
-        if Rails.env.development?
+        if Rails.env.development? || Rails.env.test?
           host = "#{request.host}:#{request.port}"
         else
           host = "#{request.host}"
