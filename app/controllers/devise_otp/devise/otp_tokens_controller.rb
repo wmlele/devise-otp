@@ -33,7 +33,7 @@ module DeviseOtp
         if resource.valid_otp_token?(params[:confirmation_code])
           resource.enable_otp!
           otp_set_flash_message :success, :successfully_updated
-          redirect_to action: :show
+          redirect_to otp_token_path_for(resource)
         else
           otp_set_flash_message :danger, :could_not_confirm
           render :edit
@@ -48,7 +48,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_disabled_otp
         end
 
-        redirect_to action: :show
+        redirect_to otp_token_path_for(resource)
       end
 
       #
@@ -59,7 +59,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_set_persistence
         end
 
-        redirect_to action: :show
+        redirect_to otp_token_path_for(resource)
       end
 
       #
@@ -70,7 +70,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_cleared_persistence
         end
 
-        redirect_to action: :show
+        redirect_to otp_token_path_for(resource)
       end
 
       #
@@ -81,7 +81,7 @@ module DeviseOtp
           otp_set_flash_message :notice, :successfully_reset_persistence
         end
 
-        redirect_to action: :show
+        redirect_to otp_token_path_for(resource)
       end
 
       def recovery
@@ -100,7 +100,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_reset_otp
         end
 
-        redirect_to action: :edit
+        redirect_to edit_otp_token_path_for(resource)
       end
 
       private
