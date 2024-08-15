@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Upgrade gemspec to support Rails v7.2
+
 ## 0.7.0
 
 Breaking changes:
@@ -57,4 +61,3 @@ Fixes:
 
 - mandatory otp fix by @cotcomsol in #68
 - remove success message by @strzibny in #69
-
