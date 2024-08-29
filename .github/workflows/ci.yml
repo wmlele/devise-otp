@@ -7,7 +7,7 @@ on:
 
 jobs:
   rspec:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -16,17 +16,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-
-      - name: Bundle
-        run: |
-          gem install bundler
-          bundle install --jobs 4 --retry 3
+          bundler-cache: true
 
       - name: Run tests
         env:
