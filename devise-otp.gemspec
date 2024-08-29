@@ -14,16 +14,7 @@ Gem::Specification.new do |gem|
   gem.files = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency "rails", ">= 7.0", "< 8.0"
-  gem.add_runtime_dependency "devise", ">= 4.8.0", "< 5.0"
-  gem.add_runtime_dependency "rotp", ">= 2.0.0"
-
-  gem.add_development_dependency "capybara"
-  gem.add_development_dependency "minitest-reporters", ">= 0.5.0"
-  gem.add_development_dependency "puma"
-  gem.add_development_dependency "rdoc"
-  gem.add_development_dependency "shoulda"
-  gem.add_development_dependency "sprockets-rails"
-  gem.add_development_dependency "sqlite3", "~> 1.4"
-  gem.add_development_dependency "standardrb"
+  gem.add_dependency "rails", ">= 7.0", "< 8.0"
+  gem.add_dependency "devise", ">= 4.8.0", "< 5.0"
+  gem.add_dependency "rotp", ">= 2.0.0"
 end
