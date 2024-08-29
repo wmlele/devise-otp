@@ -27,4 +27,4 @@ jobs:
       - name: Run tests
         env:
           DEVISE_ORM: active_record
-        run: rake test
+        run: bundle exec rake test

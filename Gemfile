@@ -6,6 +6,7 @@ gemspec
 gem "capybara"
 gem "minitest-reporters", ">= 0.5.0"
 gem "puma"
+gem "rake"
 gem "rdoc"
 gem "shoulda"
 gem "sprockets-rails"
