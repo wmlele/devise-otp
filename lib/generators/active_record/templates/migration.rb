@@ -1,4 +1,4 @@
-class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration
+class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration[7.0]
   def self.up
     change_table :<%= table_name %> do |t|
       t.string    :otp_auth_secret
