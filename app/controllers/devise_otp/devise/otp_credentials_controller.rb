@@ -36,7 +36,7 @@ module DeviseOtp
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
-          otp_set_flash_message :alert, :token_invalid
+          otp_set_flash_message :alert, :token_invalid, :now => true
           render :show
         end
       end
