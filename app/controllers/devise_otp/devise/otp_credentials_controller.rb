@@ -26,17 +26,15 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        if @token.blank?
-          otp_set_flash_message(:alert, :token_blank)
-          redirect_to otp_credential_path_for(resource_name, challenge: @challenge, recovery: @recovery)
-        elsif resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+        if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
-          otp_set_flash_message :alert, :token_invalid, :now => true
+          kind = (@token.blank? ? :token_blank : :token_invalid)
+          otp_set_flash_message :alert, kind, :now => true
           render :show
         end
       end
