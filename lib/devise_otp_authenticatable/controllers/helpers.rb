@@ -16,7 +16,14 @@ module DeviseOtpAuthenticatable
         options[:resource_name] = resource_name
         options = devise_i18n_options(options) if respond_to?(:devise_i18n_options, true)
         message = I18n.t("#{options[:resource_name]}.#{kind}", **options)
-        flash[key] = message if message.present?
+
+        if message.present?
+          if options[:now]
+            flash.now[key] = message
+          else
+            flash[key] = message
+          end
+        end
       end
 
       def otp_t
