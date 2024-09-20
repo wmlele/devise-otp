@@ -123,7 +123,7 @@ module DeviseOtpAuthenticatable
       def otp_authenticator_token_image(resource)
         content_tag(:div, class: "qrcode-container") do
           content_tag(:div, id: "qrcode", class: "qrcode") do
-            raw RQRCode::QRCode.new(resource.otp_provisioning_uri).as_svg(:module_size => 5)
+            raw RQRCode::QRCode.new(resource.otp_provisioning_uri).as_svg(:module_size => 5, :use_path => true)
           end
         end
       end
