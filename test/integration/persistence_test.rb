@@ -36,6 +36,9 @@ class PersistenceTest < ActionDispatch::IntegrationTest
 
     click_link("Trust this browser")
     assert_text "Your browser is trusted."
+    within "#alerts" do
+      assert page.has_content? 'Your device is now trusted.'
+    end
     sign_out
 
     sign_user_in

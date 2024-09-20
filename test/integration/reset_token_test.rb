@@ -23,6 +23,9 @@ class ResetTokenTest < ActionDispatch::IntegrationTest
     reset_otp
 
     assert_equal "/users/otp/token/edit", current_path
+    within "#alerts" do
+      assert page.has_content? 'Your token secret has been reset. Please confirm your new token secret below.'
+    end
   end
 
   test "generates new token secrets" do

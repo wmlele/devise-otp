@@ -60,6 +60,9 @@ class RefreshTest < ActionDispatch::IntegrationTest
     fill_in "user_refresh_password", with: "12345670"
     click_button "Continue..."
     assert_equal refresh_user_otp_credential_path, current_path
+    within "#alerts" do
+      assert page.has_content? 'Sorry, you provided the wrong credentials.'
+    end
   end
 
   test "user should be finally be able to access their settings, and just password is enough" do
