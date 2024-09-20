@@ -45,6 +45,11 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
     within "#alerts" do
       assert page.has_content? 'The Confirmation Code you entered did not match the QR code shown below.'
     end
+
+    visit "/"
+    within "#alerts" do
+      assert !page.has_content?('The Confirmation Code you entered did not match the QR code shown below.')
+    end
   end
 
   test "a user should not be able enable their OTP authentication with a blank confirmation code" do
