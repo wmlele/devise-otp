@@ -58,6 +58,12 @@ Don't forget to migrate:
 
     rake db:migrate
 
+### Default CSS
+
+To use the default CSS for devise-otp, just require the devise-otp.css file as usual in your application.css file (or equivalent):
+
+    *= require devise-otp
+
 ### Custom views
 
 If you want to customise your views, you can use the following generator to eject the default view files:
