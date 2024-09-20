@@ -1,3 +1,5 @@
+require "rqrcode"
+
 module DeviseOtpAuthenticatable
   module Controllers
     module Helpers
@@ -119,33 +121,13 @@ module DeviseOtpAuthenticatable
       # returns the URL for the QR Code to initialize the Authenticator device
       #
       def otp_authenticator_token_image(resource)
-        otp_authenticator_token_image_js(resource.otp_provisioning_uri)
-      end
-
-      private
-
-      def otp_authenticator_token_image_js(otp_url)
         content_tag(:div, class: "qrcode-container") do
           content_tag(:div, id: "qrcode", class: "qrcode") do
-            javascript_tag(%[
-              new QRCode("qrcode", {
-                text: "#{otp_url}",
-                width: 256,
-                height: 256,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.H
-              });
-            ])
+            raw RQRCode::QRCode.new(resource.otp_provisioning_uri).as_svg(:module_size => 5)
           end
         end
       end
 
-      def otp_authenticator_token_image_google(otp_url)
-        otp_url = Rack::Utils.escape(otp_url)
-        url = "https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=#{otp_url}"
-        image_tag(url, alt: "OTP Url QRCode")
-      end
     end
   end
 end
