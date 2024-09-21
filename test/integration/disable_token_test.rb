@@ -23,6 +23,9 @@ class DisableTokenTest < ActionDispatch::IntegrationTest
     disable_otp
 
     assert page.has_content? "Disabled"
+    within "#alerts" do
+      assert page.has_content? 'Two-Factor Authentication has been disabled.'
+    end
 
     # logout
     sign_out

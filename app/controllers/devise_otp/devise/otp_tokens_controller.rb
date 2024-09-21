@@ -35,7 +35,7 @@ module DeviseOtp
           otp_set_flash_message :success, :successfully_updated
           redirect_to otp_token_path_for(resource)
         else
-          otp_set_flash_message :danger, :could_not_confirm
+          otp_set_flash_message :danger, :could_not_confirm, :now => true
           render :edit
         end
       end

@@ -20,6 +20,10 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
     assert_equal user_otp_token_path, current_path
     assert page.has_content?("Enabled")
 
+    within "#alerts" do
+      assert page.has_content? 'Your Two-Factor Authentication settings have been updated.'
+    end
+
     user.reload
     assert user.otp_enabled?
   end
@@ -37,6 +41,15 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     user.reload
     assert_not user.otp_enabled?
+
+    within "#alerts" do
+      assert page.has_content? 'The Confirmation Code you entered did not match the QR code shown below.'
+    end
+
+    visit "/"
+    within "#alerts" do
+      assert !page.has_content?('The Confirmation Code you entered did not match the QR code shown below.')
+    end
   end
 
   test "a user should not be able enable their OTP authentication with a blank confirmation code" do
@@ -49,6 +62,10 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
     click_button "Continue..."
 
     assert page.has_content?("To Enable Two-Factor Authentication")
+
+    within "#alerts" do
+      assert page.has_content? 'The Confirmation Code you entered did not match the QR code shown below.'
+    end
 
     user.reload
     assert_not user.otp_enabled?
