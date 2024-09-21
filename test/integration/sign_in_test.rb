@@ -43,6 +43,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     click_button "Submit Token"
 
     assert_equal user_otp_credential_path, current_path
+    assert page.has_content? "The token you provided was invalid."
   end
 
   test "fail blank token authentication" do
@@ -53,6 +54,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     click_button "Submit Token"
 
     assert_equal user_otp_credential_path, current_path
+    assert page.has_content? "You need to type in the token you generated with your device."
   end
 
   test "successful token authentication" do
@@ -77,5 +79,33 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     User.otp_authentication_timeout = old_timeout
     assert_equal new_user_session_path, current_path
+  end
+
+  test "blank token flash message does not persist to successful authentication redirect." do
+    user = enable_otp_and_sign_in
+
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+
+    assert page.has_content?("The token you provided was invalid.")
+
+    fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
+
+    assert !page.has_content?("The token you provided was invalid.")
+  end
+
+  test "invalid token flash message does not persist to successful authentication redirect." do
+    user = enable_otp_and_sign_in
+
+    fill_in "token", with: ""
+    click_button "Submit Token"
+
+    assert page.has_content?("You need to type in the token you generated with your device.")
+
+    fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
+
+    assert !page.has_content?("You need to type in the token you generated with your device.")
   end
 end
