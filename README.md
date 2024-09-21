@@ -58,10 +58,11 @@ Don't forget to migrate:
 
     rake db:migrate
 
-Add the gem's JavaScript to you `application.js`:
+### Default CSS
 
-    //= require devise-otp
+To use the default CSS for devise-otp, just require the devise-otp.css file as usual in your application.css file (or equivalent):
 
+    *= require devise-otp
 
 ### Custom views
 
@@ -77,9 +78,7 @@ The install generator also installs an english copy of a Devise OTP i18n file. T
 
 ### QR codes
 
-By default, Devise OTP assumes that you use [Sprockets](https://github.com/rails/sprockets) to render assets and so will use the ([qrcode.js](/app/assets/javascripts/qrcode.js)) embeded library to render the QR code.
-
-If you need something more, have a look at [QR codes](/docs/QR_CODES.md) documentation file.
+Devise OTP generates QR Codes directly as SVG's via the [rqrcode](https://github.com/whomwah/rqrcode), so there are no JavaScript (or Sprockets) dependencies.
 
 ## Configuration
 
