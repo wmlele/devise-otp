@@ -14,7 +14,6 @@ en:
         otp_session_invalid: Session invalid. Please start again.
         token_invalid: 'The token you provided was invalid.'
         token_blank: 'You need to type in the token you generated with your device.'
-        need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
         valid_refresh: 'Thank you, your credentials were accepted.'
         invalid_refresh: 'Sorry, you provided the wrong credentials.'
       credentials_refresh:
@@ -41,7 +40,6 @@ en:
         successfully_set_persistence: 'Your device is now trusted.'
         successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
         successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
-        need_to_refresh_credentials: 'We need to check your credentials before you can change these settings.'
         recovery:
           title: 'Your Emergency Recovery Codes'
           explain: 'Take note or print these recovery codes. The will allow you to log back in in case your token device is lost, stolen, or unavailable.'
