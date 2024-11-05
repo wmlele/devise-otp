@@ -109,7 +109,6 @@ module DeviseOtp
         ensure_resource!
 
         if needs_credentials_refresh?(resource)
-          otp_set_flash_message :notice, :need_to_refresh_credentials
           redirect_to refresh_otp_credential_path_for(resource)
         end
       end
