@@ -13,7 +13,7 @@ Some of the compatible token devices are:
 * [Google Authenticator](https://code.google.com/p/google-authenticator/)
 * [FreeOTP](https://fedorahosted.org/freeotp/)
 
-Device OTP was recently updated to work with Rails 7 and Turbo.
+Device OTP was recently updated to work with Rails 7+ and Turbo.
 
 ## Sponsor
 
@@ -64,6 +64,8 @@ To use the default CSS for devise-otp, just require the devise-otp.css file as u
 
     *= require devise-otp
 
+It might be even easier to just copy the styles to your project.
+
 ### Custom views
 
 If you want to customise your views, you can use the following generator to eject the default view files:
@@ -101,7 +103,7 @@ Enforcing mandatory OTP requires adding the ensure\_mandatory\_{scope}\_otp! met
 
 ## Authors
 
-The project was originally started by Lele Forzani by forking [devise_google_authenticator](https://github.com/AsteriskLabs/devise_google_authenticator) and still contains some devise_google_authenticator code. It's now maintained by [Josef Strzibny](https://github.com/strzibny/).
+The project was originally started by Lele Forzani by forking [devise_google_authenticator](https://github.com/AsteriskLabs/devise_google_authenticator) and still contains some devise_google_authenticator code. It's now maintained by [Josef Strzibny](https://github.com/strzibny/) and [Laney Stroup](https://github.com/strouptl).
 
 Contributions are welcome!
 
