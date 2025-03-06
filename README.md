@@ -13,7 +13,7 @@ Some of the compatible token devices are:
 * [Google Authenticator](https://code.google.com/p/google-authenticator/)
 * [FreeOTP](https://fedorahosted.org/freeotp/)
 
-Device OTP was recently updated to work with Rails 7+ and Turbo.
+Devise OTP was recently updated to work with Rails 7+ and Turbo.
 
 ## Sponsor
 
