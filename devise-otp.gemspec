@@ -10,6 +10,7 @@ Gem::Specification.new do |gem|
   gem.description = "OTP authentication for Devise"
   gem.summary = "Time Based OTP/rfc6238 compatible authentication for Devise"
   gem.homepage = "https://github.com/wmlele/devise-otp"
+  gem.license = "MIT"
 
   gem.files = `git ls-files`.split($/)
   gem.require_paths = ["lib"]
