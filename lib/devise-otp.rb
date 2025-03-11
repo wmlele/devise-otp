@@ -68,6 +68,12 @@ module Devise
   @@otp_controller_path = "devise"
 
   #
+  # request recovery toekn after n failed otp attempts
+  #
+  mattr_accessor :otp_max_failed_attempts
+  @@otp_max_failed_attempts = 10
+
+  #
   # add PublicHelpers to helpers class variable to ensure that per-mapping helpers are present.
   # this integrates with the "define_helpers," which is run when adding each mapping in the Devise gem (lib/devise.rb#541)
   #

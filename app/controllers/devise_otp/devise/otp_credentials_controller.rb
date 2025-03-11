@@ -15,6 +15,11 @@ module DeviseOtp
       # show a request for the OTP token
       #
       def show
+        if resource.otp_failed_attempts > resource.class.otp_max_failed_attempts
+          @recovery = true
+          otp_set_flash_message :alert, :too_many_failed_attempts, :now => true
+        end
+
         if @recovery
           @recovery_count = resource.otp_recovery_counter
         end
@@ -27,16 +32,30 @@ module DeviseOtp
       #
       def update
         if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+          reset_failed_attempts(resource)
+
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
+          bump_failed_attempts(resource)
+
           kind = (@token.blank? ? :token_blank : :token_invalid)
           otp_set_flash_message :alert, kind, :now => true
           render :show
         end
+      end
+
+      def bump_failed_attempts(resource)
+        resource.otp_failed_attempts += 1
+        resource.save!
+      end
+
+      def reset_failed_attempts(resource)
+        resource.otp_failed_attempts = 0
+        resource.save!
       end
 
       #
