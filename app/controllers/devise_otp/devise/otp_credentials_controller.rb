@@ -17,7 +17,7 @@ module DeviseOtp
       def show
         if resource.otp_failed_attempts > resource.class.otp_max_failed_attempts
           @recovery = true
-          otp_set_flash_message :alert, :too_many_failed_attempts, :now => true
+          otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
         end
 
         if @recovery
@@ -31,6 +31,11 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
+        if @token.blank?
+          otp_set_flash_message(:alert, :token_blank, now: true)
+          return render(:show)
+        end
+
         if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
           reset_failed_attempts(resource)
 
@@ -42,8 +47,7 @@ module DeviseOtp
         else
           bump_failed_attempts(resource)
 
-          kind = (@token.blank? ? :token_blank : :token_invalid)
-          otp_set_flash_message :alert, kind, :now => true
+          otp_set_flash_message(:alert, :token_invalid, now: true)
           render :show
         end
       end
