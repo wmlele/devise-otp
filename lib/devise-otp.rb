@@ -68,10 +68,16 @@ module Devise
   @@otp_controller_path = "devise"
 
   #
-  # request recovery toekn after n failed otp attempts
+  # request recovery token after n failed otp attempts
   #
   mattr_accessor :otp_max_failed_attempts
   @@otp_max_failed_attempts = 10
+
+  #
+  # request recevery token if timeout hasn't passed since last failed attempt
+  #
+  mattr_accessor :otp_recovery_timeout
+  @@otp_recovery_timeout = 30.minutes # 0 to disable
 
   #
   # add PublicHelpers to helpers class variable to ensure that per-mapping helpers are present.
