@@ -61,7 +61,7 @@ module Devise::Models
         :otp_persistence_seed => nil,
         :otp_session_challenge => nil,
         :otp_challenge_expires => nil,
-        :otp_recovery_forced_at => nil,
+        :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
         :otp_recovery_counter => 0
       )
@@ -114,10 +114,10 @@ module Devise::Models
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
 
-    def within_recovery_timeout?
-      return false if self.otp_recovery_forced_at.blank?
+    def within_recovery_timeout?(now)
+      return false if self.otp_recovery_forced_until.blank?
 
-      self.otp_recovery_forced_at + self.class.otp_recovery_timeout > Time.now.utc
+      now.before?(self.otp_recovery_forced_until)
     end
 
     def max_failed_attempts_exceeded?
@@ -126,12 +126,12 @@ module Devise::Models
 
     def bump_failed_attempts
       self.otp_failed_attempts += 1
-      self.otp_recovery_forced_at = Time.now.utc if max_failed_attempts_exceeded?
+      self.otp_recovery_forced_until = Time.now.utc if max_failed_attempts_exceeded?
       self.save!
     end
 
     def reset_failed_attempts
-      self.update!(otp_failed_attempts: 0, otp_recovery_forced_at: nil)
+      self.update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
     end
 
     private

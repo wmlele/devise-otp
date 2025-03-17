@@ -44,12 +44,12 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.update(
       :otp_failed_attempts => 1,
       :otp_recovery_counter => 1,
-      :otp_recovery_forced_at => Time.now.utc,
+      :otp_recovery_forced_until => Time.now.utc,
     )
 
 
     assert user.otp_enabled
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_at].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
       assert_not_nil user.send(field)
     end
     [:otp_failed_attempts, :otp_recovery_counter].each do |field|
@@ -57,7 +57,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     end
 
     user.clear_otp_fields!
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_at].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
       assert_nil user.send(field)
     end
     [:otp_failed_attempts, :otp_recovery_counter].each do |field|
@@ -169,5 +169,18 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.update(otp_failed_attempts: otp_max_failed_attempts+1)
     assert user.otp_failed_attempts > otp_max_failed_attempts
     assert_equal user.max_failed_attempts_exceeded?, true
+  end
+
+  test "within_recovery_timeout? is true when current time is before otp_recovery_forced_until" do
+    user = User.new
+    now = Time.now.utc
+
+    assert_nil user.otp_recovery_forced_until
+    assert_equal user.within_recovery_timeout?(now), false
+
+    user.update(otp_recovery_forced_until: now)
+    assert_equal user.within_recovery_timeout?(now-1), true
+    assert_equal user.within_recovery_timeout?(now), false
+    assert_equal user.within_recovery_timeout?(now+1), false
   end
 end

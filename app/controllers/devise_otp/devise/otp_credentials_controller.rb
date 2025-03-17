@@ -15,7 +15,7 @@ module DeviseOtp
       # show a request for the OTP token
       #
       def show
-        if resource.within_recovery_timeout?
+        if resource.within_recovery_timeout?(Time.now.utc)
           @recovery = true
           otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
         end
