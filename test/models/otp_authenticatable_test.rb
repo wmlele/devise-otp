@@ -47,7 +47,6 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
       :otp_recovery_forced_until => Time.now.utc,
     )
 
-
     assert user.otp_enabled
     [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
       assert_not_nil user.send(field)
