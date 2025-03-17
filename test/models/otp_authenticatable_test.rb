@@ -153,4 +153,21 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_nil u.valid_otp_recovery_token?(recovery.fetch(0))
     assert u.valid_otp_recovery_token? recovery.fetch(2)
   end
+
+  test "max_failed_attempts_exceeded? is true when failed_attempts > otp_max_failed_attempts" do
+    user = User.new
+    otp_max_failed_attempts = user.class.otp_max_failed_attempts
+
+    user.update(otp_failed_attempts: otp_max_failed_attempts-1)
+    assert user.otp_failed_attempts < otp_max_failed_attempts
+    assert_equal user.max_failed_attempts_exceeded?, false
+
+    user.update(otp_failed_attempts: otp_max_failed_attempts)
+    assert user.otp_failed_attempts = otp_max_failed_attempts
+    assert_equal user.max_failed_attempts_exceeded?, false
+
+    user.update(otp_failed_attempts: otp_max_failed_attempts+1)
+    assert user.otp_failed_attempts > otp_max_failed_attempts
+    assert_equal user.max_failed_attempts_exceeded?, true
+  end
 end
