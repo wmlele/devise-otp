@@ -190,7 +190,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
     user.reset_failed_attempts
     assert_equal user.otp_failed_attempts, 0
-    assert_equal user.otp_recovery_forced_until, nil
+    assert_nil user.otp_recovery_forced_until
   end
 
   test "bump_failed_attempts increases otp_failed_attempts by 1 and sets otp_recovery_forced_until if otp_max_failed_attempts is exceeded" do
