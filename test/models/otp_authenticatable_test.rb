@@ -43,12 +43,13 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.generate_otp_challenge!
     user.update(
       :otp_failed_attempts => 1,
-      :otp_recovery_counter => 1
+      :otp_recovery_counter => 1,
+      :otp_recovery_forced_at => Time.now.utc,
     )
 
 
     assert user.otp_enabled
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_at].each do |field|
       assert_not_nil user.send(field)
     end
     [:otp_failed_attempts, :otp_recovery_counter].each do |field|
@@ -56,7 +57,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     end
 
     user.clear_otp_fields!
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_at].each do |field|
       assert_nil user.send(field)
     end
     [:otp_failed_attempts, :otp_recovery_counter].each do |field|
