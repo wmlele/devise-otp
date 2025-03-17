@@ -26,6 +26,10 @@ module Devise::Models
       @recovery_otp ||= ROTP::HOTP.new(otp_recovery_secret)
     end
 
+    def otp_by_email
+      @otp_by_email ||= ROTP::HOTP.new(otp_auth_secret)
+    end
+
     def otp_provisioning_uri
       time_based_otp.provisioning_uri(otp_provisioning_identifier)
     end
@@ -67,6 +71,7 @@ module Devise::Models
     end
 
     def enable_otp!(otp_by_email: false)
+      populate_otp_secrets! if otp_by_email
       update!(otp_enabled: true, otp_by_email_enabled: otp_by_email, otp_enabled_on: Time.now)
     end
 
@@ -98,7 +103,7 @@ module Devise::Models
     alias_method :valid_otp_token?, :validate_otp_token
 
     def validate_otp_by_email(token)
-      email_otp.verify(token, otp_by_email_counter)
+      otp_by_email.verify(token, otp_by_email_counter)
     end
 
     def validate_otp_time_token(token)

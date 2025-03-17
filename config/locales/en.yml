@@ -30,6 +30,7 @@ en:
       otp_tokens:
         title: 'Two-Factor Authentication:'
         enable_link: 'Enable Two-Factor Authentication'
+        enable_otp_by_email: 'Enable Email-based Two-Factor Authentication'
         disable_link: 'Disable Two-Factor Authentication'
         reset_link: 'Reset Token Secret'
         reset_explain: 'Resetting your token secret will temporarilly disable Two-Factor Authentication.'
