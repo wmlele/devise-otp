@@ -183,4 +183,13 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_equal user.within_recovery_timeout?(now), false
     assert_equal user.within_recovery_timeout?(now+1), false
   end
+
+  test "reset_failed_attempts sets otp_failed_attemps to 0, and otp_recovery_forced_until to nil" do
+    user = User.first
+    user.update!(otp_failed_attempts: 12, otp_recovery_forced_until: Time.now.utc)
+
+    user.reset_failed_attempts
+    assert_equal user.otp_failed_attempts, 0
+    assert_equal user.otp_recovery_forced_until, nil
+  end
 end

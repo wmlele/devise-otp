@@ -15,7 +15,7 @@ module DeviseOtp
       # show a request for the OTP token
       #
       def show
-        if resource.within_recovery_timeout?(Time.now.utc)
+        if resource.within_recovery_timeout?(now)
           @recovery = true
           otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
         end
@@ -45,7 +45,7 @@ module DeviseOtp
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
-          resource.bump_failed_attempts
+          resource.bump_failed_attempts(now)
 
           otp_set_flash_message(:alert, :token_invalid, now: true)
           render :show
@@ -120,6 +120,10 @@ module DeviseOtp
 
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_credentials"
+      end
+
+      def now
+        Time.now.utc
       end
     end
   end
