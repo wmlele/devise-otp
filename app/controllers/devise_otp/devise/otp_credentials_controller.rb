@@ -47,7 +47,13 @@ module DeviseOtp
         else
           resource.bump_failed_attempts(now)
 
-          otp_set_flash_message(:alert, :token_invalid, now: true)
+          if resource.within_recovery_timeout?(now)
+            @recovery_count = resource.otp_recovery_counter
+            otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
+          else
+            otp_set_flash_message(:alert, :token_invalid, now: true)
+          end
+
           render :show
         end
       end

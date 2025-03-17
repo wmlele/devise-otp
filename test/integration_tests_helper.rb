@@ -34,9 +34,14 @@ class ActionDispatch::IntegrationTest
     end
   end
 
-  def enable_otp_and_sign_in
+  def create_user_with_otp_secrets
     user = create_full_user
     user.populate_otp_secrets!
+    user
+  end
+
+  def enable_otp_and_sign_in
+    user = create_user_with_otp_secrets
 
     sign_user_in(user)
     visit edit_user_otp_token_path
