@@ -3,7 +3,7 @@
 <p><strong>Status:</strong> <%= resource.otp_enabled? ? "Enabled" : "Disabled" %></p>
 
 <%- if resource.otp_enabled? %>
-  <%= render :partial => 'token_secret' if resource.otp_enabled? %>
+  <%= render :partial => 'token_secret' %>
   <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
 
   <% unless otp_mandatory_on?(resource) %>
@@ -11,4 +11,8 @@
   <% end %>
 <% else %>
   <%= link_to I18n.t('enable_link', :scope => 'devise.otp.otp_tokens'), edit_otp_token_path_for(resource) %>
+  <%= form_with(url: [resource_name, :otp_token], method: :put) do |f| %>
+    <%= f.hidden_field :otp_by_email, value: true %>
+    <%= f.submit I18n.t('enable_otp_by_email', :scope => 'devise.otp.otp_tokens') %>
+  <% end %>
 <% end %>

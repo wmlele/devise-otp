@@ -30,8 +30,8 @@ module DeviseOtp
       # Updates the status of OTP authentication
       #
       def update
-        if resource.valid_otp_token?(params[:confirmation_code])
-          resource.enable_otp!
+        if otp_by_email || resource.valid_otp_token?(params[:confirmation_code])
+          resource.enable_otp!(otp_by_email:)
           otp_set_flash_message :success, :successfully_updated
           redirect_to otp_token_path_for(resource)
         else
@@ -119,6 +119,10 @@ module DeviseOtp
 
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_tokens"
+      end
+
+      def otp_by_email
+        @otp_by_email ||= params.expect(:otp_by_email).present?
       end
     end
   end

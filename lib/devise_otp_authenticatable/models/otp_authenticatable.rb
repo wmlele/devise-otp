@@ -66,12 +66,12 @@ module Devise::Models
       )
     end
 
-    def enable_otp!
-      update!(otp_enabled: true, otp_enabled_on: Time.now)
+    def enable_otp!(otp_by_email: false)
+      update!(otp_enabled: true, otp_by_email_enabled: otp_by_email, otp_enabled_on: Time.now)
     end
 
     def disable_otp!
-      update!(otp_enabled: false, otp_enabled_on: nil)
+      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil)
     end
 
     def generate_otp_challenge!(expires = nil)
@@ -85,13 +85,21 @@ module Devise::Models
     end
 
     def validate_otp_token(token, recovery = false)
+      return false if token.blank?
+
       if recovery
         validate_otp_recovery_token token
+      elsif otp_by_email_enabled
+        validate_otp_by_email(token)
       else
         validate_otp_time_token token
       end
     end
     alias_method :valid_otp_token?, :validate_otp_token
+
+    def validate_otp_by_email(token)
+      email_otp.verify(token, otp_by_email_counter)
+    end
 
     def validate_otp_time_token(token)
       return false if token.blank?
@@ -130,9 +138,10 @@ module Devise::Models
     end
 
     def reset_failed_attempts
-      otp_failed_attempts = 0
-      otp_recovery_requested_at = nil
-      save!
+      update!(
+        otp_failed_attempts: 0,
+        otp_recovery_requested_at: nil,
+      )
     end
 
     private
