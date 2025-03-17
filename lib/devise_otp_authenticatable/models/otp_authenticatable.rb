@@ -115,9 +115,9 @@ module Devise::Models
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
 
     def within_recovery_timeout?
-      return false if otp_recovery_requested_at.blank?
+      return false if self.otp_recovery_requested_at.blank?
 
-      otp_recovery_requested_at + self.class.otp_recovery_timeout > Time.now.utc
+      self.otp_recovery_requested_at + self.class.otp_recovery_timeout > Time.now.utc
     end
 
     def max_failed_attempts_exceeded?
@@ -125,15 +125,13 @@ module Devise::Models
     end
 
     def bump_failed_attempts
-      otp_failed_attempts += 1
-      otp_recovery_requested_at = Time.now.utc if max_failed_attempts_exceeded?
-      save!
+      self.otp_failed_attempts += 1
+      self.otp_recovery_requested_at = Time.now.utc if max_failed_attempts_exceeded?
+      self.save!
     end
 
     def reset_failed_attempts
-      otp_failed_attempts = 0
-      otp_recovery_requested_at = nil
-      save!
+      self.update!(otp_failed_attempts: 0, otp_recovery_requested_at: nil)
     end
 
     private
