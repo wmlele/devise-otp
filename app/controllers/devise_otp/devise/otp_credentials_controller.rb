@@ -16,6 +16,7 @@ module DeviseOtp
       #
       def show
         if resource.within_recovery_timeout?(now)
+          @otp_recovery_forced = true
           @recovery = true
           otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
         end
@@ -47,7 +48,9 @@ module DeviseOtp
         else
           resource.bump_failed_attempts(now)
 
+          # TODO: deduplicate code copied from #show
           if resource.within_recovery_timeout?(now)
+            @otp_recovery_forced = true
             @recovery_count = resource.otp_recovery_counter
             otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
           else
