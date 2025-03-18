@@ -144,10 +144,7 @@ module Devise::Models
     end
 
     def reset_failed_attempts
-      update!(
-        otp_failed_attempts: 0,
-        otp_recovery_requested_at: nil,
-      )
+      update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
     end
 
     private
