@@ -122,7 +122,7 @@ module DeviseOtp
       end
 
       def otp_by_email
-        @otp_by_email ||= params.expect(:otp_by_email).present?
+        @otp_by_email ||= params.permit(:otp_by_email).present?
       end
     end
   end
