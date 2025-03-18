@@ -35,6 +35,29 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal user_otp_credential_path, current_path
   end
 
+  test "recovery is forced when timeout has not passed yet" do
+    user = create_user_with_otp_secrets
+    user.update!(otp_recovery_forced_until: Time.now.utc + 15.minutes)
+    user.enable_otp!
+    sign_user_in(user)
+
+    assert_equal user_otp_credential_path, current_path
+    assert page.has_content? "Too many failed OTP attempts. Please enter a recovery code."
+  end
+
+  test "recovery is forced after too many failed otp attempts" do
+    user = enable_otp_and_sign_in
+    user.update!(otp_failed_attempts: user.class.otp_max_failed_attempts)
+
+    assert_equal user_otp_credential_path, current_path
+
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+
+    assert_equal user_otp_credential_path, current_path
+    assert page.has_content? "Too many failed OTP attempts. Please enter a recovery code."
+  end
+
   test "fail token authentication" do
     enable_otp_and_sign_in
     assert_equal user_otp_credential_path, current_path
