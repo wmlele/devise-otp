@@ -19,6 +19,9 @@ module DeviseOtp
           @otp_recovery_forced = true
           @recovery = true
           otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
+        elsif resource.otp_by_email_enabled?
+          otp_set_flash_message(:notice, :otp_by_email_code_sent, now: true)
+          resource.otp_by_email_send_new_code(now) if resource.otp_by_email_current_code_expired?(now)
         end
 
         if @recovery
@@ -48,15 +51,18 @@ module DeviseOtp
         else
           resource.bump_failed_attempts(now)
 
+          message = :token_invalid
           # TODO: deduplicate code copied from #show
           if resource.within_recovery_timeout?(now)
             @otp_recovery_forced = true
             @recovery_count = resource.otp_recovery_counter
-            otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
-          else
-            otp_set_flash_message(:alert, :token_invalid, now: true)
+            message = :too_many_failed_attempts
+          elsif resource.otp_by_email_enabled? && resource.otp_by_email_current_code_expired?(now)
+            message = :otp_by_email_code_expired
+            resource.otp_by_email_send_new_code(now)
           end
 
+          otp_set_flash_message(:alert, message, now: true)
           render :show
         end
       end

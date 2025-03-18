@@ -17,6 +17,8 @@ en:
         valid_refresh: 'Thank you, your credentials were accepted.'
         invalid_refresh: 'Sorry, you provided the wrong credentials.'
         too_many_failed_attempts: 'Too many failed OTP attempts. Please enter a recovery code.'
+        otp_by_email_code_sent: 'Please enter an OTP code we have sent to your email.'
+        otp_by_email_code_expired: 'OTP code has expired. Please check your email for a new one.'
       credentials_refresh:
         title: 'Please enter your password again.'
         explain: 'In order to ensure this is  safe, please enter your password again.'

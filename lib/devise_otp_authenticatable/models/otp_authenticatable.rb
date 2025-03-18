@@ -147,6 +147,29 @@ module Devise::Models
       update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
     end
 
+    def otp_by_email_send_new_code(time)
+      otp_by_email_advance_counter(time)
+      otp_by_email_send_current_code(time)
+    end
+
+    def otp_by_email_send_current_code(time)
+      current_code = otp_by_email.at(self.otp_by_email_counter)
+      # TODO: send notification
+    end
+
+    def otp_by_email_advance_counter(time)
+      update!(
+        otp_by_email_current_code_valid_until: time + self.class.otp_by_email_code_valid_for,
+        otp_by_email_counter: self.otp_by_email_counter + 1,
+      )
+    end
+
+    def otp_by_email_current_code_expired?(time)
+      return true if self.otp_by_email_current_code_valid_until.blank?
+
+      self.otp_by_email_current_code_valid_until.before?(time)
+    end
+
     private
 
     def validate_otp_token_with_drift(token)
