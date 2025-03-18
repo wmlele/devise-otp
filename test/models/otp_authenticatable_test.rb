@@ -41,25 +41,28 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
     user.enable_otp!
     user.generate_otp_challenge!
+    now = Time.now.utc
     user.update(
       :otp_failed_attempts => 1,
       :otp_recovery_counter => 1,
-      :otp_recovery_forced_until => Time.now.utc,
+      :otp_recovery_forced_until => now,
+      :otp_by_email_counter => 1,
+      :otp_by_email_current_code_valid_until => now,
     )
 
     assert user.otp_enabled
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until, :otp_by_email_current_code_valid_until].each do |field|
       assert_not_nil user.send(field)
     end
-    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+    [:otp_failed_attempts, :otp_recovery_counter, :otp_by_email_counter].each do |field|
       assert_not user.send(field) == 0
     end
 
     user.clear_otp_fields!
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until, :otp_by_email_current_code_valid_until].each do |field|
       assert_nil user.send(field)
     end
-    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+    [:otp_failed_attempts, :otp_recovery_counter, :otp_by_email_counter].each do |field|
       assert user.send(field) == 0
     end
   end

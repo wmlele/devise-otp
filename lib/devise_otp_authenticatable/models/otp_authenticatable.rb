@@ -58,6 +58,7 @@ module Devise::Models
     def clear_otp_fields!
       @time_based_otp = nil
       @recovery_otp = nil
+      @otp_by_email = nil
 
       self.update!(
         :otp_auth_secret => nil,
@@ -67,7 +68,9 @@ module Devise::Models
         :otp_challenge_expires => nil,
         :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
-        :otp_recovery_counter => 0
+        :otp_recovery_counter => 0,
+        :otp_by_email_current_code_valid_until => nil,
+        :otp_by_email_counter => 0
       )
     end
 
