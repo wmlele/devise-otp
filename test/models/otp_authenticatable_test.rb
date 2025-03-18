@@ -215,4 +215,18 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_equal user.otp_failed_attempts, otp_max_failed_attempts+1
     assert user.otp_recovery_forced_until.eql?(now+otp_recovery_timeout)
   end
+
+  test "otp_by_email_current_code_expired? true if otp_by_email_current_code_valid_until blank or before provided time" do
+    user = User.new
+    now = Time.now.utc
+
+    assert_nil user.otp_by_email_current_code_valid_until
+    assert_equal user.otp_by_email_current_code_expired?, true
+
+    user.update(otp_by_email_current_code_valid_until: now)
+    assert_equal user.otp_by_email_current_code_expired?, true
+
+    user.update(otp_by_email_current_code_valid_until: now+1)
+    assert_equal user.otp_by_email_current_code_expired?, false
+  end
 end
