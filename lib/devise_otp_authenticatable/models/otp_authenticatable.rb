@@ -161,7 +161,15 @@ module Devise::Models
     end
 
     def otp_by_email_send_notification
-      # TODO: send notification
+      send_devise_notification(:email_otp_instructions, otp_by_email_current_code, {})
+    end
+
+    def send_email_otp_instructions
+      if otp_by_email_current_code_expired?
+        otp_by_email_send_new_code
+      else
+        otp_by_email_send_notification
+      end
     end
 
     def otp_by_email_advance_counter(time = now)
