@@ -42,6 +42,12 @@ module DeviseOtp
   # Custom view path for Devise OTP controllers
   #config.otp_controller_path = 'devise'
 
+  # Request recovery code after n failed otp attempts
+  #config.otp_max_failed_attempts = 10
+
+  # Request recovery code if last failed attempt was within timeout
+  #config.otp_recovery_timeout = 30.minutes
+
         CONTENT
 
         inject_into_file "config/initializers/devise.rb", content, before: /end[ |\n]+\Z/

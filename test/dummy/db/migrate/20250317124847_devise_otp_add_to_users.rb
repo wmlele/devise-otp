@@ -1,6 +1,6 @@
-class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration[7.0]
+class DeviseOtpAddToUsers < ActiveRecord::Migration[7.0]
   def self.up
-    change_table :<%= table_name %> do |t|
+    change_table :users do |t|
       t.string    :otp_auth_secret
       t.string    :otp_recovery_secret
       t.boolean   :otp_enabled,          :default => false, :null => false
@@ -14,12 +14,12 @@ class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration[7.0]
       t.string    :otp_session_challenge
       t.datetime  :otp_challenge_expires
     end
-    add_index :<%= table_name %>, :otp_session_challenge,  :unique => true
-    add_index :<%= table_name %>, :otp_challenge_expires
+    add_index :users, :otp_session_challenge,  :unique => true
+    add_index :users, :otp_challenge_expires
   end
 
   def self.down
-    change_table :<%= table_name %> do |t|
+    change_table :users do |t|
       t.remove :otp_auth_secret, :otp_recovery_secret, :otp_enabled, :otp_mandatory, :otp_enabled_on, :otp_session_challenge,
           :otp_challenge_expires, :otp_failed_attempts, :otp_recovery_counter, :otp_persistence_seed, :otp_recovery_forced_until
     end

@@ -11,7 +11,7 @@ module Devise::Models
     module ClassMethods
       ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
         :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_tokens,
-        :otp_controller_path)
+        :otp_controller_path, :otp_max_failed_attempts, :otp_recovery_timeout)
 
       def find_valid_otp_challenge(challenge)
         with_valid_otp_challenge(Time.now).where(otp_session_challenge: challenge).first
@@ -61,6 +61,7 @@ module Devise::Models
         :otp_persistence_seed => nil,
         :otp_session_challenge => nil,
         :otp_challenge_expires => nil,
+        :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
         :otp_recovery_counter => 0
       )
@@ -112,6 +113,26 @@ module Devise::Models
       end
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
+
+    def within_recovery_timeout?(time)
+      return false if self.otp_recovery_forced_until.blank?
+
+      time.before?(self.otp_recovery_forced_until)
+    end
+
+    def max_failed_attempts_exceeded?
+      otp_failed_attempts > self.class.otp_max_failed_attempts
+    end
+
+    def bump_failed_attempts(time)
+      self.otp_failed_attempts += 1
+      self.otp_recovery_forced_until = time + self.class.otp_recovery_timeout if max_failed_attempts_exceeded?
+      self.save!
+    end
+
+    def reset_failed_attempts
+      self.update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
+    end
 
     private
 

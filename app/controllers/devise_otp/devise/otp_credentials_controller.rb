@@ -15,6 +15,12 @@ module DeviseOtp
       # show a request for the OTP token
       #
       def show
+        if resource.within_recovery_timeout?(now)
+          @otp_recovery_forced = true
+          @recovery = true
+          otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
+        end
+
         if @recovery
           @recovery_count = resource.otp_recovery_counter
         end
@@ -26,15 +32,31 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
+        if @token.blank?
+          otp_set_flash_message(:alert, :token_blank, now: true)
+          return render(:show)
+        end
+
         if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+          resource.reset_failed_attempts
+
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
-          kind = (@token.blank? ? :token_blank : :token_invalid)
-          otp_set_flash_message :alert, kind, :now => true
+          resource.bump_failed_attempts(now)
+
+          # TODO: deduplicate code copied from #show
+          if resource.within_recovery_timeout?(now)
+            @otp_recovery_forced = true
+            @recovery_count = resource.otp_recovery_counter
+            otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
+          else
+            otp_set_flash_message(:alert, :token_invalid, now: true)
+          end
+
           render :show
         end
       end
@@ -107,6 +129,10 @@ module DeviseOtp
 
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_credentials"
+      end
+
+      def now
+        Time.now.utc
       end
     end
   end
