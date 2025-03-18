@@ -103,7 +103,8 @@ module Devise::Models
     end
     alias_method :valid_otp_token?, :validate_otp_token
 
-    def validate_otp_by_email(token)
+    def validate_otp_by_email(token, time = now)
+      return if otp_by_email_current_token_expired?(time)
       otp_by_email.verify(token, otp_by_email_counter)
     end
 
@@ -127,7 +128,7 @@ module Devise::Models
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
 
-    def within_recovery_timeout?(time)
+    def within_recovery_timeout?(time = now)
       return false if self.otp_recovery_forced_until.blank?
 
       time.before?(self.otp_recovery_forced_until)
@@ -137,7 +138,7 @@ module Devise::Models
       otp_failed_attempts > self.class.otp_max_failed_attempts
     end
 
-    def bump_failed_attempts(time)
+    def bump_failed_attempts(time = now)
       self.otp_failed_attempts += 1
       self.otp_recovery_forced_until = time + self.class.otp_recovery_timeout if max_failed_attempts_exceeded?
       self.save!
@@ -147,24 +148,27 @@ module Devise::Models
       update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
     end
 
-    def otp_by_email_send_new_code(time)
+    def otp_by_email_send_new_code(time = now)
       otp_by_email_advance_counter(time)
-      otp_by_email_send_current_code(time)
+      otp_by_email_send_notification
     end
 
-    def otp_by_email_send_current_code(time)
-      current_code = otp_by_email.at(self.otp_by_email_counter)
+    def otp_by_email_current_code
+      otp_by_email.at(self.otp_by_email_counter)
+    end
+
+    def otp_by_email_send_notification
       # TODO: send notification
     end
 
-    def otp_by_email_advance_counter(time)
+    def otp_by_email_advance_counter(time = now)
       update!(
         otp_by_email_current_code_valid_until: time + self.class.otp_by_email_code_valid_for,
         otp_by_email_counter: self.otp_by_email_counter + 1,
       )
     end
 
-    def otp_by_email_current_code_expired?(time)
+    def otp_by_email_current_code_expired?(time = now)
       return true if self.otp_by_email_current_code_valid_until.blank?
 
       self.otp_by_email_current_code_valid_until.before?(time)
@@ -186,6 +190,10 @@ module Devise::Models
     def generate_otp_auth_secret
       self.otp_auth_secret = ROTP::Base32.random_base32
       self.otp_recovery_secret = ROTP::Base32.random_base32
+    end
+
+    def now
+      Time.now.utc
     end
   end
 end
