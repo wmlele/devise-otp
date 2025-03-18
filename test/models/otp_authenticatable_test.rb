@@ -229,4 +229,19 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.update(otp_by_email_current_code_valid_until: now+1)
     assert_equal user.otp_by_email_current_code_expired?, false
   end
+
+  test "otp_by_email_advance_counter bumps otp_by_email_counter and sets otp_by_email_current_code_valid_until" do
+    user = User.first
+    user.update!(otp_by_email_counter: 0, otp_by_email_current_code_valid_until: nil)
+    now = Time.now.utc.round(6)
+    otp_by_email_code_valid_for = user.class.otp_by_email_code_valid_for
+
+    user.otp_by_email_advance_counter(now)
+    assert_equal user.otp_by_email_counter, 1
+    assert user.otp_by_email_current_code_valid_until.eql?(now+otp_by_email_code_valid_for)
+
+    user.otp_by_email_advance_counter(now+1)
+    assert_equal user.otp_by_email_counter, 2
+    assert user.otp_by_email_current_code_valid_until.eql?(now+otp_by_email_code_valid_for+1)
+  end
 end
