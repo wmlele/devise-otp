@@ -69,7 +69,7 @@ module Devise::Models
         :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
         :otp_recovery_counter => 0,
-        :otp_by_email_current_code_valid_until => nil,
+        :otp_by_email_token_expires => nil,
         :otp_by_email_counter => 0
       )
     end
@@ -107,7 +107,7 @@ module Devise::Models
     alias_method :valid_otp_token?, :validate_otp_token
 
     def validate_otp_by_email(token, time = now)
-      return if otp_by_email_current_code_expired?(time)
+      return if otp_by_email_token_expired?(time)
       otp_by_email.verify(token, otp_by_email_counter)
     end
 
@@ -151,38 +151,27 @@ module Devise::Models
       update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
     end
 
-    def otp_by_email_send_new_code(time = now)
-      otp_by_email_advance_counter(time)
-      otp_by_email_send_notification
-    end
-
-    def otp_by_email_current_code
+    def otp_by_email_token
       otp_by_email.at(self.otp_by_email_counter)
     end
 
-    def otp_by_email_send_notification
-      send_devise_notification(:email_otp_instructions, otp_by_email_current_code, {})
-    end
-
     def send_email_otp_instructions
-      if otp_by_email_current_code_expired?
-        otp_by_email_send_new_code
-      else
-        otp_by_email_send_notification
-      end
+      otp_by_email_advance_counter if otp_by_email_token_expired?
+
+      send_devise_notification(:email_otp_instructions, otp_by_email_token, {})
     end
 
     def otp_by_email_advance_counter(time = now)
       update!(
-        otp_by_email_current_code_valid_until: time + self.class.otp_by_email_code_valid_for,
+        otp_by_email_token_expires: time + self.class.otp_by_email_code_valid_for,
         otp_by_email_counter: self.otp_by_email_counter + 1,
       )
     end
 
-    def otp_by_email_current_code_expired?(time = now)
-      return true if self.otp_by_email_current_code_valid_until.blank?
+    def otp_by_email_token_expired?(time = now)
+      return true if self.otp_by_email_token_expires.blank?
 
-      self.otp_by_email_current_code_valid_until.before?(time)
+      self.otp_by_email_token_expires.before?(time)
     end
 
     private
