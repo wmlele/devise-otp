@@ -34,8 +34,8 @@ module Devise
   mattr_accessor :otp_authentication_timeout
   @@otp_authentication_timeout = 3.minutes
 
-  mattr_accessor :otp_recovery_tokens
-  @@otp_recovery_tokens = 10  ## false to disable
+  mattr_accessor :otp_recovery_token_count
+  @@otp_recovery_token_count = 10  ## 0 to disable
 
   #
   # If the user is given the chance to set his browser as trusted, how long will it stay trusted.

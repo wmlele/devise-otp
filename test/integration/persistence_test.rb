@@ -57,7 +57,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     click_link("Download recovery codes")
 
     assert current_path.match?(/recovery\.text/)
-    assert page.body.match?(user.next_otp_recovery_tokens.values.join("\n"))
+    assert page.body.match?(user.otp_recovery_tokens.join("\n"))
   end
 
   test "trusted status should expire" do

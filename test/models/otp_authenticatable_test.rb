@@ -149,11 +149,11 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u = User.first
     u.populate_otp_secrets!
     u.enable_otp!
-    recovery = u.next_otp_recovery_tokens
+    recovery = u.otp_recovery_tokens
 
-    assert u.valid_otp_recovery_token? recovery.fetch(0)
-    assert_nil u.valid_otp_recovery_token?(recovery.fetch(0))
-    assert u.valid_otp_recovery_token? recovery.fetch(2)
+    assert u.valid_otp_recovery_token? recovery[0]
+    assert_nil u.valid_otp_recovery_token?(recovery[0])
+    assert u.valid_otp_recovery_token? recovery[2]
   end
 
   test "max_failed_attempts_exceeded? is true when failed_attempts > otp_max_failed_attempts" do

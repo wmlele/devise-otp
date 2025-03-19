@@ -10,7 +10,7 @@ module Devise::Models
 
     module ClassMethods
       ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
-        :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_tokens,
+        :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_token_count,
         :otp_controller_path, :otp_max_failed_attempts, :otp_recovery_timeout, :otp_by_email_code_valid_for)
 
       def find_valid_otp_challenge(challenge)
@@ -69,6 +69,7 @@ module Devise::Models
         :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
         :otp_recovery_counter => 0,
+        :otp_backup_codes => nil,
         :otp_by_email_token_expires => nil,
         :otp_by_email_counter => 0
       )
@@ -80,7 +81,7 @@ module Devise::Models
     end
 
     def disable_otp!
-      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil)
+      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil, otp_backup_codes: nil)
     end
 
     def generate_otp_challenge!(expires = nil)
@@ -117,17 +118,34 @@ module Devise::Models
     end
     alias_method :valid_otp_time_token?, :validate_otp_time_token
 
-    def next_otp_recovery_tokens(number = self.class.otp_recovery_tokens)
-      (otp_recovery_counter..otp_recovery_counter + number).each_with_object({}) do |index, h|
-        h[index] = recovery_otp.at(index)
-      end
+    def otp_recovery_tokens
+      return generate_otp_backup_codes! if otp_backup_codes.blank?
+
+      derive_raw_recovery_tokens
+    end
+
+    def generate_otp_backup_codes!
+      self.otp_recovery_counter = otp_recovery_counter + self.class.otp_recovery_token_count  # Move the counter forward to start a new sequence
+      tokens = derive_raw_recovery_tokens
+
+      self.otp_backup_codes = tokens.map { |tokens| Devise::Encryptor.digest(self.class, tokens) }
+      save!(validate: false)
+      tokens # return codes for show
     end
 
     def validate_otp_recovery_token(token)
-      recovery_otp.verify(token, otp_recovery_counter).tap do
-        self.otp_recovery_counter += 1
-        save!
+      return false if token.blank? || otp_backup_codes.blank?
+
+      codes = otp_backup_codes.dup # Prevent modifying the array directly
+      codes.each do |backup_code|
+        if Devise::Encryptor.compare(self.class, backup_code, token)
+          codes.delete(backup_code)
+          self.otp_backup_codes = codes
+          save!(validate: false)
+          return true
+        end
       end
+      false
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
 
@@ -190,6 +208,10 @@ module Devise::Models
     def generate_otp_auth_secret
       self.otp_auth_secret = ROTP::Base32.random_base32
       self.otp_recovery_secret = ROTP::Base32.random_base32
+    end
+
+    def derive_raw_recovery_tokens(number_of_backup_codes = self.class.otp_recovery_token_count)
+      (otp_recovery_counter..otp_recovery_counter + number_of_backup_codes).map { |index| recovery_otp.at(index) }
     end
 
     def now
