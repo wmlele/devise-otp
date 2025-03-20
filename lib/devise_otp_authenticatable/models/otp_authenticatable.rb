@@ -11,7 +11,7 @@ module Devise::Models
     module ClassMethods
       ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
         :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_tokens,
-        :otp_controller_path, :otp_max_failed_attempts, :otp_recovery_timeout)
+        :otp_controller_path, :otp_max_failed_attempts, :otp_recovery_timeout, :otp_by_email_code_valid_for)
 
       def find_valid_otp_challenge(challenge)
         with_valid_otp_challenge(Time.now).where(otp_session_challenge: challenge).first
@@ -24,6 +24,10 @@ module Devise::Models
 
     def recovery_otp
       @recovery_otp ||= ROTP::HOTP.new(otp_recovery_secret)
+    end
+
+    def otp_by_email
+      @otp_by_email ||= ROTP::HOTP.new(otp_auth_secret)
     end
 
     def otp_provisioning_uri
@@ -54,6 +58,7 @@ module Devise::Models
     def clear_otp_fields!
       @time_based_otp = nil
       @recovery_otp = nil
+      @otp_by_email = nil
 
       self.update!(
         :otp_auth_secret => nil,
@@ -63,16 +68,19 @@ module Devise::Models
         :otp_challenge_expires => nil,
         :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
-        :otp_recovery_counter => 0
+        :otp_recovery_counter => 0,
+        :otp_by_email_token_expires => nil,
+        :otp_by_email_counter => 0
       )
     end
 
-    def enable_otp!
-      update!(otp_enabled: true, otp_enabled_on: Time.now)
+    def enable_otp!(otp_by_email: false)
+      populate_otp_secrets! if otp_by_email
+      update!(otp_enabled: true, otp_by_email_enabled: otp_by_email, otp_enabled_on: Time.now)
     end
 
     def disable_otp!
-      update!(otp_enabled: false, otp_enabled_on: nil)
+      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil)
     end
 
     def generate_otp_challenge!(expires = nil)
@@ -86,13 +94,22 @@ module Devise::Models
     end
 
     def validate_otp_token(token, recovery = false)
+      return false if token.blank?
+
       if recovery
         validate_otp_recovery_token token
+      elsif otp_by_email_enabled
+        validate_otp_by_email(token)
       else
         validate_otp_time_token token
       end
     end
     alias_method :valid_otp_token?, :validate_otp_token
+
+    def validate_otp_by_email(token, time = now)
+      return if otp_by_email_token_expired?(time)
+      otp_by_email.verify(token, otp_by_email_counter)
+    end
 
     def validate_otp_time_token(token)
       return false if token.blank?
@@ -114,7 +131,7 @@ module Devise::Models
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
 
-    def within_recovery_timeout?(time)
+    def within_recovery_timeout?(time = now)
       return false if self.otp_recovery_forced_until.blank?
 
       time.before?(self.otp_recovery_forced_until)
@@ -124,14 +141,37 @@ module Devise::Models
       otp_failed_attempts > self.class.otp_max_failed_attempts
     end
 
-    def bump_failed_attempts(time)
+    def bump_failed_attempts(time = now)
       self.otp_failed_attempts += 1
       self.otp_recovery_forced_until = time + self.class.otp_recovery_timeout if max_failed_attempts_exceeded?
       self.save!
     end
 
     def reset_failed_attempts
-      self.update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
+      update!(otp_failed_attempts: 0, otp_recovery_forced_until: nil)
+    end
+
+    def otp_by_email_token
+      otp_by_email.at(self.otp_by_email_counter)
+    end
+
+    def send_email_otp_instructions
+      otp_by_email_advance_counter if otp_by_email_token_expired?
+
+      send_devise_notification(:email_otp_instructions, otp_by_email_token, {})
+    end
+
+    def otp_by_email_advance_counter(time = now)
+      update!(
+        otp_by_email_token_expires: time + self.class.otp_by_email_code_valid_for,
+        otp_by_email_counter: self.otp_by_email_counter + 1,
+      )
+    end
+
+    def otp_by_email_token_expired?(time = now)
+      return true if self.otp_by_email_token_expires.blank?
+
+      self.otp_by_email_token_expires.before?(time)
     end
 
     private
@@ -150,6 +190,10 @@ module Devise::Models
     def generate_otp_auth_secret
       self.otp_auth_secret = ROTP::Base32.random_base32
       self.otp_recovery_secret = ROTP::Base32.random_base32
+    end
+
+    def now
+      Time.now.utc
     end
   end
 end

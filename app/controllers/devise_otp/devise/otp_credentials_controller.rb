@@ -15,10 +15,13 @@ module DeviseOtp
       # show a request for the OTP token
       #
       def show
-        if resource.within_recovery_timeout?(now)
+        if resource.within_recovery_timeout?
           @otp_recovery_forced = true
           @recovery = true
           otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
+        elsif resource.otp_by_email_enabled?
+          otp_set_flash_message(:notice, :otp_by_email_code_sent, now: true)
+          resource.send_email_otp_instructions if resource.otp_by_email_token_expired?
         end
 
         if @recovery
@@ -46,17 +49,20 @@ module DeviseOtp
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
-          resource.bump_failed_attempts(now)
+          resource.bump_failed_attempts
 
+          message = :token_invalid
           # TODO: deduplicate code copied from #show
-          if resource.within_recovery_timeout?(now)
+          if resource.within_recovery_timeout?
             @otp_recovery_forced = true
             @recovery_count = resource.otp_recovery_counter
-            otp_set_flash_message(:alert, :too_many_failed_attempts, now: true)
-          else
-            otp_set_flash_message(:alert, :token_invalid, now: true)
+            message = :too_many_failed_attempts
+          elsif resource.otp_by_email_enabled? && resource.otp_by_email_token_expired?
+            message = :otp_by_email_code_expired
+            resource.send_email_otp_instructions
           end
 
+          otp_set_flash_message(:alert, message, now: true)
           render :show
         end
       end
@@ -129,10 +135,6 @@ module DeviseOtp
 
       def self.controller_path
         "#{::Devise.otp_controller_path}/otp_credentials"
-      end
-
-      def now
-        Time.now.utc
       end
     end
   end

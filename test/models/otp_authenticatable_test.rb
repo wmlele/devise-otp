@@ -41,25 +41,28 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
     user.enable_otp!
     user.generate_otp_challenge!
+    now = Time.now.utc
     user.update(
       :otp_failed_attempts => 1,
       :otp_recovery_counter => 1,
-      :otp_recovery_forced_until => Time.now.utc,
+      :otp_recovery_forced_until => now,
+      :otp_by_email_counter => 1,
+      :otp_by_email_token_expires => now,
     )
 
     assert user.otp_enabled
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until, :otp_by_email_token_expires].each do |field|
       assert_not_nil user.send(field)
     end
-    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+    [:otp_failed_attempts, :otp_recovery_counter, :otp_by_email_counter].each do |field|
       assert_not user.send(field) == 0
     end
 
     user.clear_otp_fields!
-    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until].each do |field|
+    [:otp_auth_secret, :otp_recovery_secret, :otp_persistence_seed, :otp_recovery_forced_until, :otp_by_email_token_expires].each do |field|
       assert_nil user.send(field)
     end
-    [:otp_failed_attempts, :otp_recovery_counter].each do |field|
+    [:otp_failed_attempts, :otp_recovery_counter, :otp_by_email_counter].each do |field|
       assert user.send(field) == 0
     end
   end
@@ -211,5 +214,34 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.bump_failed_attempts(now)
     assert_equal user.otp_failed_attempts, otp_max_failed_attempts+1
     assert user.otp_recovery_forced_until.eql?(now+otp_recovery_timeout)
+  end
+
+  test "otp_by_email_token_expired? true if otp_by_email_token_expires blank or before provided time" do
+    user = User.new
+    now = Time.now.utc
+
+    assert_nil user.otp_by_email_token_expires
+    assert_equal user.otp_by_email_token_expired?, true
+
+    user.update(otp_by_email_token_expires: now)
+    assert_equal user.otp_by_email_token_expired?, true
+
+    user.update(otp_by_email_token_expires: now+1)
+    assert_equal user.otp_by_email_token_expired?, false
+  end
+
+  test "otp_by_email_advance_counter bumps otp_by_email_counter and sets otp_by_email_token_expires" do
+    user = User.first
+    user.update!(otp_by_email_counter: 0, otp_by_email_token_expires: nil)
+    now = Time.now.utc.round(6)
+    otp_by_email_code_valid_for = user.class.otp_by_email_code_valid_for
+
+    user.otp_by_email_advance_counter(now)
+    assert_equal user.otp_by_email_counter, 1
+    assert user.otp_by_email_token_expires.eql?(now+otp_by_email_code_valid_for)
+
+    user.otp_by_email_advance_counter(now+1)
+    assert_equal user.otp_by_email_counter, 2
+    assert user.otp_by_email_token_expires.eql?(now+otp_by_email_code_valid_for+1)
   end
 end

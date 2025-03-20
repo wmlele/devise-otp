@@ -80,6 +80,12 @@ module Devise
   @@otp_recovery_timeout = 30.minutes # 0 to disable
 
   #
+  # email otp token if valid for
+  #
+  mattr_accessor :otp_by_email_code_valid_for
+  @@otp_by_email_code_valid_for = 5.minutes
+
+  #
   # add PublicHelpers to helpers class variable to ensure that per-mapping helpers are present.
   # this integrates with the "define_helpers," which is run when adding each mapping in the Devise gem (lib/devise.rb#541)
   #
