@@ -25,7 +25,7 @@ class DeviseOtpAddTo<%= table_name.camelize %> < ActiveRecord::Migration[7.0]
   def self.down
     change_table :<%= table_name %> do |t|
       t.remove :otp_auth_secret, :otp_recovery_secret, :otp_enabled, :otp_mandatory, :otp_enabled_on, :otp_session_challenge,
-          :otp_challenge_expires, :otp_failed_attempts, :otp_persistence_seed, :otp_recovery_forced_until,
+          :otp_challenge_expires, :otp_failed_attempts, :otp_persistence_seed, :otp_recovery_forced_until, :otp_recovery_counters,
           :otp_by_email_enabled, :otp_by_email_counter, :otp_by_email_token_expires
     end
   end
