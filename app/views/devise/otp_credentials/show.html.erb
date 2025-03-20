@@ -9,7 +9,6 @@
   <% if @recovery %>
     <p>
       <%= label_tag :token, I18n.t('recovery_prompt', :scope => 'devise.otp.submit_token') %><br />
-      <%= text_field_tag :otp_recovery_counter, resource.otp_recovery_counter, :autocomplete => :off, :disabled => true, :size => 4 %>
     </p>
   <% else %>
     <p>

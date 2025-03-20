@@ -10,9 +10,9 @@
         </tr>
     </thead>
     <tbody>
-      <%- resource.next_otp_recovery_tokens.each do |seq, code| %>
+      <%- resource.otp_recovery_tokens.each_with_index do |code, index| %>
         <tr>
-          <td><%= seq %></td>
+          <td><%= index %></td>
           <td><%= code %></td>
         </tr>
       <% end %>

@@ -10,7 +10,7 @@ module Devise::Models
 
     module ClassMethods
       ::Devise::Models.config(self, :otp_authentication_timeout, :otp_drift_window, :otp_trust_persistence,
-        :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_tokens,
+        :otp_mandatory, :otp_credentials_refresh, :otp_issuer, :otp_recovery_token_count,
         :otp_controller_path, :otp_max_failed_attempts, :otp_recovery_timeout, :otp_by_email_code_valid_for)
 
       def find_valid_otp_challenge(challenge)
@@ -68,19 +68,20 @@ module Devise::Models
         :otp_challenge_expires => nil,
         :otp_recovery_forced_until => nil,
         :otp_failed_attempts => 0,
-        :otp_recovery_counter => 0,
+        :otp_recovery_counters => "[]",
         :otp_by_email_token_expires => nil,
         :otp_by_email_counter => 0
       )
     end
 
     def enable_otp!(otp_by_email: false)
+      generate_otp_recovery_counters!
       populate_otp_secrets! if otp_by_email
       update!(otp_enabled: true, otp_by_email_enabled: otp_by_email, otp_enabled_on: Time.now)
     end
 
     def disable_otp!
-      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil)
+      update!(otp_enabled: false, otp_by_email_enabled: false, otp_enabled_on: nil, otp_recovery_counters: "[]")
     end
 
     def generate_otp_challenge!(expires = nil)
@@ -117,16 +118,17 @@ module Devise::Models
     end
     alias_method :valid_otp_time_token?, :validate_otp_time_token
 
-    def next_otp_recovery_tokens(number = self.class.otp_recovery_tokens)
-      (otp_recovery_counter..otp_recovery_counter + number).each_with_object({}) do |index, h|
-        h[index] = recovery_otp.at(index)
-      end
+    def otp_recovery_tokens
+      JSON(otp_recovery_counters).map { recovery_otp.at(_1) }
     end
 
     def validate_otp_recovery_token(token)
-      recovery_otp.verify(token, otp_recovery_counter).tap do
-        self.otp_recovery_counter += 1
-        save!
+      counters = JSON(otp_recovery_counters)
+      used_counter_index = counters.index { recovery_otp.verify(token, _1) }
+      if used_counter_index.present?
+        counters.delete_at(used_counter_index)
+        update!(otp_recovery_counters: counters.to_json)
+        return true
       end
     end
     alias_method :valid_otp_recovery_token?, :validate_otp_recovery_token
@@ -190,6 +192,10 @@ module Devise::Models
     def generate_otp_auth_secret
       self.otp_auth_secret = ROTP::Base32.random_base32
       self.otp_recovery_secret = ROTP::Base32.random_base32
+    end
+
+    def generate_otp_recovery_counters!
+      update!(otp_recovery_counters: self.class.otp_recovery_token_count.times.to_json)
     end
 
     def now

@@ -26,7 +26,7 @@ module DeviseOtpAuthenticatable
       end
 
       def recovery_enabled?
-        resource_class.otp_recovery_tokens && (resource_class.otp_recovery_tokens > 0)
+        resource_class.otp_recovery_token_count > 0
       end
 
       #

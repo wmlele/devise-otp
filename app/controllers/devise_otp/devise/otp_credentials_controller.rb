@@ -24,10 +24,6 @@ module DeviseOtp
           resource.send_email_otp_instructions if resource.otp_by_email_token_expired?
         end
 
-        if @recovery
-          @recovery_count = resource.otp_recovery_counter
-        end
-
         render :show
       end
 
@@ -55,7 +51,6 @@ module DeviseOtp
           # TODO: deduplicate code copied from #show
           if resource.within_recovery_timeout?
             @otp_recovery_forced = true
-            @recovery_count = resource.otp_recovery_counter
             message = :too_many_failed_attempts
           elsif resource.otp_by_email_enabled? && resource.otp_by_email_token_expired?
             message = :otp_by_email_code_expired
