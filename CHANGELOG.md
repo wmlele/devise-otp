@@ -2,7 +2,22 @@
 
 ## Unreleased
 
-- Upgrade gemspec to support Rails v7.2
+## 1.0.0
+- Add support for Rails 8
+- Generate QR Codes as SVG
+- Fix Issue with Invalid Token Message
+- Simplify OTP Credentials Controller
+- Expand Flash Message Tests
+- Use Appraisal gem to against older Rails versions
+
+## 0.8.0
+- Add support for Rails 7.2 and drop support for Rails 6.1
+- Fix issue with scoped redirects for non-default resources
+- Add migration version numbers
+- Cleanup old docs
+
+## 0.7.1
+- Fix host and port for 3rd-party tests
 
 ## 0.7.0
 
