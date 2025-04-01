@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 1.0.1
+- Add support for Ruby 3.4
+- Set minimum Ruby version to 3.2
+- Set miminum Rails version to 7.1
+- Add MIT license type to gemspec
+- Correct Devise spelling error in README
+
 ## 1.0.0
 - Add support for Rails 8
 - Generate QR Codes as SVG
