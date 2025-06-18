@@ -17,14 +17,14 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency 'activesupport',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'actionpack',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'actionview',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'activemodel',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'activerecord',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'actionmailer',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'railties',  '>= 6.1.3', '< 8'
-  gem.add_runtime_dependency 'sprockets-rails',  '>= 2.0.0', '< 8'
+  gem.add_runtime_dependency 'activesupport',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'actionpack',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'actionview',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'activemodel',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'activerecord',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'actionmailer',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'railties',  '>= 6.1.3', '< 9'
+  gem.add_runtime_dependency 'sprockets-rails',  '>= 2.0.0', '< 9'
   gem.add_runtime_dependency 'devise', '>= 3.1.0', '< 5'
   gem.add_runtime_dependency 'rotp',   '>= 2.0.0', '< 7'
 end
