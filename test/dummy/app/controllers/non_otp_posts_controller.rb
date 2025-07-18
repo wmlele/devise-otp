@@ -1,5 +1,5 @@
-class AdminPostsController < ApplicationController
-  before_action :authenticate_admin!
+class NonOtpPostsController < ApplicationController
+  before_action :authenticate_non_otp_user!
 
   def index
     @posts = Post.all
