@@ -38,6 +38,4 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        env:
-          DEVISE_ORM: active_record
         run: bundle exec rake test

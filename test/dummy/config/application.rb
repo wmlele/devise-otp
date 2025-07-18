@@ -9,13 +9,6 @@ require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 Bundler.require
-Bundler.require(:default, DEVISE_ORM) if defined?(Bundler)
-
-begin
-  require "#{DEVISE_ORM}/railtie"
-rescue LoadError
-end
-PARENT_MODEL_CLASS = (DEVISE_ORM == :active_record) ? ActiveRecord::Base : Object
 
 require "devise"
 require "devise-otp"
