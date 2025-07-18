@@ -34,9 +34,7 @@ lib/bundler/man
 ## PROJECT::SPECIFIC
 test/dummy/log/**
 test/dummy/tmp/**
-test/dummy/db/*.sqlite3
-test/dummy/db/*.sqlite3-shm
-test/dummy/db/*.sqlite3-wal
+test/dummy/storage/**
 
 # Ignore Gemfile.lock
 Gemfile.lock
