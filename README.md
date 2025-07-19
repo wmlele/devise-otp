@@ -101,6 +101,20 @@ Enforcing mandatory OTP requires adding the ensure\_mandatory\_{scope}\_otp! met
     before_action :authenticate_user!
     before_action :ensure_mandatory_user_otp!
 
+## Development Instructions
+WARNING: Make sure to use the latest Ruby/Rails versions for development. If using older versions of Ruby/Rails, you will need to install all gems for all versions via Appraisal ("bundle exec appraisal install").
+
+To run the devise-otp dummy application in the development environment:
+- Navigate to the dummy app directory ("cd test/dummy")
+- Create and seed the database ("rails db:reset")
+- Run the rails console or server (e.g. "rails c")
+
+To run the tests for devise-otp against your current Ruby/Rails configuration:
+- Navigate to the dummy app directory ("cd test/dummy")
+- Create and migrate the database for the test environment ("RAILS\_ENV=test rails db:drop db:create db:migrate")
+- Return to the root directory of devise-otp
+- Run "rake test"
+
 ## Authors
 
 The project was originally started by Lele Forzani by forking [devise_google_authenticator](https://github.com/AsteriskLabs/devise_google_authenticator) and still contains some devise_google_authenticator code. It's now maintained by [Josef Strzibny](https://github.com/strzibny/) and [Laney Stroup](https://github.com/strouptl).
