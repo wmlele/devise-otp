@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 1.1.0
+
+Bug fixes:
+- Update refreshable hook to ensure that user models without Devise OTP can still sign in
+- Add tests for non-OTP user models to confirm resolution
+
+Improvements:
+- Remove references to MongoDB from test suite
+- Standardize test application's database configuration
+- Add Development Instructions to README
+
 ## 1.0.1
 - Add support for Ruby 3.4
 - Set minimum Ruby version to 3.2
