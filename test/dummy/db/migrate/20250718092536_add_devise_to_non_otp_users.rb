@@ -1,4 +1,4 @@
-class AddDeviseToNonOtpUsers < ActiveRecord::Migration[8.0]
+class AddDeviseToNonOtpUsers < ActiveRecord::Migration[5.0]
   def self.up
     change_table(:non_otp_users) do |t|
       ## Database authenticatable
