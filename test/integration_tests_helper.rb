@@ -27,6 +27,17 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def create_non_otp_user
+    @non_otp_user ||= begin
+      non_otp_user = NonOtpUser.create!(
+        email: "non-otp-user@email.invalid",
+        password: "12345678",
+        password_confirmation: "12345678"
+      )
+      non_otp_user
+    end
+  end
+
   def enable_otp_and_sign_in_with_otp
     enable_otp_and_sign_in.tap do |user|
       fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)

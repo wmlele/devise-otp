@@ -10,6 +10,12 @@ User.create(
   password: "Pass1234"
 )
 
+NonOtpUser.create(
+  name: "Non OTP User",
+  email: "non-otp-user@devise-otp.local",
+  password: "Pass1234"
+)
+
 5.times do |n|
   Post.create(
     title: "Post #{n + 1}",
