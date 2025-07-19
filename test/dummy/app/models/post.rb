@@ -1,2 +1,2 @@
-class Post < PARENT_MODEL_CLASS
+class Post < ActiveRecord::Base
 end

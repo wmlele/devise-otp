@@ -1,16 +1,4 @@
-class Admin < PARENT_MODEL_CLASS
-  if DEVISE_ORM == :mongoid
-    include Mongoid::Document
-
-    ## Database authenticatable
-    field :email, type: String, null: false, default: ""
-    field :encrypted_password, type: String, null: false, default: ""
-
-    ## Recoverable
-    field :reset_password_token, type: String
-    field :reset_password_sent_at, type: Time
-  end
-
+class Admin < ActiveRecord::Base
   devise :otp_authenticatable, :database_authenticatable, :registerable,
     :trackable, :validatable
 

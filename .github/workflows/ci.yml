@@ -37,7 +37,8 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+      - name: Create database
+        run: cd test/dummy && RAILS_ENV=test bundle exec rails db:create db:migrate --trace
+
       - name: Run tests
-        env:
-          DEVISE_ORM: active_record
         run: bundle exec rake test

@@ -28,14 +28,3 @@ Rake::TestTask.new(:test) do |test|
   test.pattern = "test/**/*_test.rb"
   test.verbose = true
 end
-
-desc "Run Devise tests for all ORMs."
-task :tests do
-  Dir[File.join(File.dirname(__FILE__), "test", "orm", "*.rb")].each do |file|
-    orm = File.basename(file).split(".").first
-    system "rake test DEVISE_ORM=#{orm}"
-  end
-end
-
-desc "Default: run tests for all ORMs."
-task default: :tests
