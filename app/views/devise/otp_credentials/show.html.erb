@@ -1,7 +1,7 @@
 <h2><%= I18n.t('title', :scope => 'devise.otp.submit_token') %></h2>
 <p><%= I18n.t('explain', :scope => 'devise.otp.submit_token') %></p>
 
-<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_credential], :html => { :method => :put, "data-turbo" => false }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => [resource_name, :otp_credential], :html => { :method => :put }) do |f| %>
 
   <%= hidden_field_tag :challenge, @challenge %>
   <%= hidden_field_tag :recovery, @recovery %>
