@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Fixed an issue where Turbo/Hotwire enabled applications return a JS error for failed OTP authentication;
 
 ## 1.1.0
 
