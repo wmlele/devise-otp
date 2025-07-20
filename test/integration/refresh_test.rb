@@ -113,4 +113,20 @@ class RefreshTest < ActionDispatch::IntegrationTest
     assert_equal admin_otp_token_path, current_path
   end
 
+  test "failed credentials should return a 422 'unprocessable entity' status" do
+    sign_user_in
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    sleep(2)
+
+    visit user_otp_token_path
+    assert_equal refresh_user_otp_credential_path, current_path
+
+    fill_in "user_refresh_password", with: "12345670"
+    click_button "Continue..."
+
+    assert_equal 422, page.status_code
+  end
+
 end
