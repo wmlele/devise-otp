@@ -57,6 +57,16 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert page.has_content? "You need to type in the token you generated with your device."
   end
 
+  test "failed authentication should return a 422 'unprocessable entity' status" do
+    enable_otp_and_sign_in
+    assert_equal user_otp_credential_path, current_path
+
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+
+    assert_equal 422, page.status_code
+  end
+
   test "successful token authentication" do
     user = enable_otp_and_sign_in
 

@@ -71,4 +71,16 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
     assert_not user.otp_enabled?
   end
 
+  test "failed confirmation code should return a 422 'unprocessable entity' status" do
+    user = sign_user_in
+
+    visit edit_user_otp_token_path
+
+    fill_in "confirmation_code", with: "123456"
+
+    click_button "Continue..."
+
+    assert_equal 422, page.status_code
+  end
+
 end
