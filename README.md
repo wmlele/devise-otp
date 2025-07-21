@@ -88,7 +88,7 @@ The install generator adds some options to the end of your Devise config file (`
 
 * `config.otp_mandatory`: OTP is mandatory, users are going to be asked to enroll the next time they sign in, before they can successfully complete the session establishment.
 * `config.otp_authentication_timeout`: How long the user has to authenticate with their token. (defaults to `3.minutes`)
-* `config.otp_drift_window`: A window which provides allowance for drift between a user's token device clock (and therefore their OTP tokens) and the authentication server's clock. Expressed in minutes centered at the current time. (default: `3`)
+* `config.otp_drift_window`: A window which provides allowance for drift between a user's token device clock (and therefore their OTP tokens) and the authentication server's clock. Expressed in "steps" of 30 second increments. (default: `3`)
 * `config.otp_credentials_refresh`: Users that have logged in longer than this time ago, are going to be asked their password (and an OTP challenge, if enabled) before they can see or change their otp informations. (defaults to `15.minutes`)
 * `config.otp_recovery_tokens`: Whether the users are given a list of one-time recovery tokens, for emergency access (default: `10`, set to `false` to disable)
 * `config.otp_trust_persistence`: The user is allowed to set his browser as "trusted", no more OTP challenges will be asked for that browser, for a limited time. (default: `1.month`, set to false to disable setting the browser as trusted)
