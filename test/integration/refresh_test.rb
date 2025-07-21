@@ -2,16 +2,9 @@ require "test_helper"
 require "integration_tests_helper"
 
 class RefreshTest < ActionDispatch::IntegrationTest
-  def setup
-    @old_refresh = User.otp_credentials_refresh
-    User.otp_credentials_refresh = 1.second
-    Admin.otp_credentials_refresh = 1.second
-  end
-
   def teardown
-    User.otp_credentials_refresh = @old_refresh
-    Admin.otp_credentials_refresh = @old_refresh
     Capybara.reset_sessions!
+    Timecop.return
   end
 
   test "a user that just signed in should be able to access their OTP settings without refreshing" do
@@ -26,7 +19,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
 
     visit user_otp_token_path
     assert_equal refresh_user_otp_credential_path, current_path
@@ -37,7 +30,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
 
     visit user_otp_token_path
     assert_equal refresh_user_otp_credential_path, current_path
@@ -52,7 +45,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
 
     visit user_otp_token_path
     assert_equal refresh_user_otp_credential_path, current_path
@@ -74,7 +67,8 @@ class RefreshTest < ActionDispatch::IntegrationTest
   test "user should be finally be able to access their settings, and just password is enough" do
     user = enable_otp_and_sign_in_with_otp
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
+
     visit user_otp_token_path
     assert_equal refresh_user_otp_credential_path, current_path
 
@@ -102,7 +96,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     click_button "Submit Token"
     assert_equal "/", current_path
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
 
     visit admin_otp_token_path
     assert_equal refresh_admin_otp_credential_path, current_path
@@ -118,7 +112,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    sleep(2)
+    Timecop.travel(Time.now + 15.minutes)
 
     visit user_otp_token_path
     assert_equal refresh_user_otp_credential_path, current_path

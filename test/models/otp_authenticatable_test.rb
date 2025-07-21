@@ -6,6 +6,10 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     new_user
   end
 
+  def teardown
+    Timecop.return
+  end
+
   test "new users do not have a secret set" do
     user = User.first
 
@@ -95,7 +99,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u.populate_otp_secrets!
     u.enable_otp!
     challenge = u.generate_otp_challenge!(1.second)
-    sleep(2)
+
+    Timecop.travel(Time.now + 2)
 
     w = User.find_valid_otp_challenge(challenge)
     assert_nil w
@@ -106,7 +111,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u.populate_otp_secrets!
     u.enable_otp!
     challenge = u.generate_otp_challenge!(1.second)
-    sleep(2)
+    Timecop.travel(Time.now + 2)
     assert_equal false, u.otp_challenge_valid?
   end
 

@@ -4,6 +4,7 @@ require "integration_tests_helper"
 class SignInTest < ActionDispatch::IntegrationTest
   def teardown
     Capybara.reset_sessions!
+    Timecop.return
   end
 
   test "a new user should be able to sign in without using their token" do
@@ -77,17 +78,13 @@ class SignInTest < ActionDispatch::IntegrationTest
   end
 
   test "should fail if the the challenge times out" do
-    old_timeout = User.otp_authentication_timeout
-    User.otp_authentication_timeout = 1.second
-
     user = enable_otp_and_sign_in
 
-    sleep(2)
+    Timecop.travel(Time.now + 3.minutes)
 
     fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
 
-    User.otp_authentication_timeout = old_timeout
     assert_equal new_user_session_path, current_path
   end
 

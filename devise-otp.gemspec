@@ -21,4 +21,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "devise", ">= 4.8.0", "< 5.0"
   gem.add_dependency "rotp", ">= 2.0.0"
   gem.add_dependency "rqrcode", "~> 2.0"
+
+  gem.add_development_dependency "timecop", "~> 0.9.10"
 end
