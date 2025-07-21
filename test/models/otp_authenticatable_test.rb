@@ -150,7 +150,20 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_equal true, u.valid_otp_token?(token)
   end
 
-  test "generated otp token, out of drift window, should be NOT valid for the user" do
+  test "generated otp token outside of drift window should NOT be valid for the user" do
+    # Since the otp_drift_window defines steps (not just time), and these steps
+    # begin at the 30 and 60 second marks of each minute, it is possible for
+    # an OTP token to be used up to 119 seconds after generation with a 3 step
+    # drift window. For example, a token generated at 12:00:00PM could be used
+    # within the timeframe for any of the following steps:
+    # - 12:00:00~12:00:29 (current step)
+    # - 12:00:30~12:00:59 (drift of 1 step)
+    # - 12:01:00~12:00:29 (drift of 2 steps)
+    # - 12:01:30~12:01:59 (drift of 3 steps)
+    #
+    # As a result, we need to test for 120 seconds to ensure that the test
+    # always passes.
+
     u = User.first
     u.populate_otp_secrets!
     u.enable_otp!
