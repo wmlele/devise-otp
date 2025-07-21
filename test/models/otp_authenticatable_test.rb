@@ -134,17 +134,36 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     assert_equal true, u.validate_otp_token(token)
   end
 
+  test "generated otp token within the drift window should be valid for the user" do
+    u = User.first
+    u.populate_otp_secrets!
+    u.enable_otp!
+
+    secret = u.otp_auth_secret
+    token = ROTP::TOTP.new(secret).at(Time.now)
+
+    Timecop.freeze(Time.now + 90)
+    assert_equal true, u.valid_otp_token?(token)
+
+    Timecop.return
+    Timecop.freeze(Time.now - 90)
+    assert_equal true, u.valid_otp_token?(token)
+  end
+
   test "generated otp token, out of drift window, should be NOT valid for the user" do
     u = User.first
     u.populate_otp_secrets!
     u.enable_otp!
 
     secret = u.otp_auth_secret
+    token = ROTP::TOTP.new(secret).at(Time.now)
 
-    [3.minutes.from_now, 3.minutes.ago].each do |time|
-      token = ROTP::TOTP.new(secret).at(time)
-      assert_equal false, u.valid_otp_token?(token)
-    end
+    Timecop.freeze(Time.now + 120)
+    assert_equal false, u.valid_otp_token?(token)
+
+    Timecop.return
+    Timecop.freeze(Time.now - 120)
+    assert_equal false, u.valid_otp_token?(token)
   end
 
   test "recovery secrets should be valid, and valid only once" do
