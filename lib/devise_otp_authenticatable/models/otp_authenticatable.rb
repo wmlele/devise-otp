@@ -116,7 +116,11 @@ module Devise::Models
     private
 
     def validate_otp_token_with_drift(token)
-      verified_token_time = time_based_otp.verify token, drift_behind: self.class.otp_drift_window * 30
+      verified_token_time = time_based_otp.verify(token,
+        drift_behind: self.class.otp_drift_window * 30,
+        drift_ahead: self.class.otp_drift_window * 30,
+      )
+
       verified_token_time.present?
     end
 
