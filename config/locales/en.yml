@@ -3,6 +3,8 @@ en:
     otp:
       general:
         remember: Remember me
+        enabled: 'Enabled'
+        disabled: 'Disabled'
       submit_token:
         title: 'Check Token'
         explain: "You're getting this because you enabled Two-Factor Authentication on your account"

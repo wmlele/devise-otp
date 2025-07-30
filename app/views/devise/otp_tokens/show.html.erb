@@ -1,6 +1,6 @@
 <h2><%= I18n.t('title', :scope => 'devise.otp.otp_tokens') %></h2>
 
-<p><strong>Status:</strong> <%= resource.otp_enabled? ? "Enabled" : "Disabled" %></p>
+<p><strong>Status:</strong> <%= t(resource.otp_enabled? ? :enabled : :disabled, scope: 'devise.otp.general') %></p>
 
 <%- if resource.otp_enabled? %>
   <%= render :partial => 'token_secret' if resource.otp_enabled? %>
