@@ -14,7 +14,7 @@ module Devise
           if otp_challenge_required_on?(resource)
             # Redirect to challenge
             challenge = resource.generate_otp_challenge!
-            redirect!(otp_challenge_url, {:challenge => challenge})
+            redirect!(otp_challenge_path, {:challenge => challenge})
           else
             # Sign in user as usual
             remember_me(resource)
@@ -41,21 +41,8 @@ module Devise
         resource.respond_to?(:otp_enabled?) && resource.otp_enabled?
       end
 
-      def otp_challenge_url
-        if Rails.env.development? || Rails.env.test?
-          host = "#{request.host}:#{request.port}"
-        else
-          host = "#{request.host}"
-        end
-
-        path_fragments = ["otp", mapping.path_names[:credentials]]
-        if mapping.fullpath == "/"
-          path = mapping.fullpath + path_fragments.join("/")
-        else
-          path = path_fragments.prepend(mapping.fullpath).join("/")
-        end
-
-        request.protocol + host + path
+      def otp_challenge_path
+        Rails.application.routes.url_helpers.public_send("#{mapping.singular}_otp_credential_path")
       end
     end
   end
