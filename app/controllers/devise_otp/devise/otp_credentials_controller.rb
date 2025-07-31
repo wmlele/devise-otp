@@ -26,7 +26,7 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        if resource.otp_challenge_valid? && resource.valid_for_authentication? && resource.validate_otp_token(@token, @recovery)
+        if resource.valid_for_authentication? && resource.validate_otp_token(@token, @recovery)
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
