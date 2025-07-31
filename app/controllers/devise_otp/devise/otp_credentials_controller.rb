@@ -26,13 +26,22 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+        if resource.otp_challenge_valid? && resource.valid_for_authentication? && resource.validate_otp_token(@token, @recovery)
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         else
+          # Increment failed attempts and/or lock account.
+          #
+          # The valid_for_authentication? method must be executed a second time
+          # with "false" as the block here, to increment the failed attempts and/or
+          # lock the account, since we are not passing whether the password was
+          # entered correctly or not above (as the DatabaseAuthenticatable strategy
+          # does when executing the validate method from the Authenticatable strategy).
+          resource.valid_for_authentication? { false }
+
           kind = (@token.blank? ? :token_blank : :token_invalid)
           otp_set_flash_message :alert, kind, :now => true
           render :show, status: :unprocessable_entity
