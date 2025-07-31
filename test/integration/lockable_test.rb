@@ -62,19 +62,45 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert @lockable_user.access_locked?
   end
 
-  test "a locked out user should not be able to authenticate via OTP" do
+  test "a locked out user should be redirected to the sign in form" do
     # Enter incorrect token
     5.times do
       fill_in "token", with: "123456"
       click_button "Submit Token"
     end
 
+    assert_equal new_lockable_user_session_path, current_path
+  end
+
+  test "a locked out user should see the default 'Your account is locked' message" do
+    # Enter incorrect token
+    5.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    assert page.has_content? "Your account is locked."
+  end
+
+
+  test "the OTP credentials form should not work for a locked out user (in case of URL revisit)" do
+    # Save challenge path
+    uri = URI.parse(current_url)
+    challenge_path = "#{uri.path}?#{uri.query}"
+
+    # Enter incorrect token
+    5.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    visit challenge_path
+
     # Enter correct token
     fill_in "token", with: ROTP::TOTP.new(@lockable_user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
 
-    assert page.has_content? "The token you provided was invalid."
+    assert page.has_content? "Your account is locked."
   end
-
 
 end

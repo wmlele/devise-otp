@@ -38,6 +38,9 @@ module DeviseOtp
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
+        elsif resource.devise_modules.include?(:lockable) and resource.access_locked?
+          otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure"
+          redirect_to new_session_path(resource_name)
         else
           kind = (@token.blank? ? :token_blank : :token_invalid)
           otp_set_flash_message :alert, kind, :now => true
