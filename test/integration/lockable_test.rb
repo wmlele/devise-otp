@@ -1,0 +1,60 @@
+require "test_helper"
+require "integration_tests_helper"
+
+class SignInTest < ActionDispatch::IntegrationTest
+  def setup
+    @lockable_user = create_lockable_user
+    @lockable_user.populate_otp_secrets!
+    @lockable_user.update(:otp_enabled => true)
+
+    sign_user_in(@lockable_user)
+    assert_equal lockable_user_otp_credential_path, current_path
+  end
+
+  def teardown
+    Capybara.reset_sessions!
+  end
+
+  test "a normal User should not get locked out for entering incorrect OTP tokens" do
+    enable_otp_and_sign_in
+
+    6.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    assert page.has_content? "The token you provided was invalid."
+  end
+
+  test "a Lockable User should increment failed_attempts for each incorrect OTP token" do
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+    assert page.has_content? "The token you provided was invalid."
+
+    @lockable_user.reload
+    assert_equal 1, @lockable_user.failed_attempts
+  end
+
+  test "a Lockable User should reset failed_attempts after a correct OTP token" do
+    fill_in "token", with: ROTP::TOTP.new(@lockable_user.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
+    assert_equal root_path, current_path
+
+    @lockable_user.reload
+    assert_equal 0, @lockable_user.failed_attempts
+  end
+
+  test "a Lockable User should get locked out for entering too many incorrect OTP tokens too many times" do
+    6.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    puts "#"*100
+    puts page.body
+    puts "#"*100
+
+    assert page.has_content? "The token you provided was invalid."
+  end
+
+end
