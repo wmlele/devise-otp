@@ -33,6 +33,13 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     @lockable_user.reload
     assert_equal 1, @lockable_user.failed_attempts
+
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+    assert page.has_content? "The token you provided was invalid."
+
+    @lockable_user.reload
+    assert_equal 2, @lockable_user.failed_attempts
   end
 
   test "a Lockable User should reset failed_attempts after a correct OTP token" do
@@ -45,16 +52,35 @@ class SignInTest < ActionDispatch::IntegrationTest
   end
 
   test "a Lockable User should get locked out for entering too many incorrect OTP tokens too many times" do
-    6.times do
+    # Enter incorrect token
+    5.times do
       fill_in "token", with: "123456"
       click_button "Submit Token"
     end
 
-    puts "#"*100
-    puts page.body
-    puts "#"*100
+    @lockable_user.reload
+    assert @lockable_user.access_locked?
+
+    # Enter correct token
+    fill_in "token", with: ROTP::TOTP.new(@lockable_user.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
 
     assert page.has_content? "The token you provided was invalid."
   end
+
+  test "a locked out user should not be able to authenticate via OTP" do
+    # Enter incorrect token
+    5.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    # Enter correct token
+    fill_in "token", with: ROTP::TOTP.new(@lockable_user.otp_auth_secret).at(Time.now)
+    click_button "Submit Token"
+
+    assert page.has_content? "The token you provided was invalid."
+  end
+
 
 end
