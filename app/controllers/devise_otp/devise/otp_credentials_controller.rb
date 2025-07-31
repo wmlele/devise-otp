@@ -42,8 +42,13 @@ module DeviseOtp
           otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure"
           redirect_to new_session_path(resource_name)
         else
-          kind = (@token.blank? ? :token_blank : :token_invalid)
-          otp_set_flash_message :alert, kind, :now => true
+          if resource.unauthenticated_message == :last_attempt
+            otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure", :now => true
+          else
+            kind = (@token.blank? ? :token_blank : :token_invalid)
+            otp_set_flash_message :alert, kind, :now => true
+          end
+
           render :show, status: :unprocessable_entity
         end
       end
