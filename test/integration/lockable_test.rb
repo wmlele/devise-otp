@@ -82,6 +82,15 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert page.has_content? "Your account is locked."
   end
 
+  test "the OTP credentials form should display the 'one more attempt' message before being locked out" do
+    # Enter incorrect token
+    4.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    assert page.has_content? "You have one more attempt"
+  end
 
   test "the OTP credentials form should not work for a locked out user (in case of URL revisit)" do
     # Save challenge path
