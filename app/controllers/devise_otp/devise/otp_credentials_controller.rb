@@ -42,11 +42,12 @@ module DeviseOtp
           otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure"
           redirect_to new_session_path(resource_name)
         else
-          if resource.unauthenticated_message == :last_attempt
-            otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure", :now => true
+          if resource.devise_modules.include?(:lockable) and resource.unauthenticated_message == :last_attempt
+            otp_set_flash_message :alert, :last_attempt, :scope => "devise.failure", :now => true
+          elsif @token.blank?
+            otp_set_flash_message :alert, :token_blank, :now => true
           else
-            kind = (@token.blank? ? :token_blank : :token_invalid)
-            otp_set_flash_message :alert, kind, :now => true
+            otp_set_flash_message :alert, :token_invalid, :now => true
           end
 
           render :show, status: :unprocessable_entity
