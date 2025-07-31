@@ -26,7 +26,13 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+        # The valid_for_authentication? method must be executed with the validation result as
+        # a block (as the DatabaseAuthenticatable strategy does via the validate method of the
+        # Authenticatable strategy). If true, and the account is not locked, then
+        # authentication will proceed as normal. If false, then the valid_for_authentication?
+        # method will increment the failed attempts and/or lock the account as specified.
+
+        if resource.valid_for_authentication? { resource.validate_otp_token(@token, @recovery) }
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
