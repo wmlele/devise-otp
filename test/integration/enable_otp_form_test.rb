@@ -72,7 +72,7 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
   end
 
   test "failed confirmation code should return a 422 'unprocessable entity' status" do
-    user = sign_user_in
+    sign_user_in
 
     visit edit_user_otp_token_path
 

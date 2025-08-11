@@ -7,7 +7,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
   end
 
   def teardown
-    Timecop.return
+    travel_back
   end
 
   test "new users do not have a secret set" do
@@ -100,7 +100,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u.enable_otp!
     challenge = u.generate_otp_challenge!(1.second)
 
-    Timecop.travel(Time.now + 2)
+    travel_to(2.seconds.from_now)
 
     w = User.find_valid_otp_challenge(challenge)
     assert_nil w
@@ -110,8 +110,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     u = User.first
     u.populate_otp_secrets!
     u.enable_otp!
-    challenge = u.generate_otp_challenge!(1.second)
-    Timecop.travel(Time.now + 2)
+    u.generate_otp_challenge!(1.second)
+    travel_to(2.seconds.from_now)
     assert_equal false, u.otp_challenge_valid?
   end
 
@@ -142,11 +142,11 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     secret = u.otp_auth_secret
     token = ROTP::TOTP.new(secret).at(Time.now)
 
-    Timecop.freeze(Time.now + 90)
+    travel_to(90.seconds.from_now)
     assert_equal true, u.valid_otp_token?(token)
 
-    Timecop.return
-    Timecop.freeze(Time.now - 90)
+    travel_back
+    travel_to(90.seconds.ago)
     assert_equal true, u.valid_otp_token?(token)
   end
 
@@ -158,11 +158,11 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     secret = u.otp_auth_secret
     token = ROTP::TOTP.new(secret).at(Time.now)
 
-    Timecop.freeze(Time.now + 120)
+    travel_to(120.seconds.from_now)
     assert_equal false, u.valid_otp_token?(token)
 
-    Timecop.return
-    Timecop.freeze(Time.now - 120)
+    travel_back
+    travel_to(120.seconds.ago)
     assert_equal false, u.valid_otp_token?(token)
   end
 

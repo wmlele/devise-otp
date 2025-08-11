@@ -4,7 +4,7 @@ require "integration_tests_helper"
 class SignInTest < ActionDispatch::IntegrationTest
   def teardown
     Capybara.reset_sessions!
-    Timecop.return
+    travel_back
   end
 
   test "a new user should be able to sign in without using their token" do
@@ -19,7 +19,7 @@ class SignInTest < ActionDispatch::IntegrationTest
   end
 
   test "a new user, just signed in, should be able to see and click the 'Enable Two-Factor Authentication' link" do
-    user = sign_user_in
+    sign_user_in
 
     visit user_otp_token_path
     assert page.has_content?("Disabled")
@@ -80,7 +80,7 @@ class SignInTest < ActionDispatch::IntegrationTest
   test "should fail if the the challenge times out" do
     user = enable_otp_and_sign_in
 
-    Timecop.travel(Time.now + 3.minutes)
+    travel_to(3.minutes.from_now + 1.second)
 
     fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"

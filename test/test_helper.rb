@@ -4,7 +4,6 @@ require "dummy/config/environment"
 require "rails/test_help"
 require "capybara/rails"
 require "minitest/reporters"
-require "timecop"
 
 Minitest::Reporters.use!
 

@@ -10,7 +10,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
   def teardown
     User.otp_trust_persistence = @old_persistence
     Capybara.reset_sessions!
-    Timecop.return
+    travel_back
   end
 
   test "a user should be requested the otp challenge every log in" do
@@ -73,7 +73,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     assert_text "Your browser is trusted."
     sign_out
 
-    Timecop.travel(Time.now + 30.days)
+    travel_to(30.days.from_now)
 
     sign_user_in
     assert_equal user_otp_credential_path, current_path
