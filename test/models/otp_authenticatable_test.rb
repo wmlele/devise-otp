@@ -19,7 +19,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
   end
 
   test "new users have OTP disabled by default" do
-    assert !User.first.otp_enabled
+    assert_not User.first.otp_enabled
   end
 
   test "populating otp secrets should populate all required fields" do
@@ -79,7 +79,7 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
 
     u.reset_otp_persistence!
     assert(otp_auth_secret == u.otp_auth_secret)
-    assert !(otp_persistence_seed == u.otp_persistence_seed)
+    assert_not (otp_persistence_seed == u.otp_persistence_seed)
     assert u.otp_enabled
   end
 
