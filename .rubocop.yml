@@ -1,0 +1,5 @@
+# Omakase Ruby styling for Rails
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+# Your own specialized rules go here
