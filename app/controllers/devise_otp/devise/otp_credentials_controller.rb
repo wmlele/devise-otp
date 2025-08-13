@@ -34,7 +34,7 @@ module DeviseOtp
           respond_with resource, location: after_sign_in_path_for(resource)
         else
           kind = (@token.blank? ? :token_blank : :token_invalid)
-          otp_set_flash_message :alert, kind, :now => true
+          otp_set_flash_message :alert, kind, now: true
           render :show, status: :unprocessable_entity
         end
       end
@@ -101,7 +101,7 @@ module DeviseOtp
       end
 
       def failed_refresh
-        otp_set_flash_message :alert, :invalid_refresh, :now => true
+        otp_set_flash_message :alert, :invalid_refresh, now: true
         render :refresh, status: :unprocessable_entity
       end
 

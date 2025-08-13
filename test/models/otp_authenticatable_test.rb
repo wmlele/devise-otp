@@ -46,8 +46,8 @@ class OtpAuthenticatableTest < ActiveSupport::TestCase
     user.enable_otp!
     user.generate_otp_challenge!
     user.update(
-      :otp_failed_attempts => 1,
-      :otp_recovery_counter => 1
+      otp_failed_attempts: 1,
+      otp_recovery_counter: 1
     )
 
 
