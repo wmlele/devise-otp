@@ -3,3 +3,11 @@ inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
 # Your own specialized rules go here
+Style/StringLiterals:
+  Enabled: false
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Layout/Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false
