@@ -2,7 +2,12 @@
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
-# Your own specialized rules go here
+# Excluded directories
+AllCops:
+  Exclude:
+  - "lib/generators/active_record/templates/migration.rb"
+
+# Disabled checks
 Style/StringLiterals:
   Enabled: false
 
