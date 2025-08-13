@@ -115,8 +115,9 @@ To run the tests for devise-otp against your current Ruby/Rails configuration:
 - Return to the root directory of devise-otp
 - Run "rake test"
 
-To check Pull Requests for formatting errors:
-- Run "./bin/rubocop"
+To check Ruby syntax and formatting:
+- Rubocop: "./bin/rubocop"
+- ERB Lint (for views): "./bin/erb\_lint -a --lint-all"
 
 ## Authors
 
