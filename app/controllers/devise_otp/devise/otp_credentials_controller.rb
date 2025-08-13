@@ -116,7 +116,7 @@ module DeviseOtp
       end
 
       def failed_refresh
-        otp_set_flash_message :alert, :invalid_refresh, :now => true
+        otp_set_flash_message :alert, :invalid_refresh, now: true
         render :refresh, status: :unprocessable_entity
       end
 

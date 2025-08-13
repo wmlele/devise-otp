@@ -100,5 +100,4 @@ class ActionDispatch::IntegrationTest
     page.has_content?("Log in") ? click_button("Log in") : click_button("Sign in")
     user
   end
-
 end

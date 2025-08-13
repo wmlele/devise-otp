@@ -60,13 +60,13 @@ module Devise::Models
       @recovery_otp = nil
 
       self.update!(
-        :otp_auth_secret => nil,
-        :otp_recovery_secret => nil,
-        :otp_persistence_seed => nil,
-        :otp_session_challenge => nil,
-        :otp_challenge_expires => nil,
-        :otp_failed_attempts => 0,
-        :otp_recovery_counter => 0
+        otp_auth_secret: nil,
+        otp_recovery_secret: nil,
+        otp_persistence_seed: nil,
+        otp_session_challenge: nil,
+        otp_challenge_expires: nil,
+        otp_failed_attempts: 0,
+        otp_recovery_counter: 0
       )
     end
 
@@ -120,10 +120,12 @@ module Devise::Models
     private
 
     def validate_otp_token_with_drift(token)
-      # should be centered around saved drift
-      (-self.class.otp_drift_window..self.class.otp_drift_window).any? { |drift|
-        time_based_otp.verify(token, at: Time.now.ago(30 * drift))
-      }
+      verified_token_time = time_based_otp.verify(token,
+        drift_behind: self.class.otp_drift_window * 30,
+        drift_ahead: self.class.otp_drift_window * 30,
+      )
+
+      verified_token_time.present?
     end
 
     def generate_otp_persistence_seed

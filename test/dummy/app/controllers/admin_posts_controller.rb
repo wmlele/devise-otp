@@ -9,5 +9,4 @@ class AdminPostsController < ApplicationController
       format.json { render json: @posts }
     end
   end
-
 end

@@ -1,0 +1,18 @@
+# Omakase Ruby styling for Rails
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+
+# Excluded directories
+AllCops:
+  Exclude:
+  - "lib/generators/active_record/templates/migration.rb"
+
+# Disabled checks
+Style/StringLiterals:
+  Enabled: false
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: false

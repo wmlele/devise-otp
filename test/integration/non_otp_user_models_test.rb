@@ -2,7 +2,6 @@ require "test_helper"
 require "integration_tests_helper"
 
 class NonOtpUserModelsTest < ActionDispatch::IntegrationTest
-
   def teardown
     Capybara.reset_sessions!
   end
@@ -17,5 +16,4 @@ class NonOtpUserModelsTest < ActionDispatch::IntegrationTest
 
     assert_equal non_otp_posts_path, current_path
   end
-
 end

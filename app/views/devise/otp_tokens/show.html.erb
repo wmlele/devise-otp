@@ -1,14 +1,14 @@
-<h2><%= I18n.t('title', :scope => 'devise.otp.otp_tokens') %></h2>
+<h2><%= t('title', scope: 'devise.otp.otp_tokens') %></h2>
 
 <p><strong>Status:</strong> <%= t(resource.otp_enabled? ? :enabled : :disabled, scope: 'devise.otp.general') %></p>
 
 <%- if resource.otp_enabled? %>
-  <%= render :partial => 'token_secret' if resource.otp_enabled? %>
-  <%= render :partial => 'trusted_devices' if trusted_devices_enabled? %>
+  <%= render partial: 'token_secret' if resource.otp_enabled? %>
+  <%= render partial: 'trusted_devices' if trusted_devices_enabled? %>
 
   <% unless otp_mandatory_on?(resource) %>
-    <%= button_to I18n.t('disable_link', :scope => 'devise.otp.otp_tokens'), otp_token_path_for(resource), :method => :delete, :data => { "turbo-method": "DELETE" } %>
+    <%= button_to t('disable_link', scope: 'devise.otp.otp_tokens'), otp_token_path_for(resource), method: :delete, data: { turbo_method: :delete } %>
   <% end %>
 <% else %>
-  <%= link_to I18n.t('enable_link', :scope => 'devise.otp.otp_tokens'), edit_otp_token_path_for(resource) %>
+  <%= link_to t('enable_link', scope: 'devise.otp.otp_tokens'), edit_otp_token_path_for(resource) %>
 <% end %>

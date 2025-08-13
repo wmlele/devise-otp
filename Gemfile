@@ -13,4 +13,8 @@ gem "rdoc"
 gem "shoulda"
 gem "sprockets-rails"
 gem "sqlite3", "~> 2.1"
-gem "standardrb"
+
+# Formatting gems
+gem "standardrb", require: false
+gem "rubocop-rails-omakase", require: false
+gem 'erb_lint', require: false

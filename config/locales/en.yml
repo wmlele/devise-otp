@@ -20,7 +20,7 @@ en:
         invalid_refresh: 'Sorry, you provided the wrong credentials.'
       credentials_refresh:
         title: 'Please enter your password again.'
-        explain: 'In order to ensure this is  safe, please enter your password again.'
+        explain: 'In order to ensure this is safe, please enter your password again.'
         go_on: 'Continue...'
         identity: 'Identity:'
         token: 'Your Two-Factor Authentication token'
@@ -33,7 +33,7 @@ en:
         enable_link: 'Enable Two-Factor Authentication'
         disable_link: 'Disable Two-Factor Authentication'
         reset_link: 'Reset Token Secret'
-        reset_explain: 'Resetting your token secret will temporarilly disable Two-Factor Authentication.'
+        reset_explain: 'Resetting your token secret will temporarily disable Two-Factor Authentication.'
         reset_explain_warn: 'To re-enable Two-Factor Authentication, you will need to re-enroll your mobile device with the new token secret.'
         successfully_updated: 'Your Two-Factor Authentication settings have been updated.'
         could_not_confirm: 'The Confirmation Code you entered did not match the QR code shown below.'
@@ -44,7 +44,7 @@ en:
         successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
         recovery:
           title: 'Your Emergency Recovery Codes'
-          explain: 'Take note or print these recovery codes. The will allow you to log back in in case your token device is lost, stolen, or unavailable.'
+          explain: 'Take note or print these recovery codes. They will allow you to log in if your token device is lost, stolen, or unavailable.'
           sequence: 'Sequence'
           code: 'Recovery Code'
           codes_list: 'Here is the list of your recovery codes'
