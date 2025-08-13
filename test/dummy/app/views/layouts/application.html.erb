@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Dummy</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
@@ -10,7 +10,7 @@
 
   <div id="alerts">
     <% flash.keys.each do |key| %>
-      <%= content_tag :p, flash[key], :id => key %>
+      <%= content_tag :p, flash[key], id: key %>
     <% end %>
   </div>
 
