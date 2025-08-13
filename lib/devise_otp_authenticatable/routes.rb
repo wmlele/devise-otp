@@ -21,7 +21,6 @@ module ActionDispatch::Routing
           get :refresh, action: "get_refresh"
           put :refresh, action: "set_refresh"
         end
-
       end
     end
   end

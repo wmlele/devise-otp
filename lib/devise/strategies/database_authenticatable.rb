@@ -10,7 +10,7 @@ module Devise
         resource  = password.present? && mapping.to.find_for_database_authentication(authentication_hash)
         hashed = false
 
-        if validate(resource){ hashed = true; resource.valid_password?(password) }
+        if validate(resource) { hashed = true; resource.valid_password?(password) }
           if otp_challenge_required_on?(resource)
             # Redirect to challenge
             challenge = resource.generate_otp_challenge!

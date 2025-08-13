@@ -9,7 +9,7 @@ module DeviseOtpAuthenticatable
         end
       end
 
-      def self.define_helpers(mapping) #:nodoc:
+      def self.define_helpers(mapping) # :nodoc:
         mapping = mapping.name
 
         class_eval <<-METHODS, __FILE__, __LINE__ + 1
