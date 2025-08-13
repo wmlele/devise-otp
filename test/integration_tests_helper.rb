@@ -27,6 +27,17 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def create_lockable_user
+    @lockable_user ||= begin
+      lockable_user = LockableUser.create!(
+        email: "lockable-user@devise-otp.local",
+        password: "12345678",
+        password_confirmation: "12345678"
+      )
+      lockable_user
+    end
+  end
+
   def create_non_otp_user
     @non_otp_user ||= begin
       non_otp_user = NonOtpUser.create!(

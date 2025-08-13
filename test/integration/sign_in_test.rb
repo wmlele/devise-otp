@@ -77,7 +77,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     assert_equal root_path, current_path
   end
 
-  test "should fail if the the challenge times out" do
+  test "should fail and redirect if the the challenge is expired" do
     user = enable_otp_and_sign_in
 
     Timecop.travel(Time.now + 3.minutes)

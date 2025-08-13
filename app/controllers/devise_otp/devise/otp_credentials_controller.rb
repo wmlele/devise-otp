@@ -26,15 +26,30 @@ module DeviseOtp
       # signs the resource in, if the OTP token is valid and the user has a valid challenge
       #
       def update
-        if resource.otp_challenge_valid? && resource.validate_otp_token(@token, @recovery)
+        # The valid_for_authentication? method must be executed with the validation result as
+        # a block (as the DatabaseAuthenticatable strategy does via the validate method of the
+        # Authenticatable strategy). If true, and the account is not locked, then
+        # authentication will proceed as normal. If false, then the valid_for_authentication?
+        # method will increment the failed attempts and/or lock the account as specified.
+
+        if resource.valid_for_authentication? { resource.validate_otp_token(@token, @recovery) }
           sign_in(resource_name, resource)
 
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
+        elsif resource.devise_modules.include?(:lockable) and resource.access_locked?
+          otp_set_flash_message :alert, resource.unauthenticated_message, scope: "devise.failure"
+          redirect_to new_session_path(resource_name)
         else
-          kind = (@token.blank? ? :token_blank : :token_invalid)
-          otp_set_flash_message :alert, kind, now: true
+          if resource.devise_modules.include?(:lockable) and resource.unauthenticated_message == :last_attempt
+            otp_set_flash_message :alert, :last_attempt, scope: "devise.failure", now: true
+          elsif @token.blank?
+            otp_set_flash_message :alert, :token_blank, now: true
+          else
+            otp_set_flash_message :alert, :token_invalid, now: true
+          end
+
           render :show, status: :unprocessable_entity
         end
       end
