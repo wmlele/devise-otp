@@ -5,7 +5,7 @@ class SignInTest < ActionDispatch::IntegrationTest
   def setup
     @lockable_user = create_lockable_user
     @lockable_user.populate_otp_secrets!
-    @lockable_user.update(:otp_enabled => true)
+    @lockable_user.update(otp_enabled: true)
 
     sign_user_in(@lockable_user)
     assert_equal lockable_user_otp_credential_path, current_path
@@ -111,5 +111,4 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     assert page.has_content? "Your account is locked."
   end
-
 end

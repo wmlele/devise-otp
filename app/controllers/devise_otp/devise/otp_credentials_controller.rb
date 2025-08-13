@@ -39,15 +39,15 @@ module DeviseOtp
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         elsif resource.devise_modules.include?(:lockable) and resource.access_locked?
-          otp_set_flash_message :alert, resource.unauthenticated_message, :scope => "devise.failure"
+          otp_set_flash_message :alert, resource.unauthenticated_message, scope: "devise.failure"
           redirect_to new_session_path(resource_name)
         else
           if resource.devise_modules.include?(:lockable) and resource.unauthenticated_message == :last_attempt
-            otp_set_flash_message :alert, :last_attempt, :scope => "devise.failure", :now => true
+            otp_set_flash_message :alert, :last_attempt, scope: "devise.failure", now: true
           elsif @token.blank?
-            otp_set_flash_message :alert, :token_blank, :now => true
+            otp_set_flash_message :alert, :token_blank, now: true
           else
-            otp_set_flash_message :alert, :token_invalid, :now => true
+            otp_set_flash_message :alert, :token_invalid, now: true
           end
 
           render :show, status: :unprocessable_entity
