@@ -14,5 +14,5 @@ Style/StringLiterals:
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
 
-Layout/Layout/SpaceInsideHashLiteralBraces:
+Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
