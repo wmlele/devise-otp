@@ -6,6 +6,7 @@ module DeviseOtp
       prepend_before_action :authenticate_scope!, only: [:get_refresh, :set_refresh]
       prepend_before_action :require_no_authentication, only: [:show, :update]
       before_action :set_challenge, only: [:show, :update]
+      before_action :set_remember_me, only: [:show, :update]
       before_action :set_recovery, only: [:show, :update]
       before_action :set_resource, only: [:show, :update]
       before_action :set_token, only: [:update]
@@ -35,6 +36,7 @@ module DeviseOtp
         if resource.valid_for_authentication? { resource.validate_otp_token(@token, @recovery) }
           sign_in(resource_name, resource)
 
+          remember_me(resource) if @remember_me
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
@@ -83,6 +85,10 @@ module DeviseOtp
         unless @challenge.present?
           redirect_to :root
         end
+      end
+
+      def set_remember_me
+        @remember_me = params[:remember_me]
       end
 
       def set_recovery

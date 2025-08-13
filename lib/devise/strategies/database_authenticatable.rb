@@ -14,7 +14,7 @@ module Devise
           if otp_challenge_required_on?(resource)
             # Redirect to challenge
             challenge = resource.generate_otp_challenge!
-            redirect!(otp_challenge_path, {challenge: challenge})
+            redirect!(otp_challenge_path, {challenge: challenge, remember_me: remember_me?})
           else
             # Sign in user as usual
             remember_me(resource)
