@@ -125,7 +125,6 @@ module DeviseOtpAuthenticatable
           raw RQRCode::QRCode.new(resource.otp_provisioning_uri).as_svg(module_size: 5, viewbox: true, use_path: true)
         end
       end
-
     end
   end
 end

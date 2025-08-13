@@ -32,5 +32,4 @@ class OtpDriftTest < ActionDispatch::IntegrationTest
 
     assert_not_equal root_path, current_path
   end
-
 end

@@ -82,5 +82,4 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     assert_equal 422, page.status_code
   end
-
 end

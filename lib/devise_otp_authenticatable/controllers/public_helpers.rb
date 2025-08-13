@@ -33,7 +33,6 @@ module DeviseOtpAuthenticatable
       def mandatory_otp_missing_on?(resource)
         otp_mandatory_on?(resource) && !resource.otp_enabled
       end
-
     end
   end
 end

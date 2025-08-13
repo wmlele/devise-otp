@@ -2,7 +2,6 @@ require "test_helper"
 require "integration_tests_helper"
 
 class TrackableTest < ActionDispatch::IntegrationTest
-
   def setup
     @user = sign_user_in
 
@@ -46,5 +45,4 @@ class TrackableTest < ActionDispatch::IntegrationTest
     assert_not_equal @sign_in_count, @user.sign_in_count
     assert_not_equal @current_sign_in_at, @user.current_sign_in_at
   end
-
 end
