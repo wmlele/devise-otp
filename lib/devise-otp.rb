@@ -75,7 +75,6 @@ module Devise
 
   module Otp
   end
-
 end
 
 Devise.add_module :otp_authenticatable,

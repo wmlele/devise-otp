@@ -9,5 +9,4 @@ class Admin < ActiveRecord::Base
   def self.otp_mandatory
     true
   end
-
 end

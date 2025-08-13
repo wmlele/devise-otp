@@ -99,7 +99,7 @@ class SignInTest < ActionDispatch::IntegrationTest
     fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
 
-    assert !page.has_content?("The token you provided was invalid.")
+    assert_not page.has_content?("The token you provided was invalid.")
   end
 
   test "invalid token flash message does not persist to successful authentication redirect." do
@@ -113,6 +113,6 @@ class SignInTest < ActionDispatch::IntegrationTest
     fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)
     click_button "Submit Token"
 
-    assert !page.has_content?("You need to type in the token you generated with your device.")
+    assert_not page.has_content?("You need to type in the token you generated with your device.")
   end
 end

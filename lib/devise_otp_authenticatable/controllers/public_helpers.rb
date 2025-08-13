@@ -9,7 +9,7 @@ module DeviseOtpAuthenticatable
         end
       end
 
-      def self.define_helpers(mapping) #:nodoc:
+      def self.define_helpers(mapping) # :nodoc:
         mapping = mapping.name
 
         class_eval <<-METHODS, __FILE__, __LINE__ + 1
@@ -33,7 +33,6 @@ module DeviseOtpAuthenticatable
       def mandatory_otp_missing_on?(resource)
         otp_mandatory_on?(resource) && !resource.otp_enabled
       end
-
     end
   end
 end

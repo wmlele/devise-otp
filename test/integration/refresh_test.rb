@@ -60,7 +60,7 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     visit "/"
     within "#alerts" do
-      assert !page.has_content?('Sorry, you provided the wrong credentials.')
+      assert_not page.has_content?('Sorry, you provided the wrong credentials.')
     end
   end
 
@@ -122,5 +122,4 @@ class RefreshTest < ActionDispatch::IntegrationTest
 
     assert_equal 422, page.status_code
   end
-
 end

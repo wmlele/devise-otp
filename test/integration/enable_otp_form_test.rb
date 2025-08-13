@@ -48,7 +48,7 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     visit "/"
     within "#alerts" do
-      assert !page.has_content?('The Confirmation Code you entered did not match the QR code shown below.')
+      assert_not page.has_content?('The Confirmation Code you entered did not match the QR code shown below.')
     end
   end
 
@@ -82,5 +82,4 @@ class EnableOtpFormTest < ActionDispatch::IntegrationTest
 
     assert_equal 422, page.status_code
   end
-
 end

@@ -2,7 +2,6 @@ require "test_helper"
 require "integration_tests_helper"
 
 class DisableTokenTest < ActionDispatch::IntegrationTest
-
   def setup
     # log in 1fa
     @user = enable_otp_and_sign_in
@@ -52,5 +51,4 @@ class DisableTokenTest < ActionDispatch::IntegrationTest
     assert_not_nil @user.otp_recovery_secret
     assert_equal @user.otp_recovery_secret, recovery_secret
   end
-
 end
