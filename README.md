@@ -115,6 +115,9 @@ To run the tests for devise-otp against your current Ruby/Rails configuration:
 - Return to the root directory of devise-otp
 - Run "rake test"
 
+To check Pull Requests for formatting errors:
+- Run "./bin/rubocop"
+
 ## Authors
 
 The project was originally started by Lele Forzani by forking [devise_google_authenticator](https://github.com/AsteriskLabs/devise_google_authenticator) and still contains some devise_google_authenticator code. It's now maintained by [Josef Strzibny](https://github.com/strzibny/) and [Laney Stroup](https://github.com/strouptl).
