@@ -111,4 +111,33 @@ class SignInTest < ActionDispatch::IntegrationTest
 
     assert page.has_content? "Your account is locked."
   end
+
+  test "manually revisiting the sign_in form should not reset the failed attempts for the OTP form" do
+    # Enter incorrect token
+    4.times do
+      fill_in "token", with: "123456"
+      click_button "Submit Token"
+    end
+
+    @lockable_user.reload
+    assert_equal 4, @lockable_user.failed_attempts
+
+    # Attempt to reset failed attempts via sign_in form
+    reset!
+    visit posts_path
+    assert_equal new_user_session_path, current_path
+    sign_user_in(@lockable_user)
+
+    @lockable_user.reload
+    assert_equal 4, @lockable_user.failed_attempts
+
+    # Enter incorrect token again
+    fill_in "token", with: "123456"
+    click_button "Submit Token"
+
+    @lockable_user.reload
+    assert_equal 5, @lockable_user.failed_attempts
+
+    assert page.has_content? "Your account is locked."
+  end
 end
