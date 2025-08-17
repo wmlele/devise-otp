@@ -49,6 +49,17 @@ class ActionDispatch::IntegrationTest
     end
   end
 
+  def create_rememberable_user
+    @rememberable_user ||= begin
+      rememberable_user = RememberableUser.create!(
+        email: "rememberable-user@email.invalid",
+        password: "12345678",
+        password_confirmation: "12345678"
+      )
+      rememberable_user
+    end
+  end
+
   def enable_otp_and_sign_in_with_otp
     enable_otp_and_sign_in.tap do |user|
       fill_in "token", with: ROTP::TOTP.new(user.otp_auth_secret).at(Time.now)

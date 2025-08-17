@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_31_000003) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_18_030305) do
   create_table "admins", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -114,6 +114,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_31_000003) do
     t.text "body"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "rememberable_users", force: :cascade do |t|
+    t.string "name"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "otp_auth_secret"
+    t.string "otp_recovery_secret"
+    t.boolean "otp_enabled", default: false, null: false
+    t.boolean "otp_mandatory", default: false, null: false
+    t.datetime "otp_enabled_on"
+    t.integer "otp_time_drift", default: 0, null: false
+    t.integer "otp_failed_attempts", default: 0, null: false
+    t.integer "otp_recovery_counter", default: 0, null: false
+    t.string "otp_persistence_seed"
+    t.string "otp_session_challenge"
+    t.datetime "otp_challenge_expires"
+    t.index ["email"], name: "index_rememberable_users_on_email", unique: true
+    t.index ["otp_challenge_expires"], name: "index_rememberable_users_on_otp_challenge_expires"
+    t.index ["otp_session_challenge"], name: "index_rememberable_users_on_otp_session_challenge", unique: true
+    t.index ["reset_password_token"], name: "index_rememberable_users_on_reset_password_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
