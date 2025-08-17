@@ -5,6 +5,7 @@ Bug fixes:
 - Fixed an issue where Turbo/Hotwire enabled applications return a JS error for failed OTP authentication;
 
 Improvements:
+- Add support for Lockable strategy to OTP credentials form;
 - Use locales for "Enabled/Disabled" status;
 - Fix spelling, spacing, and grammatical issues in the default locales file;
 
