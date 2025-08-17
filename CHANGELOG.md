@@ -5,14 +5,14 @@ Bug fixes:
 - Fixed an issue where Turbo/Hotwire enabled applications return a JS error for failed OTP authentication;
 
 Improvements:
-- Use locales for "Enabled/Disabled" status (Ronald Sacher);
-- Fix spelling, spacing, and grammatical issues in the default locales file (Rob White);
+- Use locales for "Enabled/Disabled" status;
+- Fix spelling, spacing, and grammatical issues in the default locales file;
 
 Code Quality:
 - Use built-in functionality from rotp gem for handling the TOTP drift window;
-- Use standard URL Helpers in database\_authenticatable (Ronald Sacher);
-- Refactor code for otp\_issuer method (Ronald Sacher);
-- Cleanup Ruby syntax in ERB views (Rob White);
+- Use standard URL Helpers in database\_authenticatable;
+- Refactor code for otp\_issuer method;
+- Cleanup Ruby syntax in ERB views;
 - Add Timecop for testing time based functionality;
 - Add Rubocop and ERB Lint;
 
