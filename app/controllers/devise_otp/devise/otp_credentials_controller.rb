@@ -1,6 +1,7 @@
 module DeviseOtp
   module Devise
     class OtpCredentialsController < DeviseController
+      include ::Devise::Controllers::Rememberable
       helper_method :new_session_path
 
       prepend_before_action :authenticate_scope!, only: [:get_refresh, :set_refresh]
@@ -36,7 +37,7 @@ module DeviseOtp
         if resource.valid_for_authentication? { resource.validate_otp_token(@token, @recovery) }
           sign_in(resource_name, resource)
 
-          remember_me(resource) if @remember_me
+          remember_me(resource) if resource.devise_modules.include?(:rememberable) and @remember_me
           otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
