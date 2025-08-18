@@ -116,5 +116,4 @@ class RememberableTest < ActionDispatch::IntegrationTest
 
     assert_nil page.driver.browser.last_request.cookies['remember_rememberable_user_token']
   end
-
 end
