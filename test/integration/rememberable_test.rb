@@ -10,7 +10,6 @@ class RememberableTest < ActionDispatch::IntegrationTest
   test "checking remember_me at the sign in page persists the selection to the OTP credentials page, and to any reloads" do
     @rememberable_user = create_rememberable_user
     @rememberable_user.enable_otp!
-
     visit new_rememberable_user_session_path
 
     fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
@@ -40,14 +39,17 @@ class RememberableTest < ActionDispatch::IntegrationTest
     #assert_nil request.cookies['remember_user_token']
   end
 
-  test "rememberable users without OTP enabled are not affected" do
-    create_full_user
-    visit new_user_session_path
+  test "rememberable users without OTP enabled are remembered immediately" do
+    @rememberable_user = create_rememberable_user
+    visit new_rememberable_user_session_path
 
-    assert_not page.has_content? "Remember me"
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    check "Remember me"
+    click_button("Log in")
 
-    fill_in "user_email", with: "user@email.invalid"
-    fill_in "user_password", with: "12345678"
+    assert current_path, "/"
+    assert cookies['remember_rememberable_user_token']
   end
 
   test "normal users without rememberable strategy are not affected" do
