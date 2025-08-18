@@ -89,7 +89,7 @@ module DeviseOtp
       end
 
       def set_remember_me
-        @remember_me = params[:remember_me]
+        @remember_me = (params[:remember_me] == "true")
       end
 
       def set_recovery
