@@ -1,4 +1,4 @@
-class CreateRememberableUsers < ActiveRecord::Migration[8.0]
+class CreateRememberableUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :rememberable_users do |t|
       t.string :name

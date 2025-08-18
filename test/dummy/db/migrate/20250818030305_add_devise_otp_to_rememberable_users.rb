@@ -1,4 +1,4 @@
-class AddDeviseOtpToRememberableUsers < ActiveRecord::Migration[8.0]
+class AddDeviseOtpToRememberableUsers < ActiveRecord::Migration[7.0]
   def self.up
     change_table :rememberable_users do |t|
       t.string :otp_auth_secret
