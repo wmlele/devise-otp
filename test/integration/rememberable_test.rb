@@ -92,10 +92,6 @@ class RememberableTest < ActionDispatch::IntegrationTest
     assert_nil page.driver.browser.last_request.cookies['remember_rememberable_user_token']
   end
 
-  test "rememberable is distinct from OTP credential persistence" do
-    #assert_nil request.cookies['remember_user_token']
-  end
-
   test "rememberable users without OTP enabled are remembered immediately" do
     @rememberable_user.disable_otp!
 
