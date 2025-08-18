@@ -26,22 +26,6 @@ class RememberableTest < ActionDispatch::IntegrationTest
     assert_equal "true", find("#remember_me", visible: false).value
   end
 
-  test "the OTP credentials page persists the remember_me value through any reloads" do
-    visit new_rememberable_user_session_path
-
-    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
-    fill_in "rememberable_user_password", with: "12345678"
-    check "Remember me"
-    click_button("Log in")
-    assert_equal rememberable_user_otp_credential_path, current_path
-
-    fill_in "token", with: "123456"
-    click_button("Submit Token")
-    assert_equal rememberable_user_otp_credential_path, current_path
-
-    assert_equal "true", find("#remember_me", visible: false).value
-  end
-
   test "completing the sign in process with OTP enabled remembers the user" do
     visit new_rememberable_user_session_path
 
@@ -58,8 +42,32 @@ class RememberableTest < ActionDispatch::IntegrationTest
     assert cookies['remember_rememberable_user_token']
   end
 
+  test "the OTP credentials page persists the remember_me value through any reloads" do
+    visit new_rememberable_user_session_path
+
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    check "Remember me"
+    click_button("Log in")
+    assert_equal rememberable_user_otp_credential_path, current_path
+
+    fill_in "token", with: "123456"
+    click_button("Submit Token")
+    assert_equal rememberable_user_otp_credential_path, current_path
+
+    assert_equal "true", find("#remember_me", visible: false).value
+  end
+
   test "checking remember_me at the sign in page does not remember the user until sign in is completed" do
-    #assert_nil request.cookies['remember_user_token']
+    visit new_rememberable_user_session_path
+
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    check "Remember me"
+    click_button("Log in")
+    assert_equal rememberable_user_otp_credential_path, current_path
+
+    assert_nil cookies['remember_rememberable_user_token']
   end
 
   test "rememberable is distinct from OTP credential persistence" do
