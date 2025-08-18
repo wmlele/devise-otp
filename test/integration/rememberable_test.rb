@@ -26,7 +26,7 @@ class RememberableTest < ActionDispatch::IntegrationTest
     assert_equal "true", find("#remember_me", visible: false).value
   end
 
-  test "completing the sign in process with OTP enabled remembers the user" do
+  test "checking remember me during the sign in process with OTP enabled remembers the user" do
     visit new_rememberable_user_session_path
 
     fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
@@ -40,6 +40,21 @@ class RememberableTest < ActionDispatch::IntegrationTest
 
     assert current_path, "/"
     assert cookies['remember_rememberable_user_token']
+  end
+
+  test "not checking remember me during the sign in process does not remember the user" do
+    visit new_rememberable_user_session_path
+
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    click_button("Log in")
+    assert_equal rememberable_user_otp_credential_path, current_path
+
+    fill_in "token", with: ROTP::TOTP.new(@rememberable_user.otp_auth_secret).at(Time.now)
+    click_button("Submit Token")
+
+    assert current_path, "/"
+    assert_nil cookies['remember_rememberable_user_token']
   end
 
   test "the OTP credentials page persists the remember_me value through any reloads" do

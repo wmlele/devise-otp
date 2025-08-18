@@ -18,3 +18,5 @@ gem "sqlite3", "~> 2.1"
 gem "standardrb", require: false
 gem "rubocop-rails-omakase", require: false
 gem 'erb_lint', require: false
+
+gem "debug"
