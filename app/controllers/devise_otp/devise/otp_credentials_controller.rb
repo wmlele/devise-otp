@@ -38,7 +38,6 @@ module DeviseOtp
           sign_in(resource_name, resource)
 
           remember_me(resource) if resource.devise_modules.include?(:rememberable) and @remember_me
-          otp_set_trusted_device_for(resource) if params[:enable_persistence] == "true"
           otp_refresh_credentials_for(resource)
           respond_with resource, location: after_sign_in_path_for(resource)
         elsif resource.devise_modules.include?(:lockable) and resource.access_locked?

@@ -2,7 +2,6 @@ en:
   devise:
     otp:
       general:
-        remember: Remember me
         enabled: 'Enabled'
         disabled: 'Disabled'
       submit_token:
