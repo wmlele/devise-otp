@@ -35,7 +35,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    click_link("Trust this browser")
+    click_button("Trust this browser")
     assert_text "Your browser is trusted."
     within "#alerts" do
       assert page.has_content? 'Your device is now trusted.'
@@ -69,7 +69,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    click_link("Trust this browser")
+    click_button("Trust this browser")
     assert_text "Your browser is trusted."
     sign_out
 

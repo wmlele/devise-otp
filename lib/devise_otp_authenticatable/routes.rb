@@ -7,9 +7,9 @@ module ActionDispatch::Routing
         resource :token, only: [:show, :edit, :update, :destroy],
           path: mapping.path_names[:token], controller: controllers[:otp_tokens] do
           if Devise.otp_trust_persistence
-            get :persistence, action: "get_persistence"
-            post :persistence, action: "clear_persistence"
-            delete :persistence, action: "delete_persistence"
+            post :persistence, action: "create_persistence"
+            delete :persistence, action: "destroy_persistence"
+            delete :all_persistence, action: "destroy_all_persistence"
           end
 
           get :recovery
