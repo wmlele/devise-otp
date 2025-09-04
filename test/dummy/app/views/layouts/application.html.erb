@@ -8,6 +8,8 @@
 </head>
 <body>
 
+  <%= render "shared/navbar" %>
+
   <div id="alerts">
     <% flash.keys.each do |key| %>
       <%= content_tag :p, flash[key], id: key %>

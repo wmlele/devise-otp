@@ -1,0 +1,15 @@
+<nav>
+  <div style="float: right;">
+    <% if current_user.present? %>
+      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+    <% elsif current_admin.present? %>
+      <%= button_to "Sign Out", destroy_admin_session_path, method: :delete, data: { turbo_method: :delete } %>
+    <% elsif current_lockable_user.present? %>
+      <%= button_to "Sign Out", destroy_lockable_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+    <% elsif current_non_otp_user.present? %>
+      <%= button_to "Sign Out", destroy_non_otp_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+    <% elsif current_rememberable_user.present? %>
+      <%= button_to "Sign Out", destroy_rememberable_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+    <% end %>
+  </div>
+</nav>
