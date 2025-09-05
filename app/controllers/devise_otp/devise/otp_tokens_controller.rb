@@ -54,7 +54,7 @@ module DeviseOtp
       #
       # makes the current browser persistent
       #
-      def get_persistence
+      def create_persistence
         if otp_set_trusted_device_for(resource)
           otp_set_flash_message :success, :successfully_set_persistence
         end
@@ -65,7 +65,7 @@ module DeviseOtp
       #
       # clears persistence for the current browser
       #
-      def clear_persistence
+      def destroy_persistence
         if otp_clear_trusted_device_for(resource)
           otp_set_flash_message :success, :successfully_cleared_persistence
         end
@@ -76,7 +76,7 @@ module DeviseOtp
       #
       # rehash the persistence secret, thus, making all the persistence cookies invalid
       #
-      def delete_persistence
+      def destroy_all_persistence
         if otp_reset_persistence_for(resource)
           otp_set_flash_message :notice, :successfully_reset_persistence
         end
