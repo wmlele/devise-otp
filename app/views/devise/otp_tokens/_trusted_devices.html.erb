@@ -9,4 +9,4 @@
   <p><%= button_to t('trust_add', scope: 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name) %></p>
 <% end %>
 
-<p><%= button_to t('trust_clear', scope: 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name), method: :delete %></p>
+<p><%= button_to t('trust_clear', scope: 'devise.otp.trusted_browsers'), all_persistence_otp_token_path_for(resource_name), method: :delete %></p>
