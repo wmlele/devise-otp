@@ -104,6 +104,30 @@ class RememberableTest < ActionDispatch::IntegrationTest
     assert page.driver.browser.last_request.cookies['remember_rememberable_user_token']
   end
 
+  test "rememberable users with browser persistence enabled are still remembered when signing in" do
+    visit new_rememberable_user_session_path
+
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    check "Remember me"
+    click_button("Log in")
+
+    fill_in "token", with: ROTP::TOTP.new(@rememberable_user.otp_auth_secret).at(Time.now)
+    click_button("Submit Token")
+
+    visit rememberable_user_otp_token_path
+    click_button "Trust this browser"
+    click_button("Sign Out")
+
+    visit new_rememberable_user_session_path
+    fill_in "rememberable_user_email", with: "rememberable-user@email.invalid"
+    fill_in "rememberable_user_password", with: "12345678"
+    check "Remember me"
+    click_button("Log in")
+
+    assert page.driver.browser.last_request.cookies['remember_rememberable_user_token']
+  end
+
   test "normal users without rememberable strategy are not affected" do
     create_full_user
     visit new_user_session_path
