@@ -111,6 +111,8 @@ module DeviseOtp
       def skip_challenge_if_trusted_browser
         if is_otp_trusted_browser_for?(resource)
           sign_in(resource_name, resource)
+
+          remember_me(resource) if resource.devise_modules.include?(:rememberable) and @remember_me
           otp_refresh_credentials_for(resource)
           redirect_to after_sign_in_path_for(resource)
         end
