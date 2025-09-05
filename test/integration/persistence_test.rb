@@ -47,6 +47,52 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     assert_equal root_path, current_path
   end
 
+  test "a user should be able to remove their browser from trusted devices" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    original_persistence_seed = user.otp_persistence_seed
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    click_button("Trust this browser")
+    assert_text "Your browser is trusted."
+
+    click_button("Remove this browser from the list of trusted browsers")
+    assert_text "Your browser is not trusted."
+
+    assert_equal user.reload.otp_persistence_seed, original_persistence_seed
+
+    sign_out
+    sign_user_in
+    assert_equal user_otp_credential_path, current_path
+  end
+
+  test "a user should be able to clear all browsers from trusted devices" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    original_persistence_seed = user.otp_persistence_seed
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    click_button("Trust this browser")
+    assert_text "Your browser is trusted."
+
+    click_button("Clear the list of trusted browsers")
+    assert_text "Your browser is not trusted."
+
+    assert_not_equal user.reload.otp_persistence_seed, original_persistence_seed
+
+    sign_out
+    sign_user_in
+    assert_equal user_otp_credential_path, current_path
+  end
+
   test "a user should be able to download its recovery codes" do
     # log in 1fa
     user = enable_otp_and_sign_in
