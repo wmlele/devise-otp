@@ -49,39 +49,6 @@ module DeviseOtp
         redirect_to otp_token_path_for(resource)
       end
 
-      #
-      # makes the current browser persistent
-      #
-      def create_persistence
-        if otp_set_trusted_device_for(resource)
-          otp_set_flash_message :success, :successfully_set_persistence
-        end
-
-        redirect_to otp_token_path_for(resource)
-      end
-
-      #
-      # clears persistence for the current browser
-      #
-      def destroy_persistence
-        if otp_clear_trusted_device_for(resource)
-          otp_set_flash_message :success, :successfully_cleared_persistence
-        end
-
-        redirect_to otp_token_path_for(resource)
-      end
-
-      #
-      # rehash the persistence secret, thus, making all the persistence cookies invalid
-      #
-      def reset_persistence
-        if otp_reset_persistence_for(resource)
-          otp_set_flash_message :notice, :successfully_reset_persistence
-        end
-
-        redirect_to otp_token_path_for(resource)
-      end
-
       def recovery
         respond_to do |format|
           format.html

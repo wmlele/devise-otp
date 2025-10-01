@@ -11,14 +11,14 @@ module DeviseOtpAuthenticatable
         send("refresh_#{scope}_otp_credential_path", opts)
       end
 
-      def persistence_otp_token_path_for(resource_or_scope, opts = {})
+      def otp_persistence_path_for(resource_or_scope, opts = {})
         scope = ::Devise::Mapping.find_scope!(resource_or_scope)
-        send("persistence_#{scope}_otp_token_path", opts)
+        send("#{scope}_otp_persistence_path", opts)
       end
 
-      def reset_persistence_otp_token_path_for(resource_or_scope, opts = {})
+      def reset_otp_persistence_path_for(resource_or_scope, opts = {})
         scope = ::Devise::Mapping.find_scope!(resource_or_scope)
-        send("reset_persistence_#{scope}_otp_token_path", opts)
+        send("reset_#{scope}_otp_persistence_path", opts)
       end
 
       def otp_token_path_for(resource_or_scope, opts = {})

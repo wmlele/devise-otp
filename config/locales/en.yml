@@ -38,9 +38,6 @@ en:
         could_not_confirm: 'The Confirmation Code you entered did not match the QR code shown below.'
         successfully_disabled_otp: 'Two-Factor Authentication has been disabled.'
         successfully_reset_otp: 'Your token secret has been reset. Please confirm your new token secret below.'
-        successfully_set_persistence: 'Your device is now trusted.'
-        successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
-        successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
         recovery:
           title: 'Your Emergency Recovery Codes'
           explain: 'Take note or print these recovery codes. They will allow you to log in if your token device is lost, stolen, or unavailable.'
@@ -48,6 +45,10 @@ en:
           code: 'Recovery Code'
           codes_list: 'Here is the list of your recovery codes'
           download_codes: 'Download recovery codes'
+      otp_persistence:
+        successfully_set_persistence: 'Your device is now trusted.'
+        successfully_cleared_persistence: 'Your device has been removed from the list of trusted devices.'
+        successfully_reset_persistence: 'Your list of trusted devices has been cleared.'
       edit_otp_token:
         title: 'Enable Two-factor Authentication'
         explain: 'Two-Factor Authentication adds an additional layer of security to your account. When logging in you will be asked for a code that you can generate on a physical device, like your phone.'

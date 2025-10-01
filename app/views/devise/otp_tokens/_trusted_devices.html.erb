@@ -3,10 +3,10 @@
 
 <%- if is_otp_trusted_browser_for? resource %>
   <p><em><%= t('browser_trusted', scope: 'devise.otp.trusted_browsers') %></em></p>
-  <p><%= button_to t('trust_remove', scope: 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name), method: :delete %></p>
+  <p><%= button_to t('trust_remove', scope: 'devise.otp.trusted_browsers'), otp_persistence_path_for(resource_name), method: :delete %></p>
 <% else %>
   <p><%= t('browser_not_trusted', scope: 'devise.otp.trusted_browsers') %></p>
-  <p><%= button_to t('trust_add', scope: 'devise.otp.trusted_browsers'), persistence_otp_token_path_for(resource_name) %></p>
+  <p><%= button_to t('trust_add', scope: 'devise.otp.trusted_browsers'), otp_persistence_path_for(resource_name) %></p>
 <% end %>
 
-<p><%= button_to t('trust_clear', scope: 'devise.otp.trusted_browsers'), reset_persistence_otp_token_path_for(resource_name), method: :delete %></p>
+<p><%= button_to t('trust_clear', scope: 'devise.otp.trusted_browsers'), reset_otp_persistence_path_for(resource_name), method: :delete %></p>
