@@ -18,6 +18,27 @@ Code Quality:
 - Add Timecop for testing time based functionality;
 - Add Rubocop and ERB Lint;
 
+Breaking changes
+- Move browser persistence actions to dedicated controller
+- Standardize browser persistence routes, and use buttons for controls
+
+### Upgrading
+
+If you have customized the otp_tokens controller/views, or the locales file for browser persistence:
+1. Regenerate the "otp_tokens" controller and views
+
+```
+rails g devise_otp:controllers
+rails g devise_otp:views
+```
+
+2. Reapply any desired changes
+- Note that the browser persistence controls now use "button_to", rather than "link_to"
+
+3. Update your locales file
+- Move any \*\_persistence keys from devise.otp.otp_tokens/ to devise.otp.otp_persistence/
+
+
 ## 1.1.0
 
 Bug fixes:

@@ -35,7 +35,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    click_link("Trust this browser")
+    click_button("Trust this browser")
     assert_text "Your browser is trusted."
     within "#alerts" do
       assert page.has_content? 'Your device is now trusted.'
@@ -45,6 +45,46 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     sign_user_in
 
     assert_equal root_path, current_path
+  end
+
+  test "a user should be able to remove their browser" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    original_persistence_seed = user.otp_persistence_seed
+
+    visit user_otp_token_path
+    click_button("Trust this browser")
+    click_button("Remove this browser from the list of trusted browsers")
+
+    assert_text "Your browser is not trusted."
+    # Test that the OTP Persistence Seed is still valid
+    assert_equal user.reload.otp_persistence_seed, original_persistence_seed
+
+    sign_out
+    sign_user_in
+    assert_equal user_otp_credential_path, current_path
+  end
+
+  test "a user should be able to clear all trusted browsers" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    original_persistence_seed = user.otp_persistence_seed
+
+    visit user_otp_token_path
+    click_button("Trust this browser")
+    click_button("Clear the list of trusted browsers")
+
+    assert_text "Your browser is not trusted."
+    # Test that the OTP Persistence Seed was reset
+    assert_not_equal user.reload.otp_persistence_seed, original_persistence_seed
+
+    sign_out
+    sign_user_in
+    assert_equal user_otp_credential_path, current_path
   end
 
   test "a user should be able to download its recovery codes" do
@@ -69,7 +109,7 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     visit user_otp_token_path
     assert_equal user_otp_token_path, current_path
 
-    click_link("Trust this browser")
+    click_button("Trust this browser")
     assert_text "Your browser is trusted."
     sign_out
 
@@ -77,5 +117,19 @@ class PersistenceTest < ActionDispatch::IntegrationTest
 
     sign_user_in
     assert_equal user_otp_credential_path, current_path
+  end
+
+  test "a user should be prompted for credentials if the credentials_refresh time is expired" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    Timecop.travel(Time.now + 15.minutes)
+
+    click_button("Trust this browser")
+    assert_equal refresh_user_otp_credential_path, current_path
   end
 end
