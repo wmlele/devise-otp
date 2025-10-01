@@ -118,4 +118,18 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     sign_user_in
     assert_equal user_otp_credential_path, current_path
   end
+
+  test "a user should be prompted for credentials if the credentials_refresh time is expired" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    Timecop.travel(Time.now + 15.minutes)
+
+    click_button("Trust this browser")
+    assert_equal refresh_user_otp_credential_path, current_path
+  end
 end
