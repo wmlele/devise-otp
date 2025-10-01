@@ -6,8 +6,6 @@ module DeviseOtp
       prepend_before_action :ensure_credentials_refresh
       prepend_before_action :authenticate_scope!
 
-      protect_from_forgery except: [:clear_persistence, :delete_persistence]
-
       #
       # Displays the status of OTP authentication
       #
