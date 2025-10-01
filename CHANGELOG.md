@@ -18,6 +18,9 @@ Code Quality:
 - Add Timecop for testing time based functionality;
 - Add Rubocop and ERB Lint;
 
+Maintenance
+- Bump rqrcode to 3.0.0
+
 Breaking changes
 - Move browser persistence actions to dedicated controller
 - Standardize browser persistence routes, and use buttons for controls
