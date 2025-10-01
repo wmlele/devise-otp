@@ -9,7 +9,7 @@ module ActionDispatch::Routing
           if Devise.otp_trust_persistence
             post :persistence, action: "create_persistence"
             delete :persistence, action: "destroy_persistence"
-            delete :all_persistence, action: "destroy_all_persistence"
+            delete :reset_persistence, action: "reset_persistence"
           end
 
           get :recovery

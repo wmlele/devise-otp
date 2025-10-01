@@ -76,7 +76,7 @@ module DeviseOtp
       #
       # rehash the persistence secret, thus, making all the persistence cookies invalid
       #
-      def destroy_all_persistence
+      def reset_persistence
         if otp_reset_persistence_for(resource)
           otp_set_flash_message :notice, :successfully_reset_persistence
         end

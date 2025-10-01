@@ -16,9 +16,9 @@ module DeviseOtpAuthenticatable
         send("persistence_#{scope}_otp_token_path", opts)
       end
 
-      def all_persistence_otp_token_path_for(resource_or_scope, opts = {})
+      def reset_persistence_otp_token_path_for(resource_or_scope, opts = {})
         scope = ::Devise::Mapping.find_scope!(resource_or_scope)
-        send("all_persistence_#{scope}_otp_token_path", opts)
+        send("reset_persistence_#{scope}_otp_token_path", opts)
       end
 
       def otp_token_path_for(resource_or_scope, opts = {})
