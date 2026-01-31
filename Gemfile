@@ -6,6 +6,7 @@ gemspec
 gem "appraisal", git: "https://github.com/thoughtbot/appraisal.git"
 
 gem "capybara"
+gem "debug"
 gem "minitest-reporters", ">= 0.5.0"
 gem "puma"
 gem "rake"
@@ -16,8 +17,6 @@ gem "sqlite3", "~> 2.1"
 gem "timecop", "~> 0.9.10"
 
 # Formatting gems
-gem "standardrb", require: false
+gem "erb_lint",              require: false
+gem "standardrb",            require: false
 gem "rubocop-rails-omakase", require: false
-gem "erb_lint", require: false
-
-gem "debug"
