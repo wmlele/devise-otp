@@ -13,6 +13,7 @@ gem "rdoc"
 gem "shoulda"
 gem "sprockets-rails"
 gem "sqlite3", "~> 2.1"
+gem "timecop", "~> 0.9.10"
 
 # Formatting gems
 gem "standardrb", require: false
