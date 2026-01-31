@@ -11,7 +11,7 @@ module ActionDispatch::Routing
         end
 
         if Devise.otp_trust_persistence
-          resource :persistence, :only => [:create, :destroy],
+          resource :persistence, only: [:create, :destroy],
             path: mapping.path_names[:persistence], controller: controllers[:otp_persistence] do
             delete :reset
           end
