@@ -10,16 +10,12 @@ gem "rake"
 gem "rdoc"
 gem "shoulda"
 gem "sprockets-rails"
-gem "sqlite3", "~> 1.5.0"
+gem "sqlite3", "~> 2.1"
 gem "timecop", "~> 0.9.10"
 gem "standardrb", require: false
 gem "rubocop-rails-omakase", require: false
 gem "erb_lint", require: false
 gem "debug"
-gem "rails", "~> 7.1.0"
-
-install_if -> { Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.4.0") } do
-  gem "logger"
-end
+gem "rails", "~> 8.1.0"
 
 gemspec path: "../"

@@ -12,17 +12,21 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
+          - '4.0'
           - '3.4'
           - '3.3'
           - '3.2'
           - 'head'
         rails:
+          - rails_8.1
           - rails_8.0
           - rails_7.2
           - rails_7.1
         exclude:
           - ruby: '3.1'
             rails: 'rails_8.0'
+          - ruby: '3.1'
+            rails: 'rails_8.1'
 
     env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
       BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.rails }}.gemfile
