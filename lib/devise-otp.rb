@@ -45,7 +45,7 @@ module Devise
   @@otp_trust_persistence = 30.days
 
   mattr_accessor :otp_drift_window
-  @@otp_drift_window = 3 # in minutes
+  @@otp_drift_window = 3
 
   #
   # if the user wants to change Otp settings,
