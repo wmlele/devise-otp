@@ -13,3 +13,16 @@
  */
 
 @import url("devise-otp.css");
+
+nav {
+  ul {
+    float: right;
+    margin: 0;
+    display: flex;
+  }
+  li {
+    list-style: none;
+    padding: 0.25rem 0.5rem;;
+    margin: 0;
+  }
+}

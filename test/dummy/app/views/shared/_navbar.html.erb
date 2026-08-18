@@ -1,15 +1,23 @@
 <nav>
-  <div style="float: right;">
+  <ul style="float: right;">
+    <li><%= link_to "Home", root_path %></li>
     <% if current_user.present? %>
-      <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <li><%= link_to "Posts", posts_path %></li>
+      <li><%= link_to "OTP Token", user_otp_token_path %></li>
+      <li><%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete } %></li>
     <% elsif current_admin.present? %>
-      <%= button_to "Sign Out", destroy_admin_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <li><%= link_to "Posts", admin_posts_path %></li>
+      <li><%= link_to "OTP Token", admin_otp_token_path %></li>
+      <li><%= button_to "Sign Out", destroy_admin_session_path, method: :delete, data: { turbo_method: :delete } %></li>
     <% elsif current_lockable_user.present? %>
-      <%= button_to "Sign Out", destroy_lockable_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <li><%= link_to "OTP Token", lockable_user_otp_token_path %></li>
+      <li><%= button_to "Sign Out", destroy_lockable_user_session_path, method: :delete, data: { turbo_method: :delete } %></li>
     <% elsif current_non_otp_user.present? %>
-      <%= button_to "Sign Out", destroy_non_otp_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <li><%= link_to "Posts", admin_posts_path %></li>
+      <li><%= button_to "Sign Out", destroy_non_otp_user_session_path, method: :delete, data: { turbo_method: :delete } %></li>
     <% elsif current_rememberable_user.present? %>
-      <%= button_to "Sign Out", destroy_rememberable_user_session_path, method: :delete, data: { turbo_method: :delete } %>
+      <li><%= link_to "OTP Token", rememberable_user_otp_token_path %></li>
+      <li><%= button_to "Sign Out", destroy_rememberable_user_session_path, method: :delete, data: { turbo_method: :delete } %></li>
     <% end %>
-  </div>
+  </ul >
 </nav>

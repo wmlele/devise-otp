@@ -50,13 +50,21 @@ Run the following generator to add the necessary configuration options to Devise
 
     rails g devise_otp:install
 
-After you've created your Devise user models (which is usually done with a `rails g devise MODEL`), set up your Devise OTP additions:
+## Getting Started
+
+1. Create your Devise user model if you have not done so
+
+    rails g devise MODEL
+
+2. Add Devise OTP to the model
 
     rails g devise_otp MODEL
 
-Don't forget to migrate:
+3. Add a link to the OTP Token settings to your navigation menu (or equivalent) for the user model
 
-    rake db:migrate
+    <%= link_to "OTP Token", user_otp_token_path %>
+
+NOTE: replace "user" with the lowercase name of the model (same as the main devise gem)
 
 ### Default CSS
 
