@@ -52,21 +52,21 @@ Run the following generator to add the necessary configuration options to Devise
 
 ## Getting Started
 
-1. Create your Devise user model if you have not done so
+Create your Devise user model if you have not done so
 
     rails g devise MODEL
 
-2. Add Devise OTP to the model
+Add Devise OTP to the model
 
     rails g devise_otp MODEL
 
-3. Add a link to the OTP Token settings to your navigation menu (or equivalent) for the user model
+Add a link to the OTP Token settings to your navigation menu (or equivalent) for the user model
 
     <%= link_to "OTP Token", user_otp_token_path %>
 
 NOTE: replace "user" with the lowercase name of the model (same as the main devise gem)
 
-### Default CSS
+## Default CSS
 
 To use the default CSS for devise-otp, just import the devise-otp.css file into your application.css file (or equivalent):
 
@@ -74,7 +74,7 @@ To use the default CSS for devise-otp, just import the devise-otp.css file into 
 
 NOTE: You can also copy/paste the styles from [devise-otp.css](https://github.com/wmlele/devise-otp/blob/master/app/assets/stylesheets/devise-otp.css) into your stylesheet.
 
-### Custom views
+## Custom views
 
 If you want to customise your views, you can use the following generator to eject the default view files:
 
@@ -82,11 +82,11 @@ If you want to customise your views, you can use the following generator to ejec
 
 By default, the files live within the Devise namespace (`app/views/devise`, but if you want to move them or want to match the Devise configuration, set `config.otp_controller_path` in your initializers. 
 
-### I18n
+## I18n
 
 The install generator also installs an english copy of a Devise OTP i18n file. This can be modified (or used to create other language versions) and is located at: _config/locales/devise.otp.en.yml_
 
-### QR codes
+## QR codes
 
 Devise OTP generates QR Codes directly as SVG's via the [rqrcode](https://github.com/whomwah/rqrcode), so there are no JavaScript (or Sprockets) dependencies.
 
