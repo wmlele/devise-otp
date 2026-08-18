@@ -118,10 +118,21 @@ To run the devise-otp dummy application in the development environment:
 - Run the rails console or server (e.g. "rails c")
 
 To run the tests for devise-otp against your current Ruby/Rails configuration:
-- Navigate to the dummy app directory ("cd test/dummy")
-- Create and migrate the database for the test environment ("RAILS\_ENV=test rails db:drop db:create db:migrate")
+- Navigate to the dummy app directory
+
+    cd test/dummy
+
+- Create and migrate the database for the test environment
+
+    RAILS\_ENV=test rails db:drop
+    RAILS\_ENV=test rails db:create
+    RAILS\_ENV=test rails db:migrate
+
 - Return to the root directory of devise-otp
-- Run "rake test"
+
+- Execute the tests
+
+    rake test
 
 To check Ruby syntax and formatting:
 - Rubocop: "./bin/rubocop"
