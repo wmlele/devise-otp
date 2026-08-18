@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_18_030305) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_18_030305) do
   create_table "admins", force: :cascade do |t|
     t.string "authentication_token"
     t.datetime "created_at", precision: nil, null: false
