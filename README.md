@@ -60,11 +60,11 @@ Don't forget to migrate:
 
 ### Default CSS
 
-To use the default CSS for devise-otp, just require the devise-otp.css file as usual in your application.css file (or equivalent):
+To use the default CSS for devise-otp, just import the devise-otp.css file into your application.css file (or equivalent):
 
-    *= require devise-otp
+    @import url("devise-otp.css");
 
-It might be even easier to just copy the styles to your project.
+NOTE: You can also copy/paste the styles from [devise-otp.css](https://github.com/wmlele/devise-otp/blob/master/app/assets/stylesheets/devise-otp.css) into your stylesheet.
 
 ### Custom views
 
