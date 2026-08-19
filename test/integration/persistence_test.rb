@@ -4,7 +4,6 @@ require "integration_tests_helper"
 class PersistenceTest < ActionDispatch::IntegrationTest
   def setup
     @old_persistence = User.otp_trust_persistence
-    User.otp_trust_persistence = 3.seconds
   end
 
   def teardown
@@ -101,7 +100,25 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     assert page.body.match?(user.next_otp_recovery_tokens.values.join("\n"))
   end
 
-  test "trusted status should expire" do
+  test "trusted status should last until the expiration date" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    click_button("Trust this browser")
+    assert_text "Your browser is trusted."
+    sign_out
+
+    Timecop.travel(Time.now + 29.days)
+
+    sign_user_in
+    assert_equal root_path, current_path
+  end
+
+  test "trusted status should expire after the expiration date" do
     # log in 1fa
     user = enable_otp_and_sign_in
     otp_challenge_for user
