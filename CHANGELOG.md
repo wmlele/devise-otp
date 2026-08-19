@@ -1,6 +1,13 @@
 # Changelog
 
 ## Unreleased
+Bug fixes
+- Add back link from View Recovery Codes page;
+- Add fallback for refreshing credentails when enabling browser persistence - ensures that GET action returns a valid page rather than a 404 page;
+
+Improvements
+- Simplify "View recovery codes" verbiage;
+
 Maintenance
 - Disable tests for Rails 7.1 (EOL on 10/2025) and 7.2 (EOL on 8/9/2026)
 
