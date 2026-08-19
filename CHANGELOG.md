@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+Maintenance
+- Disable tests for Rails 7.1 (EOL on 10/2025) and 7.2 (EOL on 8/9/2026)
+
+README
+- Switch README to feature native CSS import for Propshaft;
+- Add Getting Started section with sample link to OTP Token page;
+
 ## v2.0.0
 
 Bug fixes:
