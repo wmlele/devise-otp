@@ -7,6 +7,13 @@ module DeviseOtp
       prepend_before_action :authenticate_scope!
 
       #
+      # fallback in case of redirect after authentication
+      #
+      def show
+        redirect_to otp_token_path_for(resource)
+      end
+
+      #
       # makes the current browser persistent
       #
       def create

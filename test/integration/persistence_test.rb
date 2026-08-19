@@ -149,4 +149,23 @@ class PersistenceTest < ActionDispatch::IntegrationTest
     click_button("Trust this browser")
     assert_equal refresh_user_otp_credential_path, current_path
   end
+
+  test "a user should be redirected to the fallback (OTP Token page) after refreshing their credentials for trusting their browser" do
+    # log in 1fa
+    user = enable_otp_and_sign_in
+    otp_challenge_for user
+
+    visit user_otp_token_path
+    assert_equal user_otp_token_path, current_path
+
+    Timecop.travel(Time.now + 15.minutes)
+
+    click_button("Trust this browser")
+    assert_equal refresh_user_otp_credential_path, current_path
+
+    fill_in "user_refresh_password", with: "12345678"
+    click_button "Continue..."
+
+    assert_equal user_otp_token_path, current_path
+  end
 end
