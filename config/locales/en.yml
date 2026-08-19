@@ -43,7 +43,7 @@ en:
           explain: 'Take note or print these recovery codes. They will allow you to log in if your token device is lost, stolen, or unavailable.'
           sequence: 'Sequence'
           code: 'Recovery Code'
-          codes_list: 'Here is the list of your recovery codes'
+          codes_list: 'View recovery codes'
           download_codes: 'Download recovery codes'
       otp_persistence:
         successfully_set_persistence: 'Your device is now trusted.'
