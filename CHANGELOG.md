@@ -7,6 +7,7 @@ Bug fixes
 
 Improvements
 - Simplify "View recovery codes" verbiage;
+- Move locale file to devise-otp.en.yml;
 
 Maintenance
 - Disable tests for Rails 7.1 (EOL on 10/2025) and 7.2 (EOL on 8/9/2026)
