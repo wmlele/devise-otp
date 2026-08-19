@@ -2,8 +2,8 @@
 
 ## Unreleased
 Bug fixes
-- Add back link from View Recovery Codes page;
-- Add fallback for refreshing credentails when enabling browser persistence - ensures that GET action returns a valid page rather than a 404 page;
+- Fix issue with refreshing credentials when enabling browser persistence;
+- Add back link from "View recovery codes" page;
 
 Improvements
 - Simplify "View recovery codes" verbiage;
@@ -12,9 +12,9 @@ Improvements
 Maintenance
 - Disable tests for Rails 7.1 (EOL on 10/2025) and 7.2 (EOL on 8/9/2026)
 
-README
-- Switch README to feature native CSS import for Propshaft;
-- Add Getting Started section with sample link to OTP Token page;
+Documentation
+- Switch to native CSS import in README for Propshaft compatibility;
+- Add Getting Started section to README with sample link to OTP Token page;
 
 ## v2.0.0
 
