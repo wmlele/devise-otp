@@ -1,6 +1,7 @@
 # Changelog
 
-## Unreleased
+## v2.1.0
+
 Bug fixes
 - Fix issue with refreshing credentials when enabling browser persistence;
 - Add back link from "View recovery codes" page;
